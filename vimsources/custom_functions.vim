@@ -35,3 +35,19 @@ function! LoadCscope()
   endif
 endfunction
 call LoadCscope()
+
+
+" mark trailig spaces
+highlight trailing_spaces ctermbg=red
+function! Mark_whitespace ()
+	if !exists("b:whitespace_shown")
+		let b:whitespace_shown=0
+	endif
+	if b:whitespace_shown ==# 0
+		match trailing_spaces /\([ \t]\+\)$/
+		let b:whitespace_shown=1
+	else
+		match none
+		let b:whitespace_shown=0
+	endif
+endfunction

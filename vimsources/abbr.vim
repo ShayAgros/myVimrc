@@ -8,3 +8,4 @@ cabbrev WQ wq
 cabbrev Wq wq
 cabbrev wQ wq
 cabbrev Q! q!
+cabbrev W w

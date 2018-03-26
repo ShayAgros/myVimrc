@@ -12,10 +12,10 @@ no <up> <Nop>
 noremap <silent> H gg
 noremap <silent> L G
 
-" try and see if this is more comfortable
+" try and see if it is more comfortable
 inoremap <esc> <nop>
 inoremap jk <esc>
 vnoremap jk <esc>
-cnoremap jk <esc>
+cnoremap jk <Esc>
 
 no <silent> <CR> o<ESC>

@@ -1,4 +1,3 @@
-
 " abbrevations
 augroup c_abbrev
 :	autocmd!
