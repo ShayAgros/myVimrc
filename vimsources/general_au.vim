@@ -1,8 +1,16 @@
-augroup general_au
+augroup general_filetype
 :	autocmd!
 :	autocmd FileType *      set formatoptions=tcql nocindent comments&
 :	autocmd FileType vim	setlocal foldmethod=marker
 :	autocmd FileType vim	set foldlevelstart=0
+augroup END
+
+augroup general_buffer_change
+:	autocmd!
+:	autocmd BufWritePre *
+    		\ if !isdirectory(expand("<afile>:p:h")) |
+ 	      	\ call mkdir(expand("<afile>:p:h"), "p") |
+    		\ endif
 augroup END
 
 syntax on

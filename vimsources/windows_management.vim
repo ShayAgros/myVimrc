@@ -1,7 +1,7 @@
 nnoremap <silent> <C-right> :tabnext<CR>
 nnoremap <silent> <C-left> :tabprevious<CR>
-nnoremap <silent> <C-t>	:tabnew<CR>
-nnoremap <silent> <C-w>     :q<CR>
+nnoremap <silent> <leader>t	:tabnew<CR>
+nnoremap <silent> <leader>w     :q<CR>
 
 "imap <C-left> <ESC>:tabprevious<CR>
 "imap <C-right> <ESC>:tabnext<CR>
@@ -22,7 +22,7 @@ nnoremap <silent> } <C-w>>
 
 " Maps Alt-[s.v] to horizontal and vertical split respectively
 nnoremap <silent> & :bo split<CR>
-nnoremap <silent> * :bo vsplit<CR>
+nnoremap <silent> <leader>o :bo vsplit<CR>
 
 " Resize splits to default
 nnoremap <silent> <leader>rw <C-w>=

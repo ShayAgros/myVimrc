@@ -34,3 +34,5 @@ Plugin 'majutsushi/tagbar'
 
 nmap <silent> <F8> :TagbarToggle<CR>
 " cwin
+
+:nnoremap <leader>N :setlocal number!<cr>
