@@ -19,6 +19,8 @@ set wildmenu
 
 set nocompatible
 set path=.,**
+filetype off                  " required
+set rtp+=~/.vim/bundle/Vundle.vim
 "set relativenumber
 
 " Default settings
