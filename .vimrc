@@ -44,7 +44,3 @@ cabbrev ep call EditPotion()
 function! EditPotion()
 	find ~/.vim/bundle/potion
 endfunction
-
-:syn region myFold start="{" end="}" transparent fold
-":syn sync fromstart
-:set foldmethod=syntax
