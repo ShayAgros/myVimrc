@@ -9,3 +9,5 @@ cabbrev Wq wq
 cabbrev wQ wq
 cabbrev Q! q!
 cabbrev W w
+
+cabbrev Find find

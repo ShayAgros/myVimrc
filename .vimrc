@@ -30,6 +30,9 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'vim-airline/vim-airline'
 Plugin 'majutsushi/tagbar'
 Plugin 'file:///home/shay/.vim/potion'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'vim-syntastic/syntastic'
+Plugin 'tpope/vim-fugitive'
 call vundle#end()            " required
 filetype plugin indent on    " required
 " }}}
@@ -37,10 +40,24 @@ filetype plugin indent on    " required
 nmap <silent> <F8> :TagbarToggle<CR>
 " cwin
 
-:nnoremap <leader>N :setlocal number!<cr>
+:nnoremap <leader>N :setlocal number!<cr> :setlocal relativenumber!<cr>
 
 cabbrev ep call EditPotion()
 
 function! EditPotion()
 	find ~/.vim/bundle/potion
 endfunction
+
+nnoremap D "_d
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 1
+let g:syntastic_cpp_check_header = 1
+
+let g:syntastic_cpp_compiler = "g++"
+let g:syntastic_cpp_compiler_options = "-std=c++11 -Wall -Wextra -Wpedantic"
+
+noremap <silent> <leader>ol :lopen<cr>
+noremap <silent> <leader>cl :lclose<cr>
