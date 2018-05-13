@@ -31,7 +31,7 @@ ln -s `pwd`/.vimrc ~/.vimrc
 ln -s `pwd`/vimsources ~/
 ln -s `pwd`/.vim/plugin ~/.vim/plugin
 
-if [[ ! -d ~/.vim/bundle/vundle ]]; then
+if [[ ! -d ~/.vim/bundle/Vundle.vim ]]; then
     echo "Installing Vundle (Vim Plugin manager)"
     git clone https://github.com/VundleVim/Vundle.vim.git \
 	~/.vim/bundle/Vundle.vim
