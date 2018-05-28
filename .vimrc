@@ -37,6 +37,20 @@ call vundle#end()            " required
 filetype plugin indent on    " required
 " }}}
 
+" Syntastic args {{{
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 1
+let g:syntastic_cpp_check_header = 1
+
+let g:syntastic_cpp_compiler = "g++"
+let g:syntastic_cpp_compiler_options = "-std=c++11 -Wall -Wextra -Wpedantic"
+
+let g:syntastic_vhd_compiler = "vcom"
+" }}}
+
+
 nmap <silent> <F8> :TagbarToggle<CR>
 " cwin
 
@@ -48,16 +62,14 @@ function! EditPotion()
 	find ~/.vim/bundle/potion
 endfunction
 
-nnoremap D "_d
+nnoremap d "_d
+nnoremap D d
+nnoremap x "_x
+nnoremap c "_c
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 1
-let g:syntastic_cpp_check_header = 1
+nnoremap <silent> <leader>h :noh<CR>
+nnoremap <silent> <leader>rf :find %<CR>
 
-let g:syntastic_cpp_compiler = "g++"
-let g:syntastic_cpp_compiler_options = "-std=c++11 -Wall -Wextra -Wpedantic"
 
-noremap <silent> <leader>ol :lopen<cr>
+noremap <silent> <leader>sl :lopen<cr>
 noremap <silent> <leader>cl :lclose<cr>

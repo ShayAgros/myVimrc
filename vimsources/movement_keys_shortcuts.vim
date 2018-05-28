@@ -15,7 +15,9 @@ noremap <silent> L G
 " try and see if it is more comfortable
 inoremap <esc> <nop>
 inoremap jk <esc>
-vnoremap jk <esc>
+" you're gonna have to find a better way to
+" to cancel highliting
+"vnoremap jk <esc>
 cnoremap jk <Esc>
 
 no <silent> <CR> o<ESC>
