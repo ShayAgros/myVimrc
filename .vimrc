@@ -73,3 +73,4 @@ nnoremap <silent> <leader>rf :find %<CR>
 
 noremap <silent> <leader>sl :lopen<cr>
 noremap <silent> <leader>cl :lclose<cr>
+noremap <silent> <leader>sh :SyntasticReset<CR>
