@@ -1,0 +1,95 @@
+Windows commands:
+<C-W> <command>	- cretates a split for the next command
+
+Diff mode:
+]c - go to next diff
+[c - go to previous diff
+:diffupdate - update diff
+dp - diff put (puts the "diff" to the file where it's missing)
+do - diff obtain (removes the text from other windows)
+
+Registers:
+@@ - executes the previous register that was called
+	(e.g if @a was executed before then @@ = @a)
+"{reg_num} - do an operation on a specific register
+"{UpperCase reg_letter} - appends to the lowerCase reg
+
+
+Moving:
+0 - goes to the beginning of the line
+
+	range format:
+	num,num
+	1,$ - from line 1 to end of file
+	% - same as above
+	.+3,$ - from current line + 3 to EOF
+	't,'b - from mark to mark b (inclusive)
+	'<,'> - visually selected regions
+	:[num] - will write :.,.+(num-1)
+:g/{pattern}/{command} - for each case instance of pattern in
+			range(default whole file) execute 'command'
+    e.g :g+//+s/foobar/barfoo/g (replace '// foobar' to '// barfoo'
+
+Grepping:
+	grep 'string' 'file' (the search is in the currect directory)
+	cnext,cprevious - go to next/previous result
+	clist - list all matching files (and lines)
+
+Tab copletion:
+	<C-P>	- go to the previous autocomplete result
+	<Tab> 	- go to the next autocomplete result
+	<C-D>	- show all possible autocompletion
+	<C-L>	- complete to the longest unambiguous word
+
+
+vim info:
+	this file is created (and updated) each time
+	you exit VIM. It holds data like:
+		1) Command-line and Search pattern history
+		2) Text in registers
+		3) Markgs for various files
+		4) The buffer list
+		5) Global variables
+
+	set viminfo=[option1][arg1],[option2][arg2] .. - sets what
+			will be saved in vim info file
+		options are:
+			: - number of lines to save from command line
+			/ - number of lines to save from input line
+			    history
+			and more. more info in 'viminfo' and
+			    'viminfo-file'
+		exa: :set viminfo='1000,:5
+
+	to restore setting enter '[n] to get the last n'th session
+	like '0 (for the last session)
+
+file history:
+	:oldfiles - lists previously opened files (and your position)
+	:split #<3 - open file num 3 in old files
+	:browse oldfiles - browse between old files
+
+	:wviminfo! ~/tmp/viminfo - save VIM's settings in a file
+	:rviminfo! ~/tmp/viminfo - load VIM's settings from a file
+		(both function are used to pass information between
+			VIMS' sessions)
+
+file browsing:
+	in file browser (e.g find . ):
+		o - Horizontally split window and display file
+		v - same as o but vertically
+		p - use 'preview-window'
+		P - edit in the previous window
+		t - open file in a new tab
+
+	when editing a file:
+		Explore - open a browser in current's file dir
+	
+	read netrw-browse for more info
+
+local directory:
+	cd - change current directory
+	pwd - list current dir path
+	lcd - change dir locally (only for the current buffer)
+
+finished at 177

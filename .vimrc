@@ -64,8 +64,16 @@ endfunction
 
 nnoremap d "_d
 nnoremap D d
+vnoremap d "_d
+nnoremap D d
+
+
 nnoremap x "_x
 nnoremap c "_c
+
+cabbr Qa qa
+cabbr qA qa
+cabbr QA qa
 
 nnoremap <silent> <leader>h :noh<CR>
 nnoremap <silent> <leader>rf :find %<CR>
