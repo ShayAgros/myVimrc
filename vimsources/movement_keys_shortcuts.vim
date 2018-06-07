@@ -1,13 +1,3 @@
-" Disable false movement keys
-ino <down> <Nop>
-ino <left> <Nop>
-ino <right> <Nop>
-ino <up> <Nop>
-no <down> <Nop>
-no <left> <Nop>
-no <right> <Nop>
-no <up> <Nop>
-
 " faster moving around
 noremap <silent> H gg
 noremap <silent> L G

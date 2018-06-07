@@ -1,6 +1,4 @@
 echom "Wellcome to Vim" ">^.^<"
-" Make words uppercase
-nnoremap <c-u> viwU
 " fix del key
 inoremap <Del> <esc>lxi
 
