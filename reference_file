@@ -92,4 +92,44 @@ local directory:
 	pwd - list current dir path
 	lcd - change dir locally (only for the current buffer)
 
-finished at 177
+buffers:
+	hide edit file - hides current buffer and starts to edit
+			    'file'	
+	buffers - list all buffers
+	sbuffer [buf. num/nane] - opens a buffer in a different
+				    windows
+	bnext	- move to next buffer
+	bprevious - move to previous buffer
+	bfirst - nive to the first buffer
+	blast - nive to the last buffer
+	bdelete [bufnum] - delete buffer from list
+
+file-formats:
+	set fileformat=unix ; write - converts the file into unix
+					file (with CR as NL)
+netew:
+	edit files over the network
+	:edit scp://root@nps-server-36-141//root/maillog - edits a
+					file using scp protocol
+	read more at 'help netrw'
+
+Editing text:
+	<C-W> - delete a word
+	<C-U> - delete from cursor to start (keeps indentation)
+
+auto-completion:
+	<C-P> - move to previous suggestion
+	<C-N> - move to next suggestion
+
+	<C-X> <C-F> - auto-complete file name
+	<C-X> <C-L> - auto-complete whole line
+	<C-X> <C-D> - auto-complete macro (also in #include)
+	<C-X> <C-K> - auto-complete from dictionary
+	<C-X> <C-T> - auto-complete from Thesaurus
+	<C-X> <C-]> - auto-complete from tags
+	<C-X> <C-V> - auto-complete from vim-command line
+	<C-X> <C-O> - "omni completion". Completes item that belong to
+			struct
+
+	
+stopped at page 193
