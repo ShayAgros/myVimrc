@@ -1,6 +1,6 @@
 nnoremap <silent> <C-right> :tabnext<CR>
 nnoremap <silent> <C-left> :tabprevious<CR>
-nnoremap <silent> <leader>t	:tabnew<CR>
+nnoremap <silent> <leader>t	:tabnew ./<CR>
 nnoremap <silent> <leader>w     :q<CR>
 
 "imap <C-left> <ESC>:tabprevious<CR>

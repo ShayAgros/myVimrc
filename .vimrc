@@ -17,8 +17,9 @@ source ~/vimsources/abbr.vim
 source ~/vimsources/windows_management.vim
 source ~/vimsources/custom_functions.vim
 
-" Language specific conf
+" type specific conf
 source ~/vimsources/c_conf.vim " C\C++
+source ~/vimsources/netrw_conf.vim " file tree
 " }}}
 
 " Plugins {{{
@@ -31,6 +32,7 @@ Plugin 'file:///home/shay/.vim/potion'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'vim-syntastic/syntastic'
 Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-surround'
 call vundle#end()            " required
 filetype plugin indent on    " required
 " }}}
@@ -55,7 +57,6 @@ nmap <silent> <F8> :TagbarToggle<CR>
 :nnoremap <leader>N :setlocal number!<cr> :setlocal relativenumber!<cr>
 
 cabbrev ep call EditPotion()
-
 function! EditPotion()
 	find ~/.vim/bundle/potion
 endfunction
@@ -63,7 +64,7 @@ endfunction
 nnoremap d "_d
 nnoremap D d
 vnoremap d "_d
-nnoremap D d
+vnoremap D d
 
 
 nnoremap x "_x
