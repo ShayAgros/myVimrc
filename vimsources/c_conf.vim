@@ -3,6 +3,12 @@ augroup c_abbrev
 :	autocmd!
 :augroup END
 
+" indentation
+augroup c_indent
+:	autocmd!
+:	autocmd FileType c,cpp set shiftwidth=8 tabstop=8
+augroup END
+
 " pending operations
 augroup c_penops
 :	autocmd!
@@ -15,6 +21,7 @@ augroup c_mapping
 :	autocmd!
 :	autocmd FileType c,cpp inoremap <buffer> <c-f> (){<cr>}<esc>k$F(a
 :	autocmd FileType c,cpp nnoremap <buffer> <leader>' [[v][zf
+:	autocmd FileType c,cpp nnoremap <buffer> <leader>eh :execute "bo 80vsplit " . expand("%:r") . ".h"<CR>
 ":	autocmd FileType c,cpp :inoremap <buffer> <silent> <cr> <esc>:call CCR()<cr>
 ":	autocmd FileType c,cpp :inoremap <buffer> <silent> <cr> <esc>
 augroup END

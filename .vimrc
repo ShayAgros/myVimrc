@@ -1,10 +1,11 @@
-echom "Wellcome to Vim" ">^.^<"
-" fix del key
+
 inoremap <Del> <esc>lxi
 
 " Convinient way to edit vimrc
 nnoremap <silent> <localleader>ev :bo 60vsplit ${MYVIMRC}<CR>
 nnoremap <silent> <localleader>sv :source $MYVIMRC<CR>
+
+noremap <silent> <leader>sr :bo 80vsplit ~/workspace/myVimrc/reference_file<CR>
 
 " surround selected tex with quotes
 vnoremap <silent> <localleader>" <esc>a"<esc>`<i"<esc>lwl
@@ -81,3 +82,6 @@ nnoremap <silent> <leader>rf :find %<CR>
 noremap <silent> <leader>sl :lopen<cr>
 noremap <silent> <leader>cl :lclose<cr>
 noremap <silent> <leader>sh :SyntasticReset<CR>
+
+" allow viewing man pages in vim
+runtime! ftplugin/man.vim
