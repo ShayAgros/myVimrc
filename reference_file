@@ -131,5 +131,34 @@ auto-completion:
 	<C-X> <C-O> - "omni completion". Completes item that belong to
 			struct
 
-	
-stopped at page 193
+fast-editing (in i-mode):
+	<C-A>  - inserts the text you wrote when was in
+			insert mode last time
+	<C-Y>	- inserts the charecter in the above line
+		(and same column)
+	<C-E>	- inserts the charecter in the line below
+			(and same column)
+	<C-V>	- insert the character literally
+	<C-K>[Char code] - insert a digraph (see ":digraph").
+		i.e <C-K>Pd inserts £
+	<C-O>	- insert a Normal mode command
+
+text-formatting:
+	gq - format the text according to current 'textwidth'
+		parameter
+		e.g v4jgq - reformats the next 4 lines
+	<C-O>	- insert a Normal mode command
+
+scrolling:
+	zh - "horizontally scrolling" right
+	zl - "horizontally scrolling" left
+	zH - half a windiw "horizontally scrolling" right
+	zL - half a windiw "horizontally scrolling" left
+	zs - scroll left to put the cursor at the start
+	ze - scroll left to put the cursor at the end
+
+	g0 - to first visible character in window
+	g^ - to first non-blank visible character
+	gm - to middle of this line
+	g$ - to last visible character in line
+stopped at page 212
