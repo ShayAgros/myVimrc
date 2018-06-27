@@ -161,4 +161,10 @@ scrolling:
 	g^ - to first non-blank visible character
 	gm - to middle of this line
 	g$ - to last visible character in line
+
+searching:
+	set [no]ignorecase - search case[in]sensitive
+	set ignorecase smartcase - checks first if you have a case
+		sensitive pattern that matches. If not, searches
+		case insensitive
 stopped at page 212
