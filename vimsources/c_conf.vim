@@ -14,6 +14,7 @@ augroup c_penops
 :	autocmd!
 :	autocmd FileType c,cpp onoremap in( :<c-u>normal! f(vi(<cr>
 :	autocmd FileType c,cpp  set formatoptions=croql cindent comments=sr:/*,mb:*,ex:*/,://
+:	autocmd FileType c,cpp set nowrap
 augroup END
 
 " key mapping

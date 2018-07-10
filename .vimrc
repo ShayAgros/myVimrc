@@ -34,6 +34,11 @@ Plugin 'scrooloose/nerdcommenter'
 Plugin 'vim-syntastic/syntastic'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-eunuch'
+Plugin 'beyondmarj/opengl.vim'
+Plugin 'neutaaaaan/iosvkem'
+Plugin 'drewtempelmeyer/palenight.vim'
+Plugin 'ayu-theme/ayu-vim'
 call vundle#end()            " required
 filetype plugin indent on    " required
 " }}}
@@ -55,7 +60,7 @@ let g:syntastic_vhd_compiler = "vcom"
 nmap <silent> <F8> :TagbarToggle<CR>
 " cwin
 
-:nnoremap <leader>N :setlocal number!<cr> :setlocal relativenumber!<cr>
+:nnoremap <leader>N :setlocal number!<cr>
 
 cabbrev ep call EditPotion()
 function! EditPotion()
@@ -85,3 +90,7 @@ noremap <silent> <leader>sh :SyntasticReset<CR>
 
 " allow viewing man pages in vim
 runtime! ftplugin/man.vim
+
+hi Search cterm=NONE ctermfg=black ctermbg=blue
+
+colorscheme palenight

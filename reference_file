@@ -131,6 +131,9 @@ auto-completion:
 	<C-X> <C-O> - "omni completion". Completes item that belong to
 			struct
 
+Man pages:
+	<leader>K - see man page for the command under the cursor
+
 fast-editing (in i-mode):
 	<C-A>  - inserts the text you wrote when was in
 			insert mode last time
@@ -167,4 +170,5 @@ searching:
 	set ignorecase smartcase - checks first if you have a case
 		sensitive pattern that matches. If not, searches
 		case insensitive
+
 stopped at page 212
