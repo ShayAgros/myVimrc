@@ -6,7 +6,6 @@ nnoremap <silent> <localleader>ev :bo 60vsplit ${MYVIMRC}<CR>
 nnoremap <silent> <localleader>sv :source $MYVIMRC<CR>
 
 noremap <silent> <leader>sr :bo 80vsplit ~/workspace/myVimrc/reference_file<CR>
-
 " surround selected tex with quotes
 vnoremap <silent> <localleader>" <esc>a"<esc>`<i"<esc>lwl
 " add support for visual line mode
@@ -94,3 +93,9 @@ runtime! ftplugin/man.vim
 hi Search cterm=NONE ctermfg=black ctermbg=blue
 
 colorscheme palenight
+
+" change default split for c-]
+"noremap <silent> <c-w><c-]> :vsplit<CR>:execute "tag " . expand("<cword>")<CR>:vertical resize 60<CR>
+"noremap <silent> <c-w><c-]> <c-w><c-]><c-w>L
+
+nnoremap <silent> <leader>sa :bo 70vsplit /home/shay/workspace/asm_learn<CR>
