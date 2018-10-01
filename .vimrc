@@ -34,6 +34,7 @@ Plugin 'tpope/vim-eunuch'
 Plugin 'neutaaaaan/iosvkem'
 Plugin 'drewtempelmeyer/palenight.vim'
 Plugin 'ayu-theme/ayu-vim'
+Plugin 'vim-scripts/ZoomWin'
 call vundle#end()            " required
 filetype plugin indent on    " required
 " }}}
@@ -76,10 +77,20 @@ runtime! ftplugin/man.vim
 
 hi Search cterm=NONE ctermfg=black ctermbg=blue
 
-colorscheme palenight
+"hi Comment ctermfg=green
 
 " change default split for c-]
 "noremap <silent> <c-w><c-]> :vsplit<CR>:execute "tag " . expand("<cword>")<CR>:vertical resize 60<CR>
 noremap <silent> <c-w><c-]> <c-w><c-]><c-w>L
 
 nnoremap <silent> <leader>sa :bo 70vsplit /home/shay/workspace/asm_learn<CR>
+
+" set colorscheme
+colorscheme palenight
+
+" maybe for future reference
+"set list
+"set listchars=tab:>\
+
+" toggle paste mode
+set pastetoggle=<leader>pt
