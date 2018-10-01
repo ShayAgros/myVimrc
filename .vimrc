@@ -1,12 +1,9 @@
-
-inoremap <Del> <esc>lxi
-
 " Convinient way to edit vimrc
 nnoremap <silent> <localleader>ev :bo 60vsplit ${MYVIMRC}<CR>
 nnoremap <silent> <localleader>sv :source $MYVIMRC<CR>
 
 noremap <silent> <leader>sr :bo 80vsplit ~/workspace/myVimrc/reference_file<CR>
-" surround selected tex with quotes
+" surround selected text with quotes
 vnoremap <silent> <localleader>" <esc>a"<esc>`<i"<esc>lwl
 " add support for visual line mode
 
@@ -34,7 +31,6 @@ Plugin 'vim-syntastic/syntastic'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-eunuch'
-Plugin 'beyondmarj/opengl.vim'
 Plugin 'neutaaaaan/iosvkem'
 Plugin 'drewtempelmeyer/palenight.vim'
 Plugin 'ayu-theme/ayu-vim'
@@ -66,22 +62,10 @@ function! EditPotion()
 	find ~/.vim/bundle/potion
 endfunction
 
-nnoremap d "_d
-nnoremap D d
-vnoremap d "_d
-vnoremap D d
-
-
-nnoremap x "_x
-nnoremap c "_c
-
-cabbr Qa qa
-cabbr qA qa
-cabbr QA qa
-
+" stop highlighting
 nnoremap <silent> <leader>h :noh<CR>
+" refresh file
 nnoremap <silent> <leader>rf :find %<CR>
-
 
 noremap <silent> <leader>sl :lopen<cr>
 noremap <silent> <leader>cl :lclose<cr>
@@ -96,6 +80,6 @@ colorscheme palenight
 
 " change default split for c-]
 "noremap <silent> <c-w><c-]> :vsplit<CR>:execute "tag " . expand("<cword>")<CR>:vertical resize 60<CR>
-"noremap <silent> <c-w><c-]> <c-w><c-]><c-w>L
+noremap <silent> <c-w><c-]> <c-w><c-]><c-w>L
 
 nnoremap <silent> <leader>sa :bo 70vsplit /home/shay/workspace/asm_learn<CR>
