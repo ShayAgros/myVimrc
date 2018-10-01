@@ -84,7 +84,7 @@ file browsing:
 
 	when editing a file:
 		Explore - open a browser in current's file dir
-	
+
 	read netrw-browse for more info
 
 local directory:
@@ -94,7 +94,7 @@ local directory:
 
 buffers:
 	hide edit file - hides current buffer and starts to edit
-			    'file'	
+			    'file'
 	buffers - list all buffers
 	sbuffer [buf. num/nane] - opens a buffer in a different
 				    windows
@@ -170,5 +170,23 @@ searching:
 	set ignorecase smartcase - checks first if you have a case
 		sensitive pattern that matches. If not, searches
 		case insensitive
+
+
+Plugins:
+surround:
+	examples:
+	"Hello *world!"           ds"         Hello world!
+	[123+4*56]/2              cs])        (123+456)/2
+	"Look ma, I'm *HTML!"     cs"<q>      <q>Look ma, I'm HTML!</q>
+	if *x>3 {                 ysW(        if ( x>3 ) {
+	my $str = *whee!;         vllllS'     my $str = 'whee!';
+
+	ds - delete surround e.g dst - deletes tags surround
+	cs - change surround
+	ys - 'you surround'. takes a vim motion.
+	i_CTRL_G_s/ <C-G>s - creates a surround in insert mode and puts
+				the cursor in it
+
+
 
 stopped at page 212
