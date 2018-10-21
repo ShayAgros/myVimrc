@@ -35,6 +35,7 @@ Plugin 'neutaaaaan/iosvkem'
 Plugin 'drewtempelmeyer/palenight.vim'
 Plugin 'ayu-theme/ayu-vim'
 Plugin 'vim-scripts/ZoomWin'
+Plugin 'kien/ctrlp.vim'
 call vundle#end()            " required
 filetype plugin indent on    " required
 " }}}
