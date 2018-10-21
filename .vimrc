@@ -94,3 +94,6 @@ colorscheme palenight
 
 " toggle paste mode
 set pastetoggle=<leader>pt
+
+inoremap <C-d> printk("Shay: ");<esc>F"i
+hi TabLine ctermfg=Blue ctermbg=Black
