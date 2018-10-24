@@ -6,7 +6,7 @@ if [[ ! -f `pwd`/.vimrc ||  ! -d `pwd`/vimsources ]]; then
 	exit 2
 fi
 
-if [[ -f ~/.vimrc ]]; then
+if [[ -f ~/.vimrc || -h ~/.vimrc ]]; then
 	echo ".vimrc file found"
 	rm -i ~/.vimrc
 	if [[ -f ~/.vimrc ]]; then
@@ -14,7 +14,7 @@ if [[ -f ~/.vimrc ]]; then
 	fi
 fi
 
-if [[ -d ~/.vim/plugin ]]; then
+if [[ -d ~/.vim/plugin || -h ~/.vim/plugin ]]; then
     	echo ".vim/plugin folder found"
 	rm -ir ~/.vim/plugin
 	if [[ -d ~/.vim/plugin ]]; then
