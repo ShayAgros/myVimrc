@@ -2,6 +2,7 @@ nnoremap <silent> <C-right> :tabnext<CR>
 nnoremap <silent> <C-left> :tabprevious<CR>
 nnoremap <silent> <leader>t	:tabnew %:h<CR>
 nnoremap <silent> <leader>w     :q<CR>
+tnoremap <silent> <leader>w     <C-W><C-C>
 
 "imap <C-left> <ESC>:tabprevious<CR>
 "imap <C-right> <ESC>:tabnext<CR>
@@ -13,6 +14,10 @@ nnoremap <silent> <C-J> <C-W><C-J>
 nnoremap <silent> <C-K> <C-W><C-K>
 nnoremap <silent> <C-L> <C-W><C-L>
 nnoremap <silent> <C-H> <C-W><C-H>
+tnoremap  <C-J> <C-W><C-J>
+tnoremap  <C-K> <C-W><C-K>
+"tnoremap  <C-L> <C-W><C-L>
+tnoremap  <C-H> <C-W><C-H>
 
 " Maps {,_,+,} to resizing a window split
 nnoremap <silent> { <C-w><
