@@ -1,11 +1,4 @@
-" Convinient way to edit vimrc
-nnoremap <silent> <localleader>ev :bo 60vsplit ${MYVIMRC}<CR>
-nnoremap <silent> <localleader>sv :source $MYVIMRC<CR>
-
-noremap <silent> <leader>sr :bo 80vsplit ~/workspace/myVimrc/reference_file<CR>
-" surround selected text with quotes
-vnoremap <silent> <localleader>" <esc>a"<esc>`<i"<esc>lwl
-" add support for visual line mode
+set nocompatible " don't make vim 'vi compatible'
 
 " Sources {{{
 
