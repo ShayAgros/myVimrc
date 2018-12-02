@@ -29,7 +29,14 @@ rm -rf ~/vimsources
 echo "creating symlinks"
 ln -s `pwd`/.vimrc ~/.vimrc
 ln -s `pwd`/vimsources ~/
-ln -s `pwd`/.vim/plugin ~/.vim/plugin
+
+# create symlinks for all files in .vim dir
+for dir in `pwd`/.vim/*; do
+	if [[ -h ~/.vim/`basename $dir` ]]; then
+		rm ~/.vim/`basename $dir`
+	fi
+	ln -s ${dir} ~/.vim/`basename $dir`
+done
 
 if [[ ! -d ~/.vim/bundle/Vundle.vim ]]; then
     echo "Installing Vundle (Vim Plugin manager)"
