@@ -8,7 +8,10 @@ vnoremap <silent> <localleader>" <esc>a"<esc>`<i"<esc>lwl
 " add support for visual line mode
 
 " Sources {{{
-source ~/vimsources/general_au.vim
+
+" Load general configs that should come first
+source ~/vimsources/general_configs.vim
+
 source ~/vimsources/movement_keys_shortcuts.vim
 source ~/vimsources/abbr.vim
 source ~/vimsources/windows_management.vim
