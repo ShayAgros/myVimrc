@@ -3,8 +3,6 @@ set nocompatible " don't make vim 'vi compatible'
 " Sources {{{
 " Load general configs that should come first
 source ~/vimsources/general_configs.vim
-" Load vundle = plugin manager
-source ~/.vim/vundle_plugins.vim
 
 source ~/vimsources/vim_mapping_override.vim
 source ~/vimsources/abbr.vim
@@ -14,6 +12,9 @@ source ~/vimsources/custom_functions.vim
 " type specific conf
 source ~/vimsources/c_conf.vim " C\C++
 source ~/vimsources/netrw_conf.vim " file tree
+
+" Load vundle = plugin manager
+source ~/.vim/vundle_plugins.vim
 " }}}
 
 " Syntastic args {{{
