@@ -20,6 +20,9 @@ set fileformats=unix,dos
 "	r - create comment leader if pressed return in comment 
 "	o - same but with 'o' normal command
 set formatoptions=tcrol
+
+" don't split long lines into several lines
+set nowrap
 " }}}
 
 " Indentation {{{
