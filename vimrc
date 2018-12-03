@@ -10,7 +10,6 @@ source ~/vimsources/windows_management.vim
 source ~/vimsources/custom_functions.vim
 
 " type specific conf
-source ~/vimsources/c_conf.vim " C\C++
 source ~/vimsources/netrw_conf.vim " file tree
 
 " Load vundle = plugin manager
