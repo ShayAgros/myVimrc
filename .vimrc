@@ -1,10 +1,10 @@
 set nocompatible " don't make vim 'vi compatible'
 
 " Sources {{{
-
 " Load general configs that should come first
 source ~/vimsources/general_configs.vim
-
+" Load vundle = plugin manager
+source ~/.vim/vundle_plugins.vim
 source ~/vimsources/movement_keys_shortcuts.vim
 source ~/vimsources/abbr.vim
 source ~/vimsources/windows_management.vim
@@ -13,28 +13,6 @@ source ~/vimsources/custom_functions.vim
 " type specific conf
 source ~/vimsources/c_conf.vim " C\C++
 source ~/vimsources/netrw_conf.vim " file tree
-" }}}
-
-" Plugins {{{
-call vundle#begin()
-Plugin 'VundleVim/Vundle.vim'
-"Plugin 'Valloric/YouCompleteMe'
-Plugin 'vim-airline/vim-airline'
-Plugin 'majutsushi/tagbar'
-Plugin 'file:///home/shay/.vim/potion'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'vim-syntastic/syntastic'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-eunuch'
-Plugin 'neutaaaaan/iosvkem'
-Plugin 'drewtempelmeyer/palenight.vim'
-Plugin 'ayu-theme/ayu-vim'
-Plugin 'vim-scripts/ZoomWin'
-Plugin 'kien/ctrlp.vim'
-Plugin 'scrooloose/nerdtree'
-call vundle#end()            " required
-filetype plugin indent on    " required
 " }}}
 
 " Syntastic args {{{

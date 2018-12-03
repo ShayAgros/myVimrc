@@ -7,9 +7,6 @@ set textwidth=70
 
 set showmatch " show matching paranthesis
 
-filetype off " set Vundle (Plugin manager)
-set rtp+=~/.vim/bundle/Vundle.vim
-
 " file and text formatting {{{
 
 " make backspace delete newlines
