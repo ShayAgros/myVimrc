@@ -5,7 +5,8 @@ set nocompatible " don't make vim 'vi compatible'
 source ~/vimsources/general_configs.vim
 " Load vundle = plugin manager
 source ~/.vim/vundle_plugins.vim
-source ~/vimsources/movement_keys_shortcuts.vim
+
+source ~/vimsources/vim_mapping_override.vim
 source ~/vimsources/abbr.vim
 source ~/vimsources/windows_management.vim
 source ~/vimsources/custom_functions.vim

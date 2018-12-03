@@ -1,3 +1,12 @@
+" All genral key bindings
+
+" exit command/insert mode with 'jk' squence
+inoremap jk <esc>
+cnoremap jk <C-C>
+
+" make Enter start new line in normal mode
+no <silent> <CR> o<ESC>
+
 " .vimrc editing {{{
 " open .vimrc in vertical split
 nnoremap <silent> <localleader>ev :bo 70vsplit ${MYVIMRC}<CR>
