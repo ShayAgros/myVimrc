@@ -6,9 +6,6 @@ source ~/vimsources/general_configs.vim
 
 source ~/vimsources/vim_mapping_override.vim
 
-" type specific conf
-source ~/vimsources/netrw_conf.vim " file tree
-
 " Load vundle = plugin manager
 source ~/.vim/vundle_plugins.vim
 " }}}
