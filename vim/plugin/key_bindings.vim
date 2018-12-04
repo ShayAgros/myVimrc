@@ -31,3 +31,18 @@ noremap <silent> <leader>sar :bo 80vsplit ${refd}/asm_ref"<CR>
 " delete all trailing spaces (delete spaces)
 nnoremap <silent> <leader>ds :call DeleteTrailingSpaces()<cr>
 " }}}
+
+"	Default keybindings override {{{
+"
+" make deleting more intuitive to me
+"
+" D/X - cuts
+" d/x - deletes (doesn't save it)
+nnoremap d "_d
+nnoremap D d
+vnoremap d "_d
+vnoremap D d
+
+nnoremap x "_x
+nnoremap c "_c
+" }}}
