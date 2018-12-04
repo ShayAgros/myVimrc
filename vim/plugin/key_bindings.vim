@@ -46,3 +46,42 @@ vnoremap D d
 nnoremap x "_x
 nnoremap c "_c
 " }}}
+
+"	windows (vertical/horizontal) bindings {{{
+
+" move between windows with CTRL+direction
+	nnoremap <silent> <C-H> <C-W><C-H>
+	nnoremap <silent> <C-J> <C-W><C-J>
+	nnoremap <silent> <C-K> <C-W><C-K>
+	nnoremap <silent> <C-L> <C-W><C-L>
+	tnoremap  <C-H> <C-W><C-H>
+	tnoremap  <C-J> <C-W><C-J>
+	tnoremap  <C-K> <C-W><C-K>
+	tnoremap  <C-L> <C-W><C-L>
+
+" Maps {,_,+,} to resizing a window split
+	nnoremap <silent> { <C-w><
+	nnoremap <silent> _ <C-W>-
+	nnoremap <silent> + <C-W>+
+	nnoremap <silent> } <C-w>>
+
+" Maps \o to open a file vertically in the right-most
+" side of the screen
+	nnoremap <silent> <leader>o :bo vsplit<CR>
+
+" }}}
+
+"	tab management bindings {{{
+
+" move between tabs with CTRL+arrow
+	nnoremap <silent> <C-right> :tabnext<CR>
+	nnoremap <silent> <C-left> :tabprevious<CR>
+
+" open a new tab in the same directory as the file
+" I'm editing now
+	nnoremap <silent> <leader>t	:tabnew %:h<CR>
+
+" exit from normal/termianl window with \w
+	nnoremap <silent> <leader>w     :q<CR>
+	tnoremap <silent> <leader>w     <C-W><C-C>
+" }}}
