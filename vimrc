@@ -5,7 +5,6 @@ set nocompatible " don't make vim 'vi compatible'
 source ~/vimsources/general_configs.vim
 
 source ~/vimsources/vim_mapping_override.vim
-source ~/vimsources/custom_functions.vim
 
 " type specific conf
 source ~/vimsources/netrw_conf.vim " file tree
