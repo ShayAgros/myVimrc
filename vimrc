@@ -4,8 +4,6 @@ set nocompatible " don't make vim 'vi compatible'
 " Load general configs that should come first
 source ~/vimsources/general_configs.vim
 
-source ~/vimsources/vim_mapping_override.vim
-
 " Load vundle = plugin manager
 source ~/.vim/vundle_plugins.vim
 " }}}
