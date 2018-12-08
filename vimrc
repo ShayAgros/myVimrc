@@ -38,8 +38,5 @@ hi Search cterm=NONE ctermfg=black ctermbg=blue
 " set colorscheme
 colorscheme palenight
 
-" maybe for future reference
-"set list
-"set listchars=tab:>\
 inoremap <C-d> printk("Shay: ");<esc>F"i
 hi TabLine ctermfg=Blue ctermbg=Black
