@@ -5,7 +5,16 @@ inoremap jk <esc>
 cnoremap jk <C-C>
 
 " make Enter start new line in normal mode
-no <silent> <CR> o<ESC>
+nnoremap <silent> <CR> o<ESC>
+
+" toggle paste mode
+set pastetoggle=<leader>pt
+
+" set line numbers
+nnoremap <leader>N :setlocal number!<cr>
+
+" refresh file
+nnoremap <silent> <leader>rf :find %<CR>
 
 " .vimrc editing {{{
 " open .vimrc in vertical split
@@ -84,4 +93,20 @@ nnoremap c "_c
 " exit from normal/termianl window with \w
 	nnoremap <silent> <leader>w     :q<CR>
 	tnoremap <silent> <leader>w     <C-W><C-C>
+" }}}
+
+"	highlighting {{{
+" stop highliting using \\
+nnoremap <silent> <leader><leader> :noh<cr>
+" }}}
+
+"	Location list {{{
+" open and close location list
+noremap <silent> <leader>lo :lopen<cr>
+noremap <silent> <leader>lc :lclose<cr>
+" }}}
+
+"	Tags {{{
+" change default split for c-]
+noremap <silent> <c-w><c-]> <c-w><c-]><c-w>L
 " }}}

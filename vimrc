@@ -6,6 +6,8 @@ source ~/vimsources/general_configs.vim
 
 " Load vundle = plugin manager
 source ~/.vim/vundle_plugins.vim
+" source related configs
+source ~/.vim/plugins_configs.vim
 " }}}
 
 " Syntastic args {{{
@@ -21,24 +23,9 @@ source ~/.vim/vundle_plugins.vim
 "let g:syntastic_vhd_compiler = "vcom"
 " }}}
 
-
 nmap <silent> <F8> :TagbarToggle<CR>
 " cwin
 
-:nnoremap <leader>N :setlocal number!<cr>
-
-cabbrev ep call EditPotion()
-function! EditPotion()
-	find ~/.vim/bundle/potion
-endfunction
-
-" stop highlighting
-nnoremap <silent> <leader>h :noh<CR>
-" refresh file
-nnoremap <silent> <leader>rf :find %<CR>
-
-noremap <silent> <leader>sl :lopen<cr>
-noremap <silent> <leader>cl :lclose<cr>
 noremap <silent> <leader>sh :SyntasticReset<CR>
 
 " allow viewing man pages in vim
@@ -48,21 +35,11 @@ hi Search cterm=NONE ctermfg=black ctermbg=blue
 
 "hi Comment ctermfg=green
 
-" change default split for c-]
-"noremap <silent> <c-w><c-]> :vsplit<CR>:execute "tag " . expand("<cword>")<CR>:vertical resize 60<CR>
-noremap <silent> <c-w><c-]> <c-w><c-]><c-w>L
-
-nnoremap <silent> <leader>sa :bo 70vsplit /home/shay/workspace/asm_learn<CR>
-
 " set colorscheme
 colorscheme palenight
 
 " maybe for future reference
 "set list
 "set listchars=tab:>\
-
-" toggle paste mode
-set pastetoggle=<leader>pt
-
 inoremap <C-d> printk("Shay: ");<esc>F"i
 hi TabLine ctermfg=Blue ctermbg=Black
