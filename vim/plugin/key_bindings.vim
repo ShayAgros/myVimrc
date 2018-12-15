@@ -98,6 +98,11 @@ nnoremap c "_c
 "	highlighting {{{
 " stop highliting using \\
 nnoremap <silent> <leader><leader> :noh<cr>
+
+" highlight word under cursor
+nnoremap <silent> * "syiw:let @/ = @s <bar> set hlsearch<cr>
+vnoremap <silent> * "sy:let @/ = @s <bar> set hlsearch<cr>
+
 " }}}
 
 "	Location list {{{
