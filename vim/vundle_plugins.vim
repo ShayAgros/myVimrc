@@ -16,6 +16,7 @@ Plugin 'tpope/vim-eunuch'
 Plugin 'vim-scripts/ZoomWin'
 Plugin 'kien/ctrlp.vim'
 Plugin 'gabrielelana/vim-markdown'
+Plugin 'shayagros/vim-tasks'
 
 " Surrounding text with comments/chars {{{
 Plugin 'scrooloose/nerdcommenter'
