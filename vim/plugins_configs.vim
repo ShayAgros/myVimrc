@@ -27,3 +27,9 @@ augroup	vim-tasks-au
 :	autocmd FileType tasks setlocal spell spelllang=en_us
 augroup END
 " }}}
+
+"	airline {{{
+" Make airline define its unicode fonts
+" and not depent on OS fonts
+let g:airline_powerline_fonts = 1
+" }}}
