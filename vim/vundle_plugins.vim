@@ -15,8 +15,12 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-eunuch'
 Plugin 'vim-scripts/ZoomWin'
 Plugin 'kien/ctrlp.vim'
+
+"	note taking and text documents {{{
 Plugin 'gabrielelana/vim-markdown'
 Plugin 'shayagros/vim-tasks'
+Plugin 'vimwiki/vimwiki'
+" }}}
 
 " Surrounding text with comments/chars {{{
 Plugin 'scrooloose/nerdcommenter'

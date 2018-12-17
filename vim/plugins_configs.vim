@@ -33,3 +33,9 @@ augroup END
 " and not depent on OS fonts
 let g:airline_powerline_fonts = 1
 " }}}
+
+"	vim wiki {{{
+let g:vimwiki_list = [{'path': '~/.vim/vimwiki'}]
+
+nmap <silent> <leader>ei <Plug>VimwikiIndex'
+" }}}
