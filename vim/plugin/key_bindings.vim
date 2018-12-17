@@ -37,8 +37,6 @@ noremap <silent> <leader>sar :bo 80vsplit ${refd}/asm_ref"<CR>
 			let l:line_num = l:line_num + 1
 		endfor
 	endfunction
-" delete all trailing spaces (delete spaces)
-nnoremap <silent> <leader>ds :call DeleteTrailingSpaces()<cr>
 " }}}
 
 "	Default keybindings override {{{

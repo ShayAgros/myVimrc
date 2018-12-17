@@ -10,6 +10,11 @@ setlocal foldlevelstart=0 " start fokded
 
 " }}}
 
+"	white spaces {{{
+" delete all trailing spaces (delete spaces)
+nnoremap <silent> <buffer> <leader>ds :call DeleteTrailingSpaces()<cr>
+" }}}
+
 "	indentation
 setlocal tabstop=4 " set tab to be 4 spaces
 " indent length when starting new line

@@ -1,6 +1,6 @@
 " C specific configurations
 
-set comments=sr:/*,mb:*,ex:*/,://
+setlocal comments=sr:/*,mb:*,ex:*/,://
 
 "	indentation & indentation {{{
 " every tab is 8 spaces
@@ -26,6 +26,9 @@ nnoremap <buffer> <leader>' [[v][zf
 " open header file if it's in the same folder TODO: change it to be
 " more global
 nnoremap <buffer> <leader>eh :execute "bo 80vsplit " . expand("%:r") . ".h"<CR>
+
+" delete all trailing spaces (delete spaces)
+nnoremap <silent> <buffer> <leader>ds :call DeleteTrailingSpaces()<cr>
 "	}}}
 
 "	abbrevations {{{
