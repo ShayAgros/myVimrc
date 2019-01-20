@@ -30,13 +30,18 @@ Plugin 'tpope/vim-surround'
 
 " Tags and files windows {{{
 Plugin 'majutsushi/tagbar'
-Plugin 'scrooloose/nerdtree'
+"Plugin 'scrooloose/nerdtree'
+Plugin 'tpope/vim-vinegar'
 " }}}
 
 " Themes amd colors {{{
 Plugin 'neutaaaaan/iosvkem'
 Plugin 'drewtempelmeyer/palenight.vim'
 Plugin 'ayu-theme/ayu-vim'
+" }}}
+
+"	Syntax {{{
+Plugin 'mboughaba/i3config.vim'
 " }}}
 
 call vundle#end()
