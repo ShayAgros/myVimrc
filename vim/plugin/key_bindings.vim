@@ -129,3 +129,14 @@ noremap <silent> <leader>lc :lclose<cr>
 " change default split for c-]
 noremap <silent> <c-w><c-]> <c-w><c-]><c-w>L
 " }}}
+
+"	Editing {{{
+
+" move line up/down
+nnoremap K "sddk"sP
+nnoremap J "sdd"sp
+
+" move screen right/left
+nnoremap L zl
+nnoremap H zh
+" }}}
