@@ -29,9 +29,14 @@ augroup END
 " }}}
 
 "	airline {{{
-" Make airline define its unicode fonts
-" and not depent on OS fonts
+" Tell powerline to use powerline symbolas
 let g:airline_powerline_fonts = 1
+
+" Set airline theme
+let g:airline_theme='minimalist'
+
+" This is needed it order to support powerline fonts
+let g:powerline_pycmd = "py3"
 " }}}
 
 "	vim wiki {{{
