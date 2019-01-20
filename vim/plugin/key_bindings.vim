@@ -16,6 +16,10 @@ nnoremap <leader>N :setlocal number!<cr>
 " refresh file
 nnoremap <silent> <leader>rf :find %<CR>
 
+" Yank into clipboard
+nnoremap Y "+y
+vnoremap Y "+y
+
 " .vimrc editing {{{
 " open .vimrc in vertical split
 nnoremap <silent> <localleader>ev :bo 70vsplit ${MYVIMRC}<CR>
@@ -87,6 +91,8 @@ nnoremap c "_c
 " move between tabs with CTRL+arrow
 	nnoremap <silent> <C-right> :tabnext<CR>
 	nnoremap <silent> <C-left> :tabprevious<CR>
+	nnoremap <silent> W :tabnext<CR>
+	nnoremap <silent> Q :tabprevious<CR>
 
 " open a new tab in the same directory as the file
 " I'm editing now
@@ -96,6 +102,8 @@ nnoremap c "_c
 	nnoremap <silent> <leader>w     :q<CR>
 	if has('terminal')
 		tnoremap <silent> <leader>w     <C-W><C-C>
+		nnoremap <silent> W :tabnext<CR>
+		nnoremap <silent> Q :tabprevious<CR>
 	endif
 " }}}
 
