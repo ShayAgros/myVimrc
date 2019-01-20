@@ -42,5 +42,7 @@ let g:powerline_pycmd = "py3"
 "	vim wiki {{{
 let g:vimwiki_list = [{'path': '~/.vim/vimwiki'}]
 
-nmap <silent> <leader>ei <Plug>VimwikiIndex'
+let g:vimwiki_map_prefix = '<Leader>v'
+
+inoremap <C-CR> <Esc>:VimwikiReturn 2 2<CR>
 " }}}
