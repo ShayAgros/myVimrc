@@ -51,8 +51,8 @@ noremap <silent> <leader>sar :bo 80vsplit ${refd}/asm_ref"<CR>
 " d/x - deletes (doesn't save it)
 nnoremap d "_d
 nnoremap D d
-vnoremap d "_d
-vnoremap D d
+xnoremap d "_d
+xnoremap D d
 
 nnoremap x "_x
 nnoremap c "_c
