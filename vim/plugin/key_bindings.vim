@@ -91,11 +91,12 @@ nnoremap c "_c
 	nnoremap <silent> <leader>t	:tabnew %:h<CR>
 
 " exit from normal/termianl window with \w
-	nnoremap <silent> <leader>w     :q<CR>
+	"nnoremap <silent> <leader>w     :q<CR>
 	if has('terminal')
-		tnoremap <silent> <leader>w     <C-W><C-C>
-		nnoremap <silent> W :tabnext<CR>
-		nnoremap <silent> Q :tabprevious<CR>
+		"tnoremap <silent> <leader>w     <C-W><C-C>
+		tnoremap <silent> <C-W>c <C-W>:close!<CR>
+		tnoremap <silent> W <C-W>:tabnext<CR>
+		tnoremap <silent> Q <C-W>:tabprevious<CR>
 	endif
 " }}}
 
