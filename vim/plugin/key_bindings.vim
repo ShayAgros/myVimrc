@@ -66,14 +66,6 @@ nnoremap c "_c
 	nnoremap <silent> <C-K> <C-W><C-K>
 	nnoremap <silent> <C-L> <C-W><C-L>
 
-	" terminal specific bindings
-	if has('terminal')
-		tnoremap  <C-H> <C-W><C-H>
-		tnoremap  <C-J> <C-W><C-J>
-		tnoremap  <C-K> <C-W><C-K>
-		tnoremap  <C-L> <C-W><C-L>
-	endif
-
 " Maps {,_,+,} to resizing a window split
 	nnoremap <silent> { <C-w><
 	nnoremap <silent> _ <C-W>-
