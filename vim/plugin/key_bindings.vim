@@ -105,10 +105,12 @@ nnoremap c "_c
 nnoremap <silent> <leader><leader> :noh<cr>
 
 " highlight word under cursor
-nnoremap <silent> * "syiw:execute "let @/ = '\\<".@s."\\>'" <bar> set hlsearch<cr>
-vnoremap <silent> * "sy:execute "let @/ = '\\<".@s."\\>'" <bar> set hlsearch<cr>
+nnoremap <silent> * "syiw:execute "let @/ = \"\\\\M\\\\<".@s."\\\\>\"" <bar> set hlsearch<cr>
+vnoremap <silent> * "sy:execute "let @/ = \"\\\\M\\\\<".@s."\\\\>\"" <bar> set hlsearch<cr>
+"nnoremap <silent> * "syiw:execute "let @/ = '\\M\\<". substitute(substitute(@s,"^'",'\1',"g"),"'$","","g") ."\\>'" <bar> set hlsearch<cr>
+"vnoremap <silent> * "sy:execute "let @/ = '\\M\\<".substitute(substitute(@s,"^'",'\1',"g"),"'$","","g")."\\>'" <bar> set hlsearch<cr>
 
-nnoremap <silent> <c-w>* "syiw:execute "let @/ = '\\c\\<".@s."\\>'" <bar> set hlsearch<cr>
+nnoremap <silent> <c-w>* "syiw:execute "let @/ = \"\\\\c\\\\M\\\\<".@s."\\\\>\"" <bar> set hlsearch<cr>
 
 " }}}
 
