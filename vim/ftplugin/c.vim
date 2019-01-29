@@ -2,6 +2,9 @@
 
 setlocal comments=sr:/*,mb:*,ex:*/,://
 
+" Don't use syntastic cheks by default
+let b:syntastic_mode = "passive"
+
 "	indentation & indentation {{{
 " every tab is 8 spaces
 set shiftwidth=8 

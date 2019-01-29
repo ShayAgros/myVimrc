@@ -66,3 +66,29 @@ let g:netrw_altv = 1
   "autocmd VimEnter * :Vexplore
 "augroup END
 "	}}}
+
+"	vim-latex-live-preview {{{
+
+let g:livepreview_previewer = 'zathura'
+
+" }}}
+
+"	Syntastic {{{
+
+" Errors are populated in location list automatically
+let g:syntastic_always_populate_loc_list = 1
+
+" set error and warning symbols
+let g:syntastic_error_symbol = "\u2717"
+let g:syntastic_warning_symbol = "\u26A0"
+let g:syntastic_style_error_symbol = "\uF8EA"
+let g:syntastic_style_warning_symbol = "\uF8EA"
+
+let g:syntastic_filetype_map = {
+		\ "plaintex": "tex" }
+
+noremap <silent> <leader>sh :SyntasticReset<CR>
+" Toggle Syntastic mode
+noremap <silent> <leader>st :SyntasticReset<CR>
+
+" }}}
