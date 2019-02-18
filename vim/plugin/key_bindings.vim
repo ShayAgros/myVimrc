@@ -61,10 +61,10 @@ nnoremap c "_c
 "	windows (vertical/horizontal) bindings {{{
 
 " move between windows with CTRL+direction
-	nnoremap <silent> <C-H> <C-W><C-H>
-	nnoremap <silent> <C-J> <C-W><C-J>
-	nnoremap <silent> <C-K> <C-W><C-K>
-	nnoremap <silent> <C-L> <C-W><C-L>
+	"nnoremap <silent> <C-H> <C-W><C-H>
+	"nnoremap <silent> <C-J> <C-W><C-J>
+	"nnoremap <silent> <C-K> <C-W><C-K>
+	"nnoremap <silent> <C-L> <C-W><C-L>
 
 " Maps {,_,+,} to resizing a window split
 	nnoremap <silent> { <C-w><
@@ -74,7 +74,7 @@ nnoremap c "_c
 
 " Maps \o to open a file vertically in the right-most
 " side of the screen
-	nnoremap <silent> <leader>o :bo vsplit<CR>
+	"nnoremap <silent> <leader>o :bo vsplit<CR>
 
 " }}}
 
