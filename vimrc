@@ -48,3 +48,7 @@ let g:vimtex_compiler_latexmk_engines = {
 	\}
 let g:vimtex_view_general_viewer = 'mupdf'
 let g:vimtex_view_method = 'mupdf'
+
+" set the timeout between key sequences (making it so
+" small would make jk not be so annoying when typed
+set timeoutlen=300
