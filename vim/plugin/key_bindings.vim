@@ -130,6 +130,8 @@ noremap <silent> <c-w><c-]> <c-w><c-]><c-w>L
 " move line up/down
 nnoremap K "sddk"sP
 nnoremap J "sdd"sp
+xnoremap K "sdk"sP`[V`]
+xnoremap J "sd"sp`[V`]
 
 " move screen right/left
 nnoremap L zl
