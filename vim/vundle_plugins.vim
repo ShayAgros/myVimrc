@@ -17,6 +17,10 @@ Plugin 'tpope/vim-eunuch'
 Plugin 'vim-scripts/ZoomWin'
 Plugin 'kien/ctrlp.vim'
 
+" Tex
+Plugin 'xuhdev/vim-latex-live-preview'
+Plugin 'lervag/vimtex'
+
 "	note taking and text documents {{{
 Plugin 'gabrielelana/vim-markdown'
 Plugin 'shayagros/vim-tasks'
@@ -42,6 +46,15 @@ Plugin 'ayu-theme/ayu-vim'
 
 "	Syntax {{{
 Plugin 'mboughaba/i3config.vim'
+" }}}
+
+"	Snipmate {{{
+Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'tomtom/tlib_vim'
+Plugin 'garbas/vim-snipmate'
+
+" Optional
+Plugin 'honza/vim-snippets'
 " }}}
 
 call vundle#end()

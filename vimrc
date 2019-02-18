@@ -26,4 +26,25 @@ colorscheme palenight
 inoremap <C-d> printk("Shay, %s(%d): ",__func__,__LINE__);<esc>T:a
 hi TabLine ctermfg=Blue ctermbg=Black
 
-nnoremap <C-F> nop
+" detect tex file as tex and not plaintex
+let g:tex_flavor = 'latex'
+let g:vimtex_compiler_latexmk = {
+	\ 'backend' : 'jobs',
+	\ 'background' : 1,
+	\ 'build_dir' : '',
+	\ 'callback' : 1,
+	\ 'continuous' : 1,
+	\ 'executable' : 'latexmk',
+	\ 'options' : [
+	\   '-verbose',
+	\   '-file-line-error',
+	\   '-synctex=1',
+	\   '-interaction=nonstopmode',
+	\	'-pdfxe',
+	\ ],
+	\}
+let g:vimtex_compiler_latexmk_engines = {
+	\	'_'		:	'-pdfxe'
+	\}
+let g:vimtex_view_general_viewer = 'mupdf'
+let g:vimtex_view_method = 'mupdf'
