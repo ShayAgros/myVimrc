@@ -23,7 +23,7 @@ hi Search cterm=NONE ctermfg=black ctermbg=blue
 " set colorscheme
 colorscheme palenight
 
-inoremap <C-d> printk("Shay: ");<esc>F"i
+inoremap <C-d> printk("Shay, %s(%d): ",__func__,__LINE__);<esc>T:a
 hi TabLine ctermfg=Blue ctermbg=Black
 
 nnoremap <C-F> nop
