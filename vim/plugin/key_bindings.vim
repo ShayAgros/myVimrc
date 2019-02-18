@@ -81,10 +81,10 @@ nnoremap c "_c
 "	tab management bindings {{{
 
 " move between tabs with CTRL+arrow
-	nnoremap <silent> <C-right> :tabnext<CR>
-	nnoremap <silent> <C-left> :tabprevious<CR>
-	nnoremap <silent> W :tabnext<CR>
-	nnoremap <silent> Q :tabprevious<CR>
+	nnoremap <silent> <C-L> :tabnext<CR>
+	nnoremap <silent> <C-H> :tabprevious<CR>
+	nnoremap <silent> W :tabmove +1<CR>
+	nnoremap <silent> Q :tabmove -1<CR>
 
 " open a new tab in the same directory as the file
 " I'm editing now
@@ -95,8 +95,8 @@ nnoremap c "_c
 	if has('terminal')
 		"tnoremap <silent> <leader>w     <C-W><C-C>
 		tnoremap <silent> <C-W>c <C-W>:close!<CR>
-		tnoremap <silent> W <C-W>:tabnext<CR>
-		tnoremap <silent> Q <C-W>:tabprevious<CR>
+		tnoremap <silent> W <C-W>:tabmove +1<CR>
+		tnoremap <silent> Q <C-W>:tabmove -1<CR>
 	endif
 " }}}
 
