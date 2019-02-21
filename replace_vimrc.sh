@@ -45,3 +45,5 @@ if [[ ! -d ~/.vim/bundle/Vundle.vim ]]; then
 fi
 
 echo ".vimrc file replaced"
+echo "Installing Plugins"
+vim +PluginInstall +qa
