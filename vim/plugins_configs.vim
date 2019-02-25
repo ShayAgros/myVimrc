@@ -31,6 +31,9 @@ augroup END
 "	airline {{{
 " Tell powerline to use powerline symbolas
 let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_symbols = get(g:, 'airline_symbols', {})
+let g:airline_symbols.space = "\ua0"
 
 " Set airline theme
 let g:airline_theme='minimalist'
