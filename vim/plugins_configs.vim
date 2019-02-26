@@ -48,6 +48,12 @@ let g:vimwiki_list = [{'path': '~/.vim/vimwiki'}]
 let g:vimwiki_map_prefix = '<Leader>v'
 
 inoremap <C-CR> <Esc>:VimwikiReturn 2 2<CR>
+
+augroup vimwiki_additional
+:	au!
+:	autocmd BufEnter *.wiki syntax match pythonCode ">>.*"
+:	autocmd BufEnter *.wiki highlight link pythonCode Keyword
+augroup END
 " }}}
 
 "	netrw {{{
