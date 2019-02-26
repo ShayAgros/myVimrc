@@ -97,3 +97,11 @@ noremap <silent> <leader>sh :SyntasticReset<CR>
 noremap <silent> <leader>st :SyntasticReset<CR>
 
 " }}}
+
+" Ultra snip {{{
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<C-j>"
+let g:UltiSnipsJumpForwardTrigger="<c-k>"
+let g:UltiSnipsJumpBackwardTrigger="<c-j>"
+
+" }}}

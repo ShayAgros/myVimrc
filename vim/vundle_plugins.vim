@@ -48,10 +48,8 @@ Plugin 'ayu-theme/ayu-vim'
 Plugin 'mboughaba/i3config.vim'
 " }}}
 
-"	Snipmate {{{
-Plugin 'MarcWeber/vim-addon-mw-utils'
-Plugin 'tomtom/tlib_vim'
-Plugin 'garbas/vim-snipmate'
+"	Ultra snip {{{
+Plugin 'SirVer/ultisnips'
 
 " Optional
 Plugin 'honza/vim-snippets'
