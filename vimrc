@@ -1,6 +1,10 @@
 set nocompatible " don't make vim 'vi compatible'
 
 " Sources {{{
+
+if has('nvim')
+	source ~/.vim/neovim_specific.vim
+endif
 " Load general configs that should come first
 source ~/vimsources/general_configs.vim
 
