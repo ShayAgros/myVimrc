@@ -104,11 +104,18 @@ noremap <silent> <leader>st :SyntasticReset<CR>
 
 " }}}
 
-" Ultra snip {{{
+" Ultisnips {{{
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger="<C-j>"
-let g:UltiSnipsJumpForwardTrigger="<c-k>"
-let g:UltiSnipsJumpBackwardTrigger="<c-j>"
+let g:UltiSnipsExpandTrigger="<c-f>"
+let g:UltiSnipsJumpForwardTrigger="<c-f>"
+let g:UltiSnipsJumpBackwardTrigger="<c-b>"
+
+" Sets SnippetEdit open vertically
+let g:UltiSnipsEditSplit='vertical'
+
+" Set private snippets dir
+let g:UltiSnipsSnippetsDir='~/.vim/UltiSnips'
+
 
 " }}}
 
