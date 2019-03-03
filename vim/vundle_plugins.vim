@@ -19,6 +19,8 @@ Plugin 'tpope/vim-eunuch'
 Plugin 'vim-scripts/ZoomWin'
 Plugin 'kien/ctrlp.vim'
 
+Plugin 'rhysd/clever-f.vim'
+
 " Tex
 Plugin 'xuhdev/vim-latex-live-preview'
 Plugin 'lervag/vimtex'
