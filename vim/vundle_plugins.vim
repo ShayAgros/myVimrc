@@ -25,6 +25,10 @@ Plugin 'rhysd/clever-f.vim'
 Plugin 'xuhdev/vim-latex-live-preview'
 Plugin 'lervag/vimtex'
 
+" Text formatting {{{
+Plugin 'dhruvasagar/vim-table-mode'
+"}}}
+
 "	note taking and text documents {{{
 Plugin 'gabrielelana/vim-markdown'
 Plugin 'shayagros/vim-tasks'
