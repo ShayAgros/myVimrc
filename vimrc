@@ -6,7 +6,7 @@ if has('nvim')
 	source ~/.vim/neovim_specific.vim
 endif
 " Load general configs that should come first
-source ~/vimsources/general_configs.vim
+source ~/.vim/general_configs.vim
 
 " Load vundle = plugin manager
 source ~/.vim/vundle_plugins.vim

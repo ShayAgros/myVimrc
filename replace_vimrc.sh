@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [[ ! -f `pwd`/vimrc ||  ! -d `pwd`/vimsources ]]; then
+if [[ ! -f `pwd`/vimrc ]]; then
 	echo "script should be ran from the same directory"
 	echo "with .vimrc and vimsources"
 	exit 2
@@ -28,7 +28,6 @@ rm -rf ~/vimsources
 
 echo "creating symlinks"
 ln -s `pwd`/vimrc ~/.vimrc
-ln -s `pwd`/vimsources ~/
 
 # create symlinks for all files in .vim dir
 for dir in `pwd`/vim/*; do
