@@ -14,6 +14,13 @@ source ~/.vim/vundle_plugins.vim
 source ~/.vim/plugins_configs.vim
 " }}}
 
+" general ft autocmds {{{
+augroup ft_plugins
+	au!
+	autocmd FileType gitcommit set spell
+augroup END
+" }}}
+
 nmap <silent> <F8> :TagbarToggle<CR>
 " cwin
 
