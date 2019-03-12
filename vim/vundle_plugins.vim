@@ -16,10 +16,10 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'vim-syntastic/syntastic'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-eunuch'
-Plugin 'vim-scripts/ZoomWin'
 Plugin 'kien/ctrlp.vim'
 
 Plugin 'rhysd/clever-f.vim'
+Plugin 'Townk/vim-autoclose'
 
 " Tex
 Plugin 'xuhdev/vim-latex-live-preview'
