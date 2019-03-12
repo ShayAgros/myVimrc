@@ -8,3 +8,5 @@ let g:python_host_prog='/bin/python2'
 
 " substitute more visually
 set inccommand=split
+
+tnoremap <C-j><C-k> <C-\><C-n>
