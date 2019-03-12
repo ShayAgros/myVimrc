@@ -150,3 +150,9 @@ let g:vimtex_compiler_latexmk_engines = {
 let g:vimtex_view_general_viewer = 'mupdf'
 let g:vimtex_view_method = 'mupdf'
 "}}}
+
+" YouCompleteMe {{{
+let g:ycm_collect_identifiers_from_tags_files = 1
+let g:ycm_seed_identifiers_with_syntax = 1
+let g:ycm_max_diagnostics_to_display = 0
+" }}}
