@@ -136,4 +136,8 @@ xnoremap J "sd"sp`[V`]
 " move screen right/left
 nnoremap L zl
 nnoremap H zh
+
+" Move left while in insert mode
+inoremap <C-F> <Right>
+
 " }}}
