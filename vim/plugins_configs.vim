@@ -69,7 +69,7 @@ let g:netrw_winsize = 20
 " split window to the right
 let g:netrw_altv = 1
 
-let g:netrw_list_hide= '.*\.cmd$'
+let g:netrw_list_hide= '.*\.\(cmd\|o\|swp\|ko\)$'
 
 " start Explorer by default
 "augroup ProjectDrawer

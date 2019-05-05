@@ -43,7 +43,6 @@ Plugin 'tpope/vim-surround'
 " Tags and files windows {{{
 Plugin 'majutsushi/tagbar'
 "Plugin 'scrooloose/nerdtree'
-Plugin 'tpope/vim-vinegar'
 " }}}
 
 " Themes amd colors {{{
