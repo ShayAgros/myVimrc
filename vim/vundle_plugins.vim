@@ -9,7 +9,9 @@ call vundle#begin() " start Vundle
 " Load Vundle plugin
 Plugin 'VundleVim/Vundle.vim'
 
-Plugin 'Valloric/YouCompleteMe'
+if has('nvim') || v:version >= 801
+Plugin 'neoclide/coc.nvim'
+endif
 
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
