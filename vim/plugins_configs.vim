@@ -156,3 +156,11 @@ let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_seed_identifiers_with_syntax = 1
 let g:ycm_max_diagnostics_to_display = 0
 " }}}
+
+"	Vim spell {{{
+" ignore abbreviations when spell checking
+augroup vimspell
+	:au!
+	:au BufEnter *	syn match AcronymNoSpell '\<\(\u\|\d\)\{3,}s\?\>' contains=@NoSpell
+augroup END
+"	}}}
