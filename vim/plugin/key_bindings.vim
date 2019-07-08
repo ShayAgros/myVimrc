@@ -20,6 +20,9 @@ nnoremap <silent> <leader>rf :find %<CR>
 nnoremap Y "+y
 vnoremap Y "+y
 
+" Move forward when in insert mode
+inoremap <c-f> <right>
+
 " This is to prevent VIM from deleting the selected
 " text while I try to surround it
 vnoremap <leader>s <nop>

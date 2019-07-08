@@ -106,8 +106,8 @@ noremap <silent> <leader>st :SyntasticReset<CR>
 
 " Ultisnips {{{
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger="<c-t>"
-let g:UltiSnipsJumpForwardTrigger="<c-t>"
+let g:UltiSnipsExpandTrigger="<c-s>"
+let g:UltiSnipsJumpForwardTrigger="<c-s>"
 let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 
 " Sets SnippetEdit open vertically
@@ -163,4 +163,16 @@ augroup vimspell
 	:au!
 	:au BufEnter *	syn match AcronymNoSpell '\<\(\u\|\d\)\{3,}s\?\>' contains=@NoSpell
 augroup END
+"	}}}
+
+"	Coc	{{{
+let g:coc_global_extensions = [
+	\'coc-emoji', 'coc-eslint', 'coc-prettier',
+	\'coc-tsserver', 'coc-tslint', 'coc-tslint-plugin',
+	\'coc-css', 'coc-json', 'coc-python', 'coc-yaml' 
+\]
+
+" Make coc update faster. This would make linter
+" error messages show faster
+set updatetime=300
 "	}}}
