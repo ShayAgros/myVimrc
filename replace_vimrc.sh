@@ -45,4 +45,4 @@ fi
 
 echo ".vimrc file replaced"
 echo "Installing Plugins"
-vim +PluginInstall +qa
+vim +PlugInstall +qa

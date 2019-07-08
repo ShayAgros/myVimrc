@@ -9,7 +9,7 @@ endif
 source ~/.vim/general_configs.vim
 
 " Load vundle = plugin manager
-source ~/.vim/vundle_plugins.vim
+source ~/.vim/plug_plugins.vim
 " source related configs
 source ~/.vim/plugins_configs.vim
 " }}}
