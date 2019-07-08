@@ -20,6 +20,10 @@ nnoremap <silent> <leader>rf :find %<CR>
 nnoremap Y "+y
 vnoremap Y "+y
 
+" This is to prevent VIM from deleting the selected
+" text while I try to surround it
+vnoremap <leader>s <nop>
+
 " .vimrc editing {{{
 " open .vimrc in vertical split
 nnoremap <silent> <localleader>ev :bo 70vsplit ${MYVIMRC}<CR>
