@@ -37,12 +37,6 @@ for dir in `pwd`/vim/*; do
 	ln -s ${dir} ~/.vim/`basename $dir`
 done
 
-if [[ ! -d ~/.vim/bundle/Vundle.vim ]]; then
-    echo "Installing Vundle (Vim Plugin manager)"
-    git clone https://github.com/VundleVim/Vundle.vim.git \
-	~/.vim/bundle/Vundle.vim
-fi
-
 echo ".vimrc file replaced"
 echo "Installing Plugins"
 vim +PlugInstall +qa

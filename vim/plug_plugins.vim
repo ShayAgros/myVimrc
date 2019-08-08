@@ -7,8 +7,10 @@ endif
 call plug#begin('~/.vim/plugged')
 
 if has('nvim')
+	if has('nvim-0.3.1')
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
-else
+	endif
+elseif v:version >= 800
 	Plug 'Valloric/YouCompleteMe'
 endif
 
@@ -34,7 +36,7 @@ Plug 'dhruvasagar/vim-table-mode'
 "	note taking and text documents {{{
 Plug 'gabrielelana/vim-markdown'
 Plug 'shayagros/vim-tasks'
-Plug 'vimwiki/vimwiki'
+"Plug 'vimwiki/vimwiki'
 " }}}
 
 " Surrounding text with comments/chars {{{
