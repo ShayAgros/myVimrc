@@ -4,6 +4,9 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
+" Failed to download and configure plugins
+if !empty(glob('~/.vim/autoload/plug.vim'))
+
 call plug#begin('~/.vim/plugged')
 
 if has('nvim')
@@ -70,3 +73,5 @@ Plug 'honza/vim-snippets'
 " }}}
 
 call plug#end()
+
+endif
