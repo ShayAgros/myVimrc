@@ -26,6 +26,7 @@ Plug 'kien/ctrlp.vim'
 
 Plug 'rhysd/clever-f.vim'
 Plug 'Townk/vim-autoclose'
+Plug 'wsdjeg/vim-fetch'
 
 " Tex
 "Plug 'xuhdev/vim-latex-live-preview'
