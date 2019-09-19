@@ -40,3 +40,6 @@ done
 echo ".vimrc file replaced"
 echo "Installing Plugins"
 vim +PlugInstall +qa
+
+echo "Notice that yarn, nodejs, python-language-server packages need
+		to be installed for CoC to work"
