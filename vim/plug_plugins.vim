@@ -25,11 +25,12 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-eunuch'
-Plug 'kien/ctrlp.vim'
 
 Plug 'rhysd/clever-f.vim'
 Plug 'Townk/vim-autoclose'
 Plug 'wsdjeg/vim-fetch'
+
+Plug 'mileszs/ack.vim'
 
 " Tex
 "Plug 'xuhdev/vim-latex-live-preview'

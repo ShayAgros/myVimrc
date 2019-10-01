@@ -185,3 +185,8 @@ let g:deoplete#enable_at_startup = 1
 let g:jedi#completions_enabled = 0
 " }}}
 
+"	Ack {{{
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+" }}}
