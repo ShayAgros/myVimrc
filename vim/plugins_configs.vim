@@ -176,3 +176,12 @@ let g:coc_global_extensions = [
 " error messages show faster
 set updatetime=300
 "	}}}
+
+"	deoplit {{{
+let g:deoplete#enable_at_startup = 1
+"	}}}
+
+" jedi {{{
+let g:jedi#completions_enabled = 0
+" }}}
+
