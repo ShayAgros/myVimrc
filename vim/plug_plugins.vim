@@ -55,8 +55,6 @@ Plug 'tpope/vim-repeat'
 
 " Tags and files windows {{{
 Plug 'majutsushi/tagbar'
-"Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'tpope/vim-vinegar'
 " }}}
 
 " Themes amd colors {{{
