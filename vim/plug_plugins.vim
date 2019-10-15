@@ -12,14 +12,14 @@ call plug#begin('~/.vim/plugged')
 if has('nvim')
 	if has('nvim-0.3.1')
 		"Plug 'neoclide/coc.nvim', {'branch': 'release'}
+		Plug 'davidhalter/jedi-vim'
+		Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+		Plug 'deoplete-plugins/deoplete-jedi'
 	endif
 elseif v:version >= 800
 	Plug 'Valloric/YouCompleteMe'
 endif
 
-Plug 'davidhalter/jedi-vim'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'deoplete-plugins/deoplete-jedi'
 
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
