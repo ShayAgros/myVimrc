@@ -32,6 +32,8 @@ Plug 'wsdjeg/vim-fetch'
 
 Plug 'mileszs/ack.vim'
 
+Plug 'kkoomen/vim-doge'
+
 " Tex
 "Plug 'xuhdev/vim-latex-live-preview'
 Plug 'pyarmak/vim-pandoc-live-preview'

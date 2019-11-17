@@ -18,6 +18,7 @@ source ~/.vim/plugins_configs.vim
 augroup ft_plugins
 	au!
 	autocmd FileType gitcommit set spell
+	autocmd BufRead,BufNewFile *.txt set filetype=markdown
 augroup END
 " }}}
 
