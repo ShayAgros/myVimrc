@@ -9,15 +9,11 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 
 call plug#begin('~/.vim/plugged')
 
-if has('nvim')
-	if has('nvim-0.3.1')
+if has('nvim') && has('nvim-0.3.1')
 		"Plug 'neoclide/coc.nvim', {'branch': 'release'}
 		Plug 'davidhalter/jedi-vim'
 		Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 		Plug 'deoplete-plugins/deoplete-jedi'
-	endif
-elseif v:version >= 800
-	Plug 'Valloric/YouCompleteMe'
 endif
 
 
