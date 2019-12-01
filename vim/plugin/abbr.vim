@@ -10,3 +10,4 @@ cabbr QA qa
 cabbr Cs cs
 
 cabbrev Find find
+cabbrev E e

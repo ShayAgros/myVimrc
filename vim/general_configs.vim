@@ -10,6 +10,8 @@ set number " show line numbers
 
 set showmatch " show matching paranthesis
 
+set noswapfile     "no swap files
+
 " file and text formatting {{{
 
 " make backspace delete newlines
