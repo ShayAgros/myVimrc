@@ -190,3 +190,13 @@ if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
 " }}}
+
+"	LeaderF {{{
+if has('nvim') && has('nvim-0.4.2')
+	let g:Lf_WindowPosition = 'popup'
+	let g:Lf_PreviewInPopup = 1
+endif
+
+let g:Lf_ShortcutF = "<leader>ff"
+noremap <leader>ft :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
+" }}}

@@ -35,6 +35,8 @@ Plug 'kkoomen/vim-doge'
 Plug 'pyarmak/vim-pandoc-live-preview'
 Plug 'lervag/vimtex'
 
+Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+
 " Text formatting {{{
 Plug 'dhruvasagar/vim-table-mode'
 "}}}
