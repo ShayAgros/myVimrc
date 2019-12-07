@@ -199,4 +199,5 @@ endif
 
 let g:Lf_ShortcutF = "<leader>ff"
 noremap <leader>ft :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
+noremap <leader>fh :<C-U><C-R>=printf("Leaderf help %s", "")<CR><CR>
 " }}}
