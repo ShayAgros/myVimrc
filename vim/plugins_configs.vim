@@ -1,3 +1,4 @@
+" vim: set foldmethod=marker:
 " This file contains plugin specific configs
 " and keymappings
 
@@ -167,9 +168,7 @@ augroup END
 
 "	Coc	{{{
 let g:coc_global_extensions = [
-	\'coc-emoji', 'coc-eslint', 'coc-prettier',
-	\'coc-tsserver', 'coc-tslint', 'coc-tslint-plugin',
-	\'coc-css', 'coc-json', 'coc-python', 'coc-yaml' 
+	\'coc-json', 'coc-python',
 \]
 
 " Make coc update faster. This would make linter
@@ -198,6 +197,6 @@ if has('nvim') && has('nvim-0.4.2')
 endif
 
 let g:Lf_ShortcutF = "<leader>ff"
-noremap <leader>ft :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
+noremap <leader>fs :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
 noremap <leader>fh :<C-U><C-R>=printf("Leaderf help %s", "")<CR><CR>
 " }}}
