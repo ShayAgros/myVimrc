@@ -67,12 +67,14 @@ Plug 'mboughaba/i3config.vim'
 " }}}
 
 "	Ultra snip {{{
-Plug 'SirVer/ultisnips'
+if has('nvim')
+	Plug 'SirVer/ultisnips'
 
-" Optional
-Plug 'honza/vim-snippets'
-" }}}
+	" Optional
+	Plug 'honza/vim-snippets'
+	" }}}
 
+endif
 call plug#end()
 
 endif
