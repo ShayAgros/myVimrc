@@ -29,7 +29,7 @@ vnoremap <leader>s <nop>
 
 " .vimrc editing {{{
 " open .vimrc in vertical split
-nnoremap <silent> <localleader>ev :bo 70vsplit ${MYVIMRC}<CR>
+nnoremap <silent> <localleader>ev :bo vsplit ${MYVIMRC}<CR>
 " source .vimrc
 nnoremap <silent> <localleader>sv :source $MYVIMRC<CR>
 " }}}
