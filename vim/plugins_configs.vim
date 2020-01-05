@@ -169,6 +169,7 @@ augroup END
 "	Coc	{{{
 let g:coc_global_extensions = [
 	\'coc-json', 'coc-python',
+	\'coc-snippets',
 \]
 
 " Make coc update faster. This would make linter

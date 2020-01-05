@@ -9,3 +9,9 @@ set tabstop=4
 set noexpandtab
 
 " }}}
+
+" Key bindings {{{
+
+" run the code when hitting Space+c
+nnoremap <space>c :CocCommand python.execInTerminal<cr>
+" }}}
