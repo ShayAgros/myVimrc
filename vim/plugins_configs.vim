@@ -174,6 +174,18 @@ let g:coc_global_extensions = [
 " Make coc update faster. This would make linter
 " error messages show faster
 set updatetime=300
+
+nnoremap ge :CocCommand explorer<CR>
+
+" Remap keys for gotos
+nnoremap <silent> gd <Plug>(coc-definition)
+nnoremap <silent> gy <Plug>(coc-type-definition)
+nnoremap <silent> gi <Plug>(coc-implementation)
+nnoremap <silent> gr <Plug>(coc-references)
+
+" always show signcolumns
+set signcolumn=yes
+
 "	}}}
 
 "	deoplit {{{
@@ -199,4 +211,7 @@ endif
 let g:Lf_ShortcutF = "<leader>ff"
 noremap <leader>fs :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
 noremap <leader>fh :<C-U><C-R>=printf("Leaderf help %s", "")<CR><CR>
+noremap <leader>fg :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR>
+noremap <leader>fm :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
+noremap <leader>fb :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
 " }}}
