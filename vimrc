@@ -48,7 +48,6 @@ hi Search cterm=NONE ctermfg=black ctermbg=blue
 
 "hi Comment ctermfg=green
 
-inoremap <C-d> printk("Shay, %s(%d): ",__func__,__LINE__);<esc>T:a
 hi TabLine ctermfg=Blue ctermbg=Black
 
 " set the timeout between key sequences (making it so
