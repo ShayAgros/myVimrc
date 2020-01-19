@@ -26,7 +26,9 @@ Plug 'wsdjeg/vim-fetch'
 
 Plug 'mileszs/ack.vim'
 
-Plug 'kkoomen/vim-doge'
+if v:version >= 800
+	Plug 'kkoomen/vim-doge'
+endif
 
 " Tex
 "Plug 'xuhdev/vim-latex-live-preview'

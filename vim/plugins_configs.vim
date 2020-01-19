@@ -167,32 +167,36 @@ augroup END
 "	}}}
 
 "	Coc	{{{
-let g:coc_global_extensions = [
-	\'coc-json', 'coc-python',
-	\'coc-snippets',
-\]
+"
+if has('nvim') && has('nvim-0.3.1')
 
-" Make coc update faster. This would make linter
-" error messages show faster
-set updatetime=300
+	let g:coc_global_extensions = [
+		\'coc-json', 'coc-python',
+		\'coc-snippets',
+	\]
 
-nnoremap ge :CocCommand explorer<CR>
+	" Make coc update faster. This would make linter
+	" error messages show faster
+	set updatetime=300
 
-" Remap keys for gotos
-nnoremap <silent> gd <Plug>(coc-definition)
-nnoremap <silent> gy <Plug>(coc-type-definition)
-nnoremap <silent> gi <Plug>(coc-implementation)
-nnoremap <silent> gr <Plug>(coc-references)
+	nnoremap ge :CocCommand explorer<CR>
 
-" Show all diagnostics
-nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
-" Use `[g` and `]g` to navigate diagnostics
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
+	" Remap keys for gotos
+	nnoremap <silent> gd <Plug>(coc-definition)
+	nnoremap <silent> gy <Plug>(coc-type-definition)
+	nnoremap <silent> gi <Plug>(coc-implementation)
+	nnoremap <silent> gr <Plug>(coc-references)
 
-" always show signcolumns
-set signcolumn=yes
+	" Show all diagnostics
+	nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+	" Use `[g` and `]g` to navigate diagnostics
+	nmap <silent> [g <Plug>(coc-diagnostic-prev)
+	nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
+	" always show signcolumns
+	set signcolumn=yes
+
+endif " nvim 0.3.1
 "	}}}
 
 "	deoplit {{{
