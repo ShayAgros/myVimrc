@@ -31,8 +31,8 @@ function! HasColorscheme(name) abort
 endfunction
 
 " set colorscheme
-if HasColorscheme('Iosvkem')
-	colorscheme Iosvkem
+if HasColorscheme('gruvbox')
+	colorscheme gruvbox
 else
 	colorscheme desert
 endif

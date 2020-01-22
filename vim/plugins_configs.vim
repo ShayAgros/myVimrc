@@ -226,3 +226,12 @@ noremap <leader>fg :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<C
 noremap <leader>fm :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
 noremap <leader>fb :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
 " }}}
+
+"	gruvbox {{{
+let g:gruvbox_contrast_dark='hard'
+let g:gruvbox_contrast_light='hard'
+
+
+let g:gruvbox_sign_column='bg0'
+
+" }}}

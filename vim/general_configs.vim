@@ -1,5 +1,8 @@
 syntax on " allow syntax highlighting
 
+" Choose dark background by default
+set background=dark
+
 set wildmenu " allow choose between different options
 set path=.,** " make path include all the directories above
 set title " change teminal's title

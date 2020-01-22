@@ -62,6 +62,7 @@ Plug 'neutaaaaan/iosvkem'
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'ayu-theme/ayu-vim'
 Plug 'jaredgorski/SpaceCamp'
+Plug 'morhetz/gruvbox'
 " }}}
 
 "	Syntax {{{
