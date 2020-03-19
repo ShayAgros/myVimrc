@@ -235,3 +235,22 @@ let g:gruvbox_contrast_light='hard'
 let g:gruvbox_sign_column='bg0'
 
 " }}}
+
+" FZF {{{
+noremap <space><space> :Files<CR>
+nnoremap <silent> <space>/ :execute 'Ag ' . input('Ag/')<CR>
+nnoremap <silent> <space>. :AgIn 
+nnoremap <silent> <space>; :BLines<CR>
+nnoremap <silent> <space>o :BTags<CR>
+nnoremap <silent> <space>s :execute 'BTags ' expand('<cword>')<CR>
+nnoremap <silent> <space>O :Tags<CR>
+nnoremap <silent> <space>a :Buffers<CR>
+nnoremap <silent> <space>A :Windows<CR>
+
+function! SearchWordWithAg()
+    execute 'Ag ' expand('<cword>')
+endfunction
+
+nnoremap <silent> <space>s :call SearchWordWithAg()<CR>
+
+" }}}
