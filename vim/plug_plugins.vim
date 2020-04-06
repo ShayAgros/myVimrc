@@ -35,7 +35,6 @@ endif
 Plug 'pyarmak/vim-pandoc-live-preview'
 Plug 'lervag/vimtex'
 
-Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 Plug 'junegunn/fzf', { 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 
