@@ -1,0 +1,11 @@
+global !p
+def add_arguments_placeholders(snip, format_str):
+	arg_num = len(re.split('%[dslu]', format_str)) - 1
+	anon_snippet_body = ''.join([', A' + str(i+1)
+					    for i in range(arg_num)])
+	snip.rv = anon_snippet_body
+endglobal
+
+snippet d
+printk("Shay @%s(%d): ${1:debug message}\n", __func__, __LINE__$2`!p add_arguments_placeholders(snip, t[1])`);$0
+endsnippet
