@@ -1,5 +1,13 @@
 syntax on " allow syntax highlighting
 
+" Enable true color under tmux
+if exists('+termguicolors')
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+" Use True colors
+  set termguicolors
+endif
+
 " Choose dark background by default
 set background=dark
 
