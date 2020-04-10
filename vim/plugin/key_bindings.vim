@@ -146,5 +146,6 @@ nnoremap H zh
 
 " Move left while in insert mode
 inoremap <C-F> <Right>
+inoremap <C-B> <Left>
 
 " }}}
