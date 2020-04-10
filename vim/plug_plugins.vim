@@ -31,9 +31,6 @@ if v:version >= 800
 endif
 
 " Tex
-"Plug 'xuhdev/vim-latex-live-preview'
-Plug 'pyarmak/vim-pandoc-live-preview'
-Plug 'lervag/vimtex'
 
 Plug 'junegunn/fzf', { 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
@@ -71,14 +68,12 @@ Plug 'mboughaba/i3config.vim'
 " }}}
 
 "	Ultra snip {{{
-if has('nvim')
-	Plug 'SirVer/ultisnips'
+Plug 'SirVer/ultisnips'
 
-	" Optional
-	Plug 'honza/vim-snippets'
-	" }}}
+" Optional
+Plug 'honza/vim-snippets'
+" }}}
 
-endif
 call plug#end()
 
 endif
