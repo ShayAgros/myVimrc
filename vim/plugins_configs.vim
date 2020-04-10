@@ -115,7 +115,7 @@ let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 let g:UltiSnipsEditSplit='vertical'
 
 " Set private snippets dir
-let g:UltiSnipsSnippetsDir='~/.vim/UltiSnips'
+let g:UltiSnipsSnippetDirectories=['~/.vim/UltiSnips']
 
 
 " }}}
