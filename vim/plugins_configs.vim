@@ -172,7 +172,7 @@ if has('nvim') && has('nvim-0.3.1')
 
 	let g:coc_global_extensions = [
 		\'coc-json', 'coc-python',
-		\'coc-snippets',
+		\'coc-snippets', 'coc-explorer'
 	\]
 
 	" Make coc update faster. This would make linter
@@ -239,11 +239,16 @@ let g:gruvbox_sign_column='bg0'
 " FZF {{{
 noremap <space><space> :Files<CR>
 nnoremap <silent> <space>/ :execute 'Ag ' . input('Ag/')<CR>
-nnoremap <silent> <space>. :AgIn 
+nnoremap <silent> <space>. :Ag
+
 nnoremap <silent> <space>; :BLines<CR>
+vnoremap <silent> <space>; "zy:BLines <C-R>z<CR>
+
 nnoremap <silent> <space>o :BTags<CR>
-nnoremap <silent> <space>s :execute 'BTags ' expand('<cword>')<CR>
+vnoremap <silent> <space>o "zy:BTags <C-R>z<CR>
 nnoremap <silent> <space>O :Tags<CR>
+vnoremap <silent> <space>O "zy:Tags <C-R>z<CR>
+
 nnoremap <silent> <space>a :Buffers<CR>
 nnoremap <silent> <space>A :Windows<CR>
 
@@ -252,5 +257,10 @@ function! SearchWordWithAg()
 endfunction
 
 nnoremap <silent> <space>s :call SearchWordWithAg()<CR>
+vnoremap <silent> <space>s "zy:Ag <C-R>z<CR>
+
+command! -bang -nargs=+ -complete=dir Rag 
+        \ call fzf#vim#ag_raw(<q-args> . ' ~/Documents/Projects/',
+        \ fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
 
 " }}}
