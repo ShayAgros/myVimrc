@@ -9,3 +9,9 @@ endglobal
 snippet d
 printk("Shay @%s(%d): ${1:debug message}\n", __func__, __LINE__$2`!p add_arguments_placeholders(snip, t[1])`);$0
 endsnippet
+
+snippet dl
+printk_ratelimited("Shay @%s(%d): ${1:debug message}\n", __func__, __LINE__$2`!p
+add_arguments_placeholders(snip, t[1])`);$0
+endsnippet
+
