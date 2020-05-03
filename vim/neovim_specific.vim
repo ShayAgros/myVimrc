@@ -10,3 +10,8 @@ let g:python_host_prog='/bin/python2'
 set inccommand=split
 
 tnoremap <C-j><C-k> <C-\><C-n>
+
+autocmd BufReadPost *
+  \ if line("'\"") >= 1 && line("'\"") <= line("$") |
+  \   exe "normal! g`\"" |
+  \ endif
