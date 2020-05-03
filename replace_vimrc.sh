@@ -37,6 +37,13 @@ for dir in `pwd`/vim/*; do
 	ln -s ${dir} ~/.vim/`basename $dir`
 done
 
+# in neovim installed create a symlink for it too
+if which nvim >/dev/null 2>&1; then
+	mkdir -p ~/.config/nvim
+	ln -fs ~/.vimrc ~/.config/nvim/init.vim
+	ln -fs ~/.vim/coc-settings.json ~/.config/nvim/coc-settings.json
+fi
+
 echo ".vimrc file replaced"
 echo "Installing Plugins"
 vim +PlugInstall +qa
