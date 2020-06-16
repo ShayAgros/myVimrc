@@ -14,7 +14,7 @@ set background=dark
 set wildmenu " allow choose between different options
 set path=.,** " make path include all the directories above
 set title " change teminal's title
-set textwidth=70
+set textwidth=80
 
 set showcmd " show partially typed commands
 set number " show line numbers

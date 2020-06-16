@@ -114,6 +114,8 @@ nnoremap <silent> <leader><leader> :noh<cr>
 " highlight word under cursor
 nnoremap <silent> * "syiw:execute "let @/ = \"\\\\M\\\\<".@s."\\\\>\"" <bar> set hlsearch<cr>
 vnoremap <silent> * "sy:execute "let @/ = \"\\\\M\\\\<".@s."\\\\>\"" <bar> set hlsearch<cr>
+
+" Was already commented
 "nnoremap <silent> * "syiw:execute "let @/ = '\\M\\<". substitute(substitute(@s,"^'",'\1',"g"),"'$","","g") ."\\>'" <bar> set hlsearch<cr>
 "vnoremap <silent> * "sy:execute "let @/ = '\\M\\<".substitute(substitute(@s,"^'",'\1',"g"),"'$","","g")."\\>'" <bar> set hlsearch<cr>
 
@@ -135,7 +137,6 @@ noremap <silent> <c-w><c-]> <c-w><c-]><c-w>L
 "	Editing {{{
 
 " move line up/down
-nnoremap K "sddk"sP
 nnoremap J "sdd"sp
 xnoremap K "sdk"sP`[V`]
 xnoremap J "sd"sp`[V`]

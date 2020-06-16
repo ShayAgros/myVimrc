@@ -1,3 +1,6 @@
 {
-  "python.linting.enabled": false
+  "python.linting.enabled": false,
+  "python.jediEnabled": true,
+  "coc.preferences.jumpCommand": "drop",
+  "clangd.disableDiagnostics": true
 }

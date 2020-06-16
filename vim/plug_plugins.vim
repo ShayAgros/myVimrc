@@ -15,6 +15,8 @@ if has('nvim')
 	endif
 endif
 
+Plug 'vim-scripts/Visual-Mark'
+
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-fugitive'
