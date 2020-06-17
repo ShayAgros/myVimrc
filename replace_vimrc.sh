@@ -1,5 +1,7 @@
 #!/bin/bash
 
+VIM=vim
+
 if [[ ! -f `pwd`/vimrc ]]; then
 	echo "script should be ran from the same directory"
 	echo "with .vimrc and vimsources"
@@ -42,11 +44,13 @@ if which nvim >/dev/null 2>&1; then
 	mkdir -p ~/.config/nvim
 	ln -fs ~/.vimrc ~/.config/nvim/init.vim
 	ln -fs ~/.vim/coc-settings.json ~/.config/nvim/coc-settings.json
+
+	VIM=nvim
 fi
 
 echo ".vimrc file replaced"
-echo "Installing Plugins"
-vim +PlugInstall +qa
+echo "Installing Plugins with ${VIM}"
+${VIM} +PlugInstall +qa
 
 echo "Notice that yarn, nodejs, python-language-server packages need
 		to be installed for CoC to work"
