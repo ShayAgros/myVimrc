@@ -19,7 +19,11 @@ Plug 'vim-scripts/Visual-Mark'
 
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+
+if v:version >= 730
 Plug 'tpope/vim-fugitive'
+endif
+
 Plug 'tpope/vim-eunuch'
 
 Plug 'rhysd/clever-f.vim'
@@ -70,10 +74,15 @@ Plug 'mboughaba/i3config.vim'
 " }}}
 
 "	Ultra snip {{{
-Plug 'SirVer/ultisnips'
 
-" Optional
-Plug 'honza/vim-snippets'
+if v:version >= 740
+
+	Plug 'SirVer/ultisnips'
+
+	" Optional
+	Plug 'honza/vim-snippets'
+
+endif
 " }}}
 
 call plug#end()
