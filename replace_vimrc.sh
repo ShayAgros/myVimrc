@@ -53,11 +53,11 @@ echo "Installing Plugins with ${VIM}"
 
 if which nvim >/dev/null 2>&1; then
 	nvim --headless +PlugInstall +qa
+	mkdir -p ~/.config/coc
 	coc_extensions=$(nvim --headless +'call PrintCocExtensions()'  +qa 2>&1)
 	# install CoC extensions if there are any
 	if [[ ! -z ${coc_extensions// } ]]; then
 		echo instaling coc extensions ${coc_extensions}
-		mkdir -p ~/.config/coc
 		eval nvim --headless +\"CocInstall -sync ${coc_extensions}\" +qall
 		nvim --headless +CocUpdateSync +qall
 	fi
