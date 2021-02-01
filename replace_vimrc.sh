@@ -50,7 +50,20 @@ fi
 
 echo ".vimrc file replaced"
 echo "Installing Plugins with ${VIM}"
-${VIM} +PlugInstall +qa
+
+if which nvim >/dev/null 2>&1; then
+	nvim --headless +PlugInstall +qa
+	coc_extensions=$(nvim --headless +'call PrintCocExtensions()'  +qa 2>&1)
+	# install CoC extensions if there are any
+	if [[ ! -z ${coc_extensions// } ]]; then
+		echo instaling coc extensions ${coc_extensions}
+		mkdir -p ~/.config/coc
+		eval nvim --headless +\"CocInstall -sync ${coc_extensions}\" +qall
+		nvim --headless +CocUpdateSync +qall
+	fi
+else
+	vim +PlugInstall +qa
+fi
 
 echo "Notice that yarn, nodejs, python-language-server packages need
 		to be installed for CoC to work"

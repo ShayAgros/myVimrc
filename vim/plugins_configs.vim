@@ -168,6 +168,14 @@ augroup END
 
 "	Coc	{{{
 "
+
+let g:coc_global_extensions = []
+function! PrintCocExtensions()
+	for plugin in g:coc_global_extensions
+		echon plugin " "
+	endfor
+endfunction
+
 if has('nvim') && has('nvim-0.3.1')
 
 	let g:coc_global_extensions = [
