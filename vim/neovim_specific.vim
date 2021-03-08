@@ -2,9 +2,9 @@
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
 
-" set python executables
-let g:python3_host_prog='/bin/python3'
-let g:python_host_prog='/bin/python2'
+" set python executables (why isn't it done by default?)
+let g:python3_host_prog = substitute(system("which python3"), '\n', '', '')
+let g:python_host_prog = substitute(system("which python2"), '\n', '', '')
 
 " substitute more visually
 set inccommand=split
