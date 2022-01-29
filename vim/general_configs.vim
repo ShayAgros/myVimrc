@@ -1,14 +1,8 @@
+set nocompatible " don't make vim 'vi compatible'
+
 syntax on " allow syntax highlighting
 
-" Enable true color under tmux
-if exists('+termguicolors')
-  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-" Use True colors
-  set termguicolors
-endif
-
-" Choose dark background by default
+" Make the theme dark. Only actually needed for VIM
 set background=dark
 
 set wildmenu " allow choose between different options
@@ -17,11 +11,15 @@ set title " change teminal's title
 set textwidth=80
 
 set showcmd " show partially typed commands
+
 set number " show line numbers
+set relativenumber
 
 set showmatch " show matching paranthesis
+set noswapfile " no swap files
 
-set noswapfile     "no swap files
+" Splits open at the bottom and right, which is non-retarded, unlike vim defaults.
+set splitbelow splitright
 
 " file and text formatting {{{
 
@@ -46,33 +44,28 @@ set nowrap
 set shiftwidth=4 
 " when autoindenting, use 4 spaces
 set tabstop=4
-set autoindent " automatic indent after newline
-set copyindent	" copy the previous indentation on autoindenting
+" TODO: try to see why it's needed. It seems to indent the code w/o it
+set noautoindent " automatic indent after newline
+set nocopyindent " copy the previous indentation on autoindenting
 " }}}
 
-" searching {{{
+" Searching {{{
 set hlsearch " highlight search
 set incsearch " start searching pattern while typing
-set ignorecase " ignore case when searching
 set smartcase " ignore case if search pattern is lowercase,
-		" case-sensitive otherwise
-" set searching color
-:hi Search cterm=NONE ctermfg=black ctermbg=lightgreen
-" }}}
-
-"	Windows/Tabs {{{
-" Splits open at the bottom and right, which is non-retarded, unlike vim defaults.
-set splitbelow splitright
+			  " case-sensitive otherwise
+" smartcase overrides this option only if capital letters appear in search
+" but doesn't by default ignore case
+set ignorecase
 " }}}
 
 "	Sessions {{{
 " Save the following when running 'mksession'
 "	blank		| empty windows
 "	buffers		| hidden and uloaded buffers,not just those
-"					in windows
+"				  in windows
 "	curdir		| the current directory
-"	tabpages	| all tab pages;
+"	tabpages	| all tab pages
 "	winsize		| window sizes
 set sessionoptions=blank,buffers,curdir,tabpages,winsize
-
 " }}}

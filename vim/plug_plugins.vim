@@ -1,90 +1,37 @@
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
-
-" Failed to download and configure plugins
-if !empty(glob('~/.vim/autoload/plug.vim'))
-
-call plug#begin('~/.vim/plugged')
-
 if has('nvim')
-	if has('nvim-0.3.1')
-		Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+	if has('nvim-0.5.0')
+		Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
+		" Telescope
+		Plug 'nvim-lua/plenary.nvim'
+		Plug 'nvim-telescope/telescope.nvim'
+		Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 	endif
 endif
 
-Plug 'vim-scripts/Visual-Mark'
-
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-
-if v:version >= 730
-Plug 'tpope/vim-fugitive'
-endif
-
+" Creates commands like SudoWrite and Rename which allow to manipulate files
 Plug 'tpope/vim-eunuch'
 
-Plug 'rhysd/clever-f.vim'
-Plug 'Townk/vim-autoclose'
+" Allows you to open files like filename:<line number>
 Plug 'wsdjeg/vim-fetch'
-
-Plug 'mileszs/ack.vim'
-
-if v:version >= 800
-	Plug 'kkoomen/vim-doge'
-endif
-
-" Tex
 
 Plug 'junegunn/fzf', { 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 
-" Text formatting {{{
+" Allows to creates autoformatted tables. Useful when adding tables to
+" commit messages
 Plug 'dhruvasagar/vim-table-mode'
-"}}}
 
-"	note taking and text documents {{{
-Plug 'gabrielelana/vim-markdown'
-Plug 'shayagros/vim-tasks'
-"Plug 'vimwiki/vimwiki'
-" }}}
+" You probably don't need this as you only need the syntax highlighting for
+" Markdown and TreeSitter already handles it (though not in VIM .. but what MD
+" files do you edit there ?)
+"Plug 'gabrielelana/vim-markdown'
 
-" Surrounding text with comments/chars {{{
+" Add a comment to text blocks
 Plug 'scrooloose/nerdcommenter'
+
+" Surround blocks with custom characthers
 Plug 'tpope/vim-surround'
+" enhances vim-surround by adding '.' capability
 Plug 'tpope/vim-repeat'
-" }}}
-
-" Tags and files windows {{{
-Plug 'majutsushi/tagbar'
-" }}}
-
-" Themes amd colors {{{
-Plug 'neutaaaaan/iosvkem'
-Plug 'drewtempelmeyer/palenight.vim'
-Plug 'ayu-theme/ayu-vim'
-Plug 'jaredgorski/SpaceCamp'
-Plug 'morhetz/gruvbox'
-" }}}
-
-"	Syntax {{{
-Plug 'mboughaba/i3config.vim'
-" }}}
-
-"	Ultra snip {{{
-
-if v:version >= 740
-
-	Plug 'SirVer/ultisnips'
-
-	" Optional
-	Plug 'honza/vim-snippets'
-
-endif
-" }}}
-
-call plug#end()
-
-endif

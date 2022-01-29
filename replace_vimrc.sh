@@ -43,7 +43,6 @@ done
 if which nvim >/dev/null 2>&1; then
 	mkdir -p ~/.config/nvim
 	ln -fs ~/.vimrc ~/.config/nvim/init.vim
-	ln -fs ~/.vim/coc-settings.json ~/.config/nvim/coc-settings.json
 
 	VIM=nvim
 fi
@@ -53,17 +52,6 @@ echo "Installing Plugins with ${VIM}"
 
 if which nvim >/dev/null 2>&1; then
 	nvim --headless +PlugInstall +qa
-	mkdir -p ~/.config/coc
-	coc_extensions=$(nvim --headless +'call PrintCocExtensions()'  +qa 2>&1)
-	# install CoC extensions if there are any
-	if [[ ! -z ${coc_extensions// } ]]; then
-		echo instaling coc extensions ${coc_extensions}
-		eval nvim --headless +\"CocInstall -sync ${coc_extensions}\" +qall
-		nvim --headless +CocUpdateSync +qall
-	fi
 else
 	vim +PlugInstall +qa
 fi
-
-echo "Notice that yarn, nodejs, python-language-server packages need
-		to be installed for CoC to work"

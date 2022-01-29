@@ -13,6 +13,10 @@ set tabstop=8
 " use C indentation
 set cindent
 set formatoptions=croql  
+
+" In multiline argument list, start the next line right under the first argument
+" in previous line
+set cino=(0
 " }}}
 
 "	foldings {{{

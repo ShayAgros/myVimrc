@@ -1,15 +1,3 @@
-
-" Indentation {{{
-
-" every tab is 4 spaces
-set shiftwidth=4 
-" when autoindenting, use 4 spaces
-set tabstop=4
-
-set expandtab
-
-" }}}
-
 function! s:exec_in_terminal(cmd)
     let l:term_buf_list = filter(map(getbufinfo(), 'v:val.bufnr'), 'getbufvar(v:val, "&buftype") is# "terminal"')
 
@@ -46,35 +34,10 @@ function! s:exec_in_terminal(cmd)
     call chansend(terminal_job_id, a:cmd . "\<cr>")
 endfunction
 
-" run the code when hitting Space+c
-function! RunPythonProgram()
-    let l:virt_env_dir = system("echo -n ${VIRTUALENVWRAPPER_HOOK_DIR}")
-    let l:project_virt_env = system("echo -n ${VIRTUAL_ENV}")
+function! RunBashProgram()
     let l:cfilename = expand('%')
 
-    if exists("g:python_main_program")
-        let l:cfilename = g:python_main_program
-    endif
-
-    if empty(virt_env_dir)
-        " if it's emty, then we don't have python virtual envs
-        " setup
-        call s:exec_in_terminal("python3 " . cfilename)
-        return
-    endif
-
-    if empty(project_virt_env)
-        " Try to guess by the project's name
-        " TODO: implement
-        call s:exec_in_terminal("python3 " . cfilename)
-        return
-    endif
-
-    let python_exec = l:project_virt_env . "/bin/python3"
-    call s:exec_in_terminal(python_exec . " " . cfilename)
+    call s:exec_in_terminal(cfilename)
 endfunction
 
-"call RunPythonProgram()
-"call s:exec_in_terminal("sleep 2 ; seq 1 1000")
-
-nnoremap <silent> <buffer> <space>c :call RunPythonProgram()<cr>
+nnoremap <silent> <buffer> <space>c :call RunBashProgram()<cr>
