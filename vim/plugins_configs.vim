@@ -3,7 +3,10 @@
 " and keymappings
 
 " FZF {{{
-"noremap <space><space> :Files<CR>
+if !has('nvim')
+	noremap <space><space> :Files<CR>
+	nnoremap <silent> <space>a :Buffers<CR>
+endif
 nnoremap <silent> <space>/ :execute 'Ag ' . input('Ag/')<CR>
 nnoremap <silent> <space>. :Ag<CR>
 
@@ -15,7 +18,6 @@ nnoremap <silent> <space>o :BTags<CR>
 nnoremap <silent> <space>O :Tags<CR>
 vnoremap <silent> <space>O "zy:Tags <C-R>z<CR>
 
-"nnoremap <silent> <space>a :Buffers<CR>
 nnoremap <silent> <space>A :Windows<CR>
 
 function! SearchWordWithAg()
