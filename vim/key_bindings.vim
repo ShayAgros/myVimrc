@@ -30,6 +30,8 @@ vnoremap <leader>s <nop>
 " copy relative path and line number to clipboard
 nnoremap <silent> <localleader>cl :let @+=fnamemodify(expand("%"), ":~:.") . "#L" . line(".")<cr>
 
+"nnoremap <silent> [[ :executre "search('\(^[^ \t#]\)\|\(^{$\)', 'b')"<cr>
+
 function! CloseWindow()
     " I'd rather ZQ leave the terminal hidden instead of shouting at me
     " that it cannot exit. Nevertheless I like being able to exit VIM even if
@@ -186,4 +188,20 @@ inoremap <C-F> <Right>
 inoremap <C-B> <Left>
 
 nnoremap <silent> gf :edit <cfile><cr>
+" }}}
+
+" Quickfix {{{
+
+nnoremap <silent> <M-j> :cn<cr>
+nnoremap <silent> <M-k> :cp<cr>
+nnoremap <silent> <M-q> :copen<cr>
+" }}}
+
+" CW {{{
+
+function! s:ApplyCWKB()
+
+endfunction
+
+autocmd FileType cw_logs call s:ApplyCWKB()
 " }}}

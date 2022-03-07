@@ -1,11 +1,9 @@
 if has('nvim')
-
 	if has('nvim-0.5.0')
-		Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-
 		" Telescope
 		Plug 'nvim-lua/plenary.nvim'
 		Plug 'nvim-telescope/telescope.nvim'
+		Plug 'kyazdani42/nvim-web-devicons'
 		Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 	endif
 endif

@@ -3,10 +3,6 @@
 " and keymappings
 
 " FZF {{{
-if !has('nvim')
-	noremap <space><space> :Files<CR>
-	nnoremap <silent> <space>a :Buffers<CR>
-endif
 nnoremap <silent> <space>/ :execute 'Ag ' . input('Ag/')<CR>
 nnoremap <silent> <space>. :Ag<CR>
 
@@ -24,14 +20,18 @@ function! SearchWordWithAg()
     execute 'Ag ' expand('<cword>')
 endfunction
 
-nnoremap <silent> <space>s :call SearchWordWithAg()<CR>
-vnoremap <silent> <space>s "zy:Ag <C-R>z<CR>
-
 command! -bang -nargs=+ -complete=dir Rag
         \ call fzf#vim#ag_raw(<q-args> . ' ~/Documents/Projects/',
         \ fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
 
 let g:fzf_tags_command = '~/workspace/Software/ctags/ctags-p5.9.20210307.0/ctags -x'
+
+if !has('nvim')
+	noremap <space><space> :Files<CR>
+	nnoremap <silent> <space>a :Buffers<CR>
+	nnoremap <silent> <space>s :call SearchWordWithAg()<CR>
+	vnoremap <silent> <space>s "zy:Ag <C-R>z<CR>
+endif
 
 " }}}
 
@@ -55,12 +55,37 @@ nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 "nnoremap <silent> <space>o <cmd>lua require('telescope.builtin').current_buffer_tags()<cr>
 nnoremap <silent> <space>; <cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<cr>
 
+command! -nargs=1 F lua require('telescope.builtin').grep_string{search="<args>"}
+
+function! SearchWordWithTelescope()
+    execute 'F ' expand('<cword>')
+endfunction
+nnoremap <silent> <space>s :call SearchWordWithTelescope()<CR>
+vnoremap <silent> <space>s "zy:F <C-R>z<CR>
+
 lua << EOF
 local function search_word_under_cursor()
 	
 end
 
-require('telescope').setup{
+local delete_buffer = function(prompt_entry)
+	local action_state = require "telescope.actions.state"
+	local actions = require('telescope.actions')
+	local picker = action_state.get_current_picker(prompt_entry)
+
+	for _, entry in ipairs(picker:get_multi_selection()) do
+		print("deleting", entry.bufnr)
+		vim.api.nvim_command("bd " .. tostring(entry.bufnr))
+	end
+
+	actions.close(prompt_entry)
+end
+
+local success, telescope = pcall(require, 'telescope')
+
+if success then
+
+telescope.setup{
 	defaults = {
 		vimgrep_arguments = {
 		  'ag',
@@ -71,18 +96,28 @@ require('telescope').setup{
 		  '--smart-case'
 		},
 	},
+	pickers = {
+		buffers = {
+			mappings = {
+				i = {
+					["<C-d>"] = delete_buffer,
+				},
+			},
+		},
+	},
 	extensions = {
 		fzf = {
 		  override_generic_sorter = false, -- override the generic sorter
 		  override_file_sorter = true,     -- override the file sorter
 		  case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
-										   -- the default case_mode is "smart_case"
 		}
 	},
 }
 
 vim.api.nvim_set_keymap('n', ' a', "<cmd>lua require('telescope.builtin').buffers{ sort_mru = true, ignore_current_buffer = true }<cr>", {noremap = true})
 vim.api.nvim_set_keymap('n', '<space><space>', "<cmd>lua require('telescope.builtin').find_files()<cr>", {noremap = true})
+
+end
 EOF
 
 endif

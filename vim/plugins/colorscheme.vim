@@ -7,9 +7,9 @@ if has('nvim')
 lua << EOF
 
 	function configure_nightfox()
-		local err, nightfox = pcall(require, 'nightfox')
+		local success, nightfox = pcall(require, 'nightfox')
 
-		if err == nil then
+		if not success then
 			return
 		end
 

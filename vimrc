@@ -37,12 +37,14 @@ source ~/.vim/plugins/nvim-cmp.vim
 source ~/.vim/plugins/UltiSnips.vim " Needed by nvim-lsp
 " lsp config
 source ~/.vim/plugins/nvim-lsp.vim
+source ~/.vim/plugin/nvim-treesitter.vim
 source ~/.vim/plugins/status_bar.vim
 source ~/.vim/plugins/vim-obsession.vim
 source ~/.vim/plugins/tags-bar.vim
 source ~/.vim/plugins/netrw.vim
 source ~/.vim/plugins/fugitive.vim
 source ~/.vim/plugins/clever-f.vim
+source ~/.vim/plugins/marks.vim
 source ~/.vim/other_plugins.vim
 
 " colorscheme
@@ -64,40 +66,9 @@ set timeoutlen=300
 " I usually want to know if I type correctly
 set spell
 
-nnoremap <silent> cn :cn<cr>
-nnoremap <silent> cN :cp<cr>
-
 nnoremap <silent> <space>dr :!rm -rf ~/ena-drivers/tools/{upstream_release,external_git_release}/ena_release<cr>
 
 set hidden
 
 set mouse=a
 "let g:doge_doc_standard_c = 'kernel_doc'
-
-if has('nvim')
-	lua <<EOF
-	require'nvim-treesitter.configs'.setup {
-	  highlight = {
-		enable = true,
-		-- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-		-- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-		-- Using this option may slow down your editor, and you may see some duplicate highlights.
-		-- Instead of true it can also be a list of languages
-		additional_vim_regex_highlighting = true,
-	  },
-	  incremental_selection = {
-		enable = true,
-		keymaps = {
-		  init_selection = "gnn",
-		  node_incremental = "grn",
-		  scope_incremental = "grc",
-		  node_decremental = "grm",
-		},
-	  },
-	  indent = {
-		enable = true
-	  }
-	}
-EOF
-
-endif

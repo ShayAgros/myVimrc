@@ -19,7 +19,11 @@ set completeopt=menu,menuone,noselect
 
 lua << EOF
 	function cmpInit()
-		local cmp = require'cmp'
+		local success, cmp = pcall(require, 'cmp')
+
+		if not success then
+			return
+		end
 
 		cmp.setup({
 --			snippet = {
@@ -39,7 +43,7 @@ lua << EOF
 			sources = cmp.config.sources(
 				{
 				  { name = 'nvim_lsp' },
-				  { name = 'ultisnips' }, -- For ultisnips users.
+--				  { name = 'ultisnips' }, -- For ultisnips users.
 				  { name = 'path' },
 				},
 				{

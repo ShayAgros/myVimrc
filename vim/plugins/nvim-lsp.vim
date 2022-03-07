@@ -6,6 +6,8 @@ endif
 
 " LSP configurations
 Plug 'neovim/nvim-lspconfig'
+" Should allow seamless integration with tag subsystem
+"Plug 'weilbith/nvim-lsp-smag'
 
 " Display a status message when indexing code
 Plug 'j-hui/fidget.nvim'
@@ -28,7 +30,14 @@ local custom_lsp_attach = function(client)
 end
 
 function setup_lsp_clients()
-	require('lspconfig').clangd.setup{
+
+	local success, lspconfig = pcall(require, 'lspconfig')
+
+	if not success then
+		return
+	end
+
+	lspconfig.clangd.setup{
 
 		on_attach = function(client)
 			vim.lsp.handlers["textDocument/publishDiagnostics"] = function() end
