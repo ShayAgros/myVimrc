@@ -65,10 +65,20 @@ function setup_lsp_clients()
 	}
 end
 
+function configure_fidget()
+	local success, fidget = pcall(require, 'fidget')
+
+	if not success then
+		return
+	end
+
+	fidget.setup{}
+end
+
 vim.api.nvim_command("augroup NvimLspAU")
 vim.api.nvim_command("au!")
 vim.api.nvim_command("autocmd User DoAfterConfigs ++nested lua setup_lsp_clients()")
 -- display a progress bar when running LSP
-vim.api.nvim_command('autocmd User DoAfterConfigs ++nested lua require"fidget".setup{}')
+vim.api.nvim_command('autocmd User DoAfterConfigs ++nested lua configure_fidget()')
 vim.api.nvim_command("augroup END")
 EOF
