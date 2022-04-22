@@ -50,8 +50,15 @@ fi
 echo ".vimrc file replaced"
 echo "Installing Plugins with ${VIM}"
 
+curl --silent -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
 if which nvim >/dev/null 2>&1; then
 	nvim --headless +PlugInstall +qa
+	# force TreeSitter to run TSUpdate.
+	# For some cosmic reason it fails to do that in the first time
+	# it installs the plugin
+	nvim --headless +PlugInstall! +qa
 else
 	vim +PlugInstall +qa
 fi

@@ -4,7 +4,17 @@ if !has('nvim-0.5.0')
 	finish
 endif
 
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+function! BuildTS(info)
+	" info is a dictionary with 3 fields
+	" - name:   name of the plugin
+	" - status: 'installed', 'updated', or 'unchanged'
+	" - force:  set on PlugInstall! or PlugUpdate!
+	if a:info.status == 'updated' || a:info.force
+		TSUpdate
+	endif
+endfunction
+
+Plug 'nvim-treesitter/nvim-treesitter', { 'do': function('BuildTS') }
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'nvim-treesitter/playground'
 
@@ -33,9 +43,6 @@ local function print_children_for_decendants(indentation, node, decendants)
 			end
 		end
 	end
-end
-
-local function get_identifiers(node)
 end
 
 function get_function_parameters()
