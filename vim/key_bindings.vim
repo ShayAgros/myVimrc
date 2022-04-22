@@ -192,9 +192,23 @@ nnoremap <silent> gf :edit <cfile><cr>
 
 " Quickfix {{{
 
+function! Toggle_quicklist()
+	" search if we have a quickfix buffer (/pane) in our current window
+	let l:window_qf_bufs = filter(tabpagebuflist(), 'getbufvar(v:val, "&buftype") is# "quickfix"')
+	if empty(l:window_qf_bufs)
+		botright copen
+		" copen automatically jumps to a new file. Unfortunately
+		" there's no save-excursion in vim (seemingly)
+		wincmd p
+	else
+		cclose
+	endif
+endfunction
+
 nnoremap <silent> <M-j> :cn<cr>
 nnoremap <silent> <M-k> :cp<cr>
-nnoremap <silent> <M-q> :copen<cr>
+nnoremap <silent> <M-f> :cf<cr>
+nnoremap <silent> <M-q> :call Toggle_quicklist()<cr>
 " }}}
 
 " CW {{{
