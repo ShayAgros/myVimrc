@@ -93,7 +93,7 @@ function setup_telescope()
 	local success, telescope = pcall(require, 'telescope')
 
 	if not success then
-		print("configuring telescope")
+		return
 	end
 
 	telescope.setup{
