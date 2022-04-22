@@ -37,7 +37,8 @@ call plug#begin('~/.vim/plugged')
 
 " autocompletion
 source ~/.vim/plugins/nvim-cmp.vim
-source ~/.vim/plugins/UltiSnips.vim " Needed by nvim-lsp
+source ~/.vim/plugins/UltiSnips.vim " Used by VIM
+source ~/.vim/plugins/luasnip.vim " Used by Neovim
 " lsp config
 source ~/.vim/plugins/nvim-lsp.vim
 

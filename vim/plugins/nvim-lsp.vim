@@ -17,8 +17,6 @@ let g:lsp_log_file = '/tmp/lsp.log'
 
 lua << EOF
 local custom_lsp_attach = function(client)
-	local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-
 	vim.api.nvim_buf_set_keymap(0, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', {noremap = true})
 
 	vim.api.nvim_buf_set_keymap(0, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', {noremap = true})
@@ -36,6 +34,8 @@ function setup_lsp_clients()
 	if not success then
 		return
 	end
+
+	local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 	lspconfig.clangd.setup{
 
