@@ -2,6 +2,10 @@
 " The reason not to use Ultisnip is to have the content aware and dynamic
 " snippets
 
+if !has('nvim-0.5.0')
+	finish
+endif
+
 Plug 'L3MON4D3/LuaSnip'
 Plug 'honza/vim-snippets'
 Plug 'molleweide/LuaSnip-snippets.nvim'
