@@ -43,9 +43,9 @@ source ~/.vim/plugins/nvim-lsp.vim
 
 " Telescope should be configured before various plugins
 " as it is used by them
-source ~/.vim/telescope.vim
+source ~/.vim/plugins/telescope.vim
 
-source ~/.vim/plugin/nvim-treesitter.vim
+source ~/.vim/plugins/nvim-treesitter.vim
 source ~/.vim/plugins/status_bar.vim
 " My own plugin. Ongoing development
 source ~/.vim/plugins/register_calltrace.vim

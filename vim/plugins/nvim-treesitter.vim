@@ -47,29 +47,59 @@ function get_function_parameters()
 		return
 	end
 
-	local query_str = [[
+	local function_param_query_str = [[
 	(parameter_declaration
-		declarator : (identifier) @val)
+		(identifier) @val)
 	]]
-	local query = vim.treesitter.query.parse_query('c', query_str)
+
+	local func_body_query_str = [[
+	(function_definition
+		body : (compound_statement) @func_body)
+	]]
+
+	local params_query = vim.treesitter.query.parse_query('c', function_param_query_str)
+	local func_body_query = vim.treesitter.query.parse_query('c', func_body_query_str)
 
 	local current_node = ts_utils.get_node_at_cursor()
 	if not current_node then return "" end
 
+	local params = {}
+	local row = -1
 	while current_node do
 
 		for _, child in ipairs(ts_utils.get_named_children(current_node)) do
 			if child:type() == "function_declarator" then
-				print_children_for_decendants("        ", child, {"parameter_list", "parameter_declaration", "pointer_declarator", "array_declarator"})
+--				print_children_for_decendants("        ", child, {"parameter_list", "parameter_declaration", "pointer_declarator", "array_declarator"})
 
-				for id, node, metadata in query:iter_captures(child) do
-					print(id, node:type(), ts_utils.get_node_text(node, 0)[1])
+				for id, node, metadata in params_query:iter_captures(current_node) do
+--					print(id, node:type(), ts_utils.get_node_text(node, 0)[1])
+					table.insert(params, string.rep(" ", 8) .. "(void)".. ts_utils.get_node_text(node, 0)[1] .. ";")
+				end
+
+				for id, node, metadata in func_body_query:iter_captures(current_node) do
+					row, col, size = node:start()
+
+					row = row + 1
+--					print("position:", "row: " .. tostring(row), "col: " .. tostring(col), "size: " .. tostring(size))
 				end
 			end
 		end
 
 		current_node = current_node:parent()
 	end
+
+	if #params == 0 or row == -1 then
+		print("Couldn't find function params or its start position")
+		return ""
+	end
+
+	-- insert an empty line after adding the 'void' keyword to each param
+	table.insert(params, "")
+	
+	vim.api.nvim_buf_set_lines(0, row, row, 0, params)
+ 	for i, param in ipairs(params) do
+ 		print(i, param)
+ 	end
 end
 
 function list_treesitter()
@@ -146,10 +176,10 @@ function setup_ts()
 		["[["] = "@function.outer",
 		--			["[["] = "@class.outer",
 		},
-		  	  goto_previous_end = {
-		  	  ["[M"] = "@function.outer",
-		  	  ["[]"] = "@class.outer",
-		  	  },
+		goto_previous_end = {
+			["[M"] = "@function.outer",
+			["[]"] = "@class.outer",
+			},
 		    },
 		}
 	}
