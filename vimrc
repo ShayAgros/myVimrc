@@ -37,14 +37,25 @@ source ~/.vim/plugins/nvim-cmp.vim
 source ~/.vim/plugins/UltiSnips.vim " Needed by nvim-lsp
 " lsp config
 source ~/.vim/plugins/nvim-lsp.vim
+
+" Telescope should be configured before various plugins
+" as it is used by them
+source ~/.vim/telescope.vim
+
 source ~/.vim/plugin/nvim-treesitter.vim
 source ~/.vim/plugins/status_bar.vim
+" My own plugin. Ongoing development
+source ~/.vim/plugins/register_calltrace.vim
+
 source ~/.vim/plugins/vim-obsession.vim
 source ~/.vim/plugins/tags-bar.vim
+source ~/.vim/plugins/vim-dispatch.vim
 source ~/.vim/plugins/netrw.vim
 source ~/.vim/plugins/fugitive.vim
 source ~/.vim/plugins/clever-f.vim
 source ~/.vim/plugins/marks.vim
+source ~/.vim/plugins/harpoon.vim
+source ~/.vim/plugins/lightspeed.vim
 source ~/.vim/other_plugins.vim
 
 " colorscheme

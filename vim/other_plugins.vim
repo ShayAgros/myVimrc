@@ -1,13 +1,3 @@
-if has('nvim')
-	if has('nvim-0.5.0')
-		" Telescope
-		Plug 'nvim-lua/plenary.nvim'
-		Plug 'nvim-telescope/telescope.nvim'
-		Plug 'kyazdani42/nvim-web-devicons'
-		Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-	endif
-endif
-
 " Creates commands like SudoWrite and Rename which allow to manipulate files
 Plug 'tpope/vim-eunuch'
 
