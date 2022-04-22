@@ -30,6 +30,10 @@ vnoremap <leader>s <nop>
 " copy relative path and line number to clipboard
 nnoremap <silent> <localleader>cl :let @+=fnamemodify(expand("%"), ":~:.") . "#L" . line(".")<cr>
 
+" follow symlink of a file
+" ("borrowed from" https://github.com/tpope/vim-fugitive/issues/147#issuecomment-47286687)
+nnoremap <silent> <localleader>af :exec "file ". resolve(expand('%:p'))<cr>:e<CR>
+
 "nnoremap <silent> [[ :executre "search('\(^[^ \t#]\)\|\(^{$\)', 'b')"<cr>
 
 function! CloseWindow()
@@ -91,10 +95,11 @@ nnoremap c "_c
 	"nnoremap <silent> <C-L> <C-W><C-L>
 
 " Maps {,_,+,} to resizing a window split
-	nnoremap <silent> { <C-w><
-	nnoremap <silent> _ <C-W>-
-	nnoremap <silent> + <C-W>+
-	nnoremap <silent> } <C-w>>
+" Cancel these for now
+	"nnoremap <silent> { <C-w><
+	"nnoremap <silent> _ <C-W>-
+	"nnoremap <silent> + <C-W>+
+	"nnoremap <silent> } <C-w>>
 
 " Maps \o to open a file vertically in the right-most
 " side of the screen
