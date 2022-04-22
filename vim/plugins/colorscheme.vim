@@ -4,41 +4,6 @@
 if has('nvim')
 	Plug 'EdenEast/nightfox.nvim'
 
-lua << EOF
-
-	function configure_nightfox()
-		local success, nightfox = pcall(require, 'nightfox')
-
-		if not success then
-			return
-		end
-
-		nightfox.setup({
-		  fox = "nordfox", -- change the colorscheme to use nordfox
-		  styles = {
-			comments = "italic", -- change style of comments to be italic
-		  },
-		  inverse = {
-			match_paren = true, -- inverse the highlighting of match_parens
-		  },
-		  colors = {
-			red = "#FF000", -- Override the red color for MAX POWER
-			bg_alt = "#000000",
-		  },
-		  hlgroups = {
-			TSPunctDelimiter = { fg = "${red}" }, -- Override a highlight group with the color red
-		  }
-		})
-
-		nightfox.load()
-	end
-
-	vim.api.nvim_command("augroup NFConfig")
-	vim.api.nvim_command("au!")
-	vim.api.nvim_command("autocmd User DoAfterConfigs ++nested lua configure_nightfox()")
-	vim.api.nvim_command("augroup END")
-EOF
-
 else
 	Plug 'junegunn/seoul256.vim'
 endif
