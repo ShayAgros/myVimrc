@@ -17,7 +17,7 @@ syntax match WarningString '\[ENA\]\[WARN\]'
 hi def link CWTimeFrame		Comment
 hi def link VFNum			Macro
 hi def link FunctionName	String
-hi def link ErrorString		Statement
 
+hi def link ErrorString		Error
 hi def link WarningString	Error
 hi def link DirtyReset	Error

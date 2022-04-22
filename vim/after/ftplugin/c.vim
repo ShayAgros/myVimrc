@@ -5,11 +5,53 @@ setlocal comments=sr:/*,mb:*,ex:*/,://
 " Don't use syntastic cheks by default
 let b:syntastic_mode = "passive"
 
-"	indentation & indentation {{{
-" every tab is 8 spaces
-set shiftwidth=8 
-" when autoindenting, use 8 spaces
-set tabstop=8
+" don't search in *.patch files
+if g:my_telescope_supported == 1
+lua << EOF
+    ag_additional_args = {"--ignore", "*.patch"}
+EOF
+endif
+
+"	indentation {{{
+
+setlocal list
+setlocal listchars=tab:T-
+
+let s:myfname=expand("%:p")
+
+" CRT project has 4 space tabs (maybe this should be done automatically)
+if stridx(s:myfname, "/crt/") >= 0
+	" every tab is 8 spaces
+	set shiftwidth=4
+	" when autoindenting, use 8 spaces
+	set tabstop=4
+	set expandtab
+
+	" Configure compilation command
+	let b:dispatch="make -C aws-c-io/build"
+    nnoremap <silent> <space>cs :call jobstart("tmux split-window -d -p 20 'cd aws-c-io ; ~/workspace/scripts/send_changed_files.sh -i 1'")<cr>
+
+    " don't search in crt (where I installed the result of building) directory
+    if g:my_telescope_supported == 1
+lua << EOF
+    ag_additional_args = vim.tbl_flatten{ag_additional_args, {"--ignore", "./sdk"}}
+EOF
+    endif
+else
+	" every tab is 8 spaces
+	set shiftwidth=8
+	" when autoindenting, use 8 spaces
+	set tabstop=8
+
+	" FIXME: I might be in a directory with a Makefile while the file I'm in
+	" isn't. Probably makes sense to check if the current file has anything to
+	" do with the Makefile I have in my cwd()
+	" If our home directory doesn't have a Makefile, try to compile the file as
+	" a standalone executable
+	if empty(glob(getcwd() . "/Makefile"))
+		let b:dispatch="gcc % -o " . expand("%:r")
+	endif
+endif
 " use C indentation
 set cindent
 set formatoptions=croql  

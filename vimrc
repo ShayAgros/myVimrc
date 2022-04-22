@@ -22,11 +22,14 @@ augroup ft_plugins
 	autocmd FileType gitcommit set spell
 	autocmd FileType verilog_systemverilog set nospell
 	autocmd FileType python set nospell
+	" it's more intuitive this way
+	autocmd FileType qf nnoremap <silent> <cr> :.cc<cr>
 	autocmd BufRead,BufNewFile *.txt set filetype=markdown
 	autocmd BufRead,BufNewFile nx.log* set filetype=cw_logs
 	autocmd BufRead,BufNewFile messages-* set filetype=cw_gp_messages
 	autocmd BufRead,BufNewFile consolelog-* set filetype=cw_consolelog
 	autocmd BufRead,BufNewFile dmesg* set filetype=dmesg
+	autocmd BufRead,BufNewFile CMakeLists.txt set filetype=cmake
 augroup END
 " }}}
 
