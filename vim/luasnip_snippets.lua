@@ -14,6 +14,7 @@ local fmt = require("luasnip.extras.fmt").fmt
 local m = require("luasnip.extras").m
 local lambda = require("luasnip.extras").l
 
+ls.cleanup()
 
 ls.add_snippets("all", {
     s("ternary", {
@@ -22,25 +23,76 @@ ls.add_snippets("all", {
 	})
 })
 
-ls.add_snippets("all",  {
-	s("trigger", {
-		t({"After expanding, the cursor is here ->"}), i(1),
-		t({"", "After jumping forward once, cursor is here ->"}), i(2),
-		t({"", "After jumping once more, the snippet is exited there ->"}), i(0),
-	})
-	}
-)
+local function add_arg_placeholders(args, snip, user_arg_1)
+	local params = {}
+	local format_string = args[1][1]
+	local pattern = '%%[dsluf]'
+	local i = 0
 
-local function reused_func(_,_, user_arg1)
-	return user_arg1
+	while true do
+		i = string.find(format_string, pattern, i+1)
+		if i == nil then break end
+
+		table.insert(params, ", arg" .. tostring(#params + 1))
+	end
+
+	if #params == 0 then return "" end
+
+	return table.concat(params, "")
 end
+
+my_snip = s("prk", {
+	t({"printk(\"Shay @%s(%d): "}), i(1, "Debug print"),
+	t({"\\n\", __func__, __LINE__"}),
+	i(2),
+	f(add_arg_placeholders, {1}, {}),
+	t({");"}), i(0),
+})
+
+--  printk("Shay @%s(%d): ${1}\n", __func__, __LINE__, ${2});
+ls.add_snippets("c", {
+		my_snip
+	})
+ls.add_snippets("cpp", {
+		my_snip
+	})
+
+test_snip = s("trig", c(1, {
+ 	t("Ugh boring, a text node"),
+ 	i(nil, "At least I can edit something now..."),
+ 	f(function(args) return "Still only counts as text!!" end, {})
+ }))
 ls.add_snippets("all", {
-	s("trig", {
-		f(reused_func, {}, {
-			user_args = {"text"}
-		}),
-		f(reused_func, {}, {
-			user_args = {"different text"}
-		}),
+		test_snip
 	})
+
+test_snip = s("trig", c(1, {
+ 	t("Ugh boring, a text node"),
+ 	i(nil, "At least I can edit something now..."),
+ 	f(function(args) return "Still only counts as text!!" end, {})
+ }))
+
+-- #ifndef HEADER_NAME_H
+-- #define HEADER_NAME_H
+--
+-- #endif /* HEADER_NAME_H */
+header = s("header", {
+	f(function(args, snip)
+		buf_name = vim.api.nvim_eval("expand('%:t:r')")
+		buf_name = string.upper(buf_name) .. "_H"
+		return {"##ifndef " .. buf_name, "#define " .. buf_name, ""} end, {}),
+	i(0),
+
+	f(function(args, snip)
+		buf_name = vim.api.nvim_eval("expand('%:t:r')")
+		buf_name = string.upper(buf_name) .. "_H"
+		return {"", "#endif /* " .. buf_name .. " */"} end, {})
+})
+ls.add_snippets("cpp", {
+		header
 	})
+ls.add_snippets("c", {
+		header
+	})
+
+--printk("Shay @%s(%d): sq: %u, cq: %u, adapter: %f\n", __func__, __LINE__);
