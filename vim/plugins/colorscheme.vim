@@ -5,7 +5,7 @@ if has('nvim')
 	Plug 'EdenEast/nightfox.nvim'
 
 else
-	Plug 'junegunn/seoul256.vim'
+	Plug 'joshdick/onedark.vim'
 endif
 
 " Set the colorscheme
@@ -27,8 +27,8 @@ endfunction
 if has('nvim')
 	let s:used_colorscheme = "nightfox"
 else
-	let g:seoul256_background = 236
-	let s:used_colorscheme = "seoul256"
+	set termguicolors
+	let s:used_colorscheme = "onedark"
 endif
 
 augroup ColorSchemeSet
