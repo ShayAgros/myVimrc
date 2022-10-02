@@ -27,6 +27,8 @@ function setup_luasnips()
 --	end
 	home_dir = vim.env.HOME
 	dofile(home_dir .. "/.vim/luasnip_snippets.lua")
+	vim.api.nvim_set_keymap("i", "<C-E>", "<Plug>luasnip-next-choice", {})
+	vim.api.nvim_set_keymap("s", "<C-E>", "<Plug>luasnip-next-choice", {})
 end
 
 vim.api.nvim_command("augroup luasnitAU")

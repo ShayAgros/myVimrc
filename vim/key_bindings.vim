@@ -27,9 +27,6 @@ inoremap <c-f> <right>
 " text while I try to surround it
 vnoremap <leader>s <nop>
 
-" copy relative path and line number to clipboard
-nnoremap <silent> <localleader>cl :let @+=fnamemodify(expand("%"), ":~:.") . "#L" . line(".")<cr>
-
 " follow symlink of a file
 " ("borrowed from" https://github.com/tpope/vim-fugitive/issues/147#issuecomment-47286687)
 nnoremap <silent> <localleader>af :exec "file ". resolve(expand('%:p'))<cr>:e<CR>
@@ -117,7 +114,7 @@ nnoremap c "_c
 
 " open a new tab in the same directory as the file
 " I'm editing now
-	nnoremap <silent> <leader>t	:tabnew %:h<CR>
+	nnoremap <silent> <leader>t	:tabnew<CR>
 
 " exit from normal/termianl window with \w
 	"nnoremap <silent> <leader>w     :q<CR>
@@ -135,12 +132,13 @@ nnoremap c "_c
 function! Seach_given_word(word)
 	let index = match(a:word, '[a-zA-Z0-9]')
 
+	let b:sword = escape(a:word, '\')
 	" TODO: You probably still need to place the < character
 	" after the non-keyword char, but this would do for now
 	if index == 0
-		let search_exp = "\\V\\<" . a:word
+		let search_exp = "\\V\\<" . b:sword
 	else
-		let search_exp = "\\V" . a:word
+		let search_exp = "\\V" . b:sword
 	endif
 
 	"echo search_exp
@@ -214,13 +212,4 @@ nnoremap <silent> <M-j> :cn<cr>
 nnoremap <silent> <M-k> :cp<cr>
 nnoremap <silent> <M-f> :cf<cr>
 nnoremap <silent> <M-q> :call Toggle_quicklist()<cr>
-" }}}
-
-" CW {{{
-
-function! s:ApplyCWKB()
-
-endfunction
-
-autocmd FileType cw_logs call s:ApplyCWKB()
 " }}}

@@ -21,4 +21,4 @@ let g:airline#extensions#obsession#enabled = 1
 let g:airline#extensions#obsession#indicator_text = '✍️'
 
 "function! AirlineInit()
-    "let g:airline_section_a = 
+    "let g:airline_section_a =

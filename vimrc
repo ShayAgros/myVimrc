@@ -6,12 +6,13 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   finish
 endif
 
-" Load general configs that should come first
-source ~/.vim/general_configs.vim
-
 if has('nvim')
 	source ~/.vim/neovim_specific.vim
+	luafile ~/.vim/lua/custom_functions.lua
 endif
+
+" Load general configs that should come first
+source ~/.vim/general_configs.vim
 
 " keybindings
 source ~/.vim/key_bindings.vim
@@ -23,13 +24,16 @@ augroup ft_plugins
 	autocmd FileType verilog_systemverilog set nospell
 	autocmd FileType python set nospell
 	" it's more intuitive this way
-	autocmd FileType qf nnoremap <silent> <cr> :.cc<cr>
+	autocmd FileType qf nnoremap <buffer> <silent> <cr> :.cc<cr>
 	autocmd BufRead,BufNewFile *.txt set filetype=markdown
 	autocmd BufRead,BufNewFile nx.log* set filetype=cw_logs
 	autocmd BufRead,BufNewFile messages-* set filetype=cw_gp_messages
 	autocmd BufRead,BufNewFile consolelog-* set filetype=cw_consolelog
+	autocmd BufRead,BufNewFile .projectinfo set filetype=project_info
 	autocmd BufRead,BufNewFile dmesg* set filetype=dmesg
 	autocmd BufRead,BufNewFile CMakeLists.txt set filetype=cmake
+	" Remove new lines when saving
+"	autocmd BufWritePre * :%s/\s\+$//e
 augroup END
 " }}}
 
@@ -47,7 +51,12 @@ source ~/.vim/plugins/nvim-lsp.vim
 source ~/.vim/plugins/telescope.vim
 
 source ~/.vim/plugins/nvim-treesitter.vim
-source ~/.vim/plugins/status_bar.vim
+if has('nvim')
+luafile ~/.vim/plugins/lualine.lua
+else
+source ~/.vim/plugins/airline.vim
+endif
+
 " My own plugin. Ongoing development
 source ~/.vim/plugins/register_calltrace.vim
 
@@ -58,8 +67,9 @@ source ~/.vim/plugins/netrw.vim
 source ~/.vim/plugins/fugitive.vim
 source ~/.vim/plugins/clever-f.vim
 source ~/.vim/plugins/marks.vim
-source ~/.vim/plugins/harpoon.vim
+"source ~/.vim/plugins/harpoon.vim
 source ~/.vim/plugins/lightspeed.vim
+source ~/.vim/plugins/pear-tree.vim
 source ~/.vim/other_plugins.vim
 
 " colorscheme
@@ -81,9 +91,10 @@ set timeoutlen=300
 " I usually want to know if I type correctly
 set spell
 
+" TODO: Move into project management section
 nnoremap <silent> <space>dr :!rm -rf ~/ena-drivers/tools/{upstream_release,external_git_release}/ena_release<cr>
 
 set hidden
 
 set mouse=a
-"let g:doge_doc_standard_c = 'kernel_doc'
+set runtimepath+=~/.vim/after

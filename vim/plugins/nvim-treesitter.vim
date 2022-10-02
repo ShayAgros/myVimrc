@@ -45,75 +45,11 @@ local function print_children_for_decendants(indentation, node, decendants)
 	end
 end
 
-function get_function_parameters()
-	local parsers = require'nvim-treesitter.parsers'
-	local ts_utils = require'nvim-treesitter.ts_utils'
-
-	if not parsers.has_parser() then 
-		print("err: no treesitter parser")
-		return
-	end
-
-	local function_param_query_str = [[
-	(parameter_declaration
-		(identifier) @val)
-	]]
-
-	local func_body_query_str = [[
-	(function_definition
-		body : (compound_statement) @func_body)
-	]]
-
-	local params_query = vim.treesitter.query.parse_query('c', function_param_query_str)
-	local func_body_query = vim.treesitter.query.parse_query('c', func_body_query_str)
-
-	local current_node = ts_utils.get_node_at_cursor()
-	if not current_node then return "" end
-
-	local params = {}
-	local row = -1
-	while current_node do
-
-		for _, child in ipairs(ts_utils.get_named_children(current_node)) do
-			if child:type() == "function_declarator" then
---				print_children_for_decendants("        ", child, {"parameter_list", "parameter_declaration", "pointer_declarator", "array_declarator"})
-
-				for id, node, metadata in params_query:iter_captures(current_node) do
---					print(id, node:type(), ts_utils.get_node_text(node, 0)[1])
-					table.insert(params, string.rep(" ", 8) .. "(void)".. ts_utils.get_node_text(node, 0)[1] .. ";")
-				end
-
-				for id, node, metadata in func_body_query:iter_captures(current_node) do
-					row, col, size = node:start()
-
-					row = row + 1
---					print("position:", "row: " .. tostring(row), "col: " .. tostring(col), "size: " .. tostring(size))
-				end
-			end
-		end
-
-		current_node = current_node:parent()
-	end
-
-	if #params == 0 or row == -1 then
-		print("Couldn't find function params or its start position")
-		return ""
-	end
-
-	-- insert an empty line after adding the 'void' keyword to each param
-	table.insert(params, "")
-	
-	vim.api.nvim_buf_set_lines(0, row, row, 0, params)
- 	for i, param in ipairs(params) do
- 		print(i, param)
- 	end
-end
-
 function list_treesitter()
 	local parsers = require'nvim-treesitter.parsers'
 	local ts_utils = require'nvim-treesitter.ts_utils'
 
-	if not parsers.has_parser() then 
+	if not parsers.has_parser() then
 		print("err: no treesitter parser")
 		return
 	end
@@ -123,7 +59,7 @@ function list_treesitter()
 
 	i = 1
 	while current_node do
-		
+
 		-- print(tostring(i) .. ":" .. current_node:type() .. "( " .. table.concat(ts_utils.get_node_text(current_node, 0), "!") .. ")")
 		print(tostring(i) .. ":" .. current_node:type() .. "( " .. ts_utils.get_node_text(current_node, 0)[1] .. " )")
 		for _, child in ipairs(ts_utils.get_named_children(current_node)) do
@@ -133,7 +69,7 @@ function list_treesitter()
 				print_children_for_decendants("        ", child, {"parameter_list", "parameter_declaration", "pointer_declarator", "array_declarator"})
 			end
 		end
-		
+
 		current_node = current_node:parent()
 		i = i + 1
 	end
@@ -147,14 +83,38 @@ function setup_ts()
 	end
 
 	ts_configs.setup {
+
+	  ensure_installed = { "c", "lua", "python", "javascript" },
 		highlight = {
 		  enable = true,
+		  -- Due to TS ability to parse pre-processor directives
+		  -- it's no use for C files \= see
+		  -- https://github.com/nvim-treesitter/nvim-treesitter/issues/1632
+            disable = {"c"},
 		  -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
 		  -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
 		  -- Using this option may slow down your editor, and you may see some duplicate highlights.
 		  -- Instead of true it can also be a list of languages
 		  additional_vim_regex_highlighting = true,
 		},
+	playground = {
+	    enable = true,
+	    disable = {},
+	    updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
+	    persist_queries = false, -- Whether the query persists across vim sessions
+	    keybindings = {
+	      toggle_query_editor = 'o',
+	      toggle_hl_groups = 'i',
+	      toggle_injected_languages = 't',
+	      toggle_anonymous_nodes = 'a',
+	      toggle_language_display = 'I',
+	      focus_language = 'f',
+	      unfocus_language = 'F',
+	      update = 'R',
+	      goto_node = '<cr>',
+	      show_help = '?',
+	    },
+	  },
 		incremental_selection = {
 		  enable = true,
 		  keymaps = {

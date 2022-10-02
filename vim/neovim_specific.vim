@@ -1,5 +1,5 @@
 " Add $HOME/.vim to default path
-set runtimepath^=~/.vim runtimepath+=~/.vim/after
+set runtimepath^=~/.vim
 let &packpath = &runtimepath
 
 " set python executables (why isn't it done by default?)

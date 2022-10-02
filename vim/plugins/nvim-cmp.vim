@@ -53,7 +53,7 @@ end
 			  ['<C-f>'] = cmp.mapping.scroll_docs(4),
 			  ['<C-Space>'] = cmp.mapping.complete(),
 			  ['<C-e>'] = cmp.mapping.abort(),
-			  ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+			  ['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 
 			  ['<C-d>'] = cmp.mapping(function(fallback)
 			  		if luasnip.expand_or_jumpable() then
@@ -90,12 +90,12 @@ end
 				})
 			})
 
-			cmp.setup.cmdline('/', {
-				mapping = cmp.mapping.preset.cmdline(),
-				sources = {
-				  { name = 'buffer' }
-				}
-			  })
+--			cmp.setup.cmdline('/', {
+--				mapping = cmp.mapping.preset.cmdline(),
+--				sources = {
+--				  { name = 'buffer' }
+--				}
+--			  })
 	end
 
 	vim.api.nvim_command("augroup NvimCmpAU")

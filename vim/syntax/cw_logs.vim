@@ -11,6 +11,7 @@ syntax match FunctionName ':\s[a-z_]\+:\s'ms=s+2,me=e-2
 syntax match ErrorString '\[ENA\]\[ERR\]'
 
 syntax match DirtyReset 'reset_reason_str\[\(NORMAL\|SHUTDOWN\)\@![A-Z_]\+\]'ms=s+17,me=e-1
+syntax match DriverVersion 'driver_version[0x[0-9a-f]\+]'ms=s+17,me=e-1
 
 syntax match WarningString '\[ENA\]\[WARN\]'
 

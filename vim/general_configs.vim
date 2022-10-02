@@ -2,6 +2,8 @@ set nocompatible " don't make vim 'vi compatible'
 
 syntax on " allow syntax highlighting
 
+let &t_ut=''
+
 " Make the theme dark. Only actually needed for VIM
 set background=dark
 

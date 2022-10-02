@@ -6,7 +6,7 @@ setlocal comments=sr:/*,mb:*,ex:*/,://
 let b:syntastic_mode = "passive"
 
 " don't search in *.patch files
-if g:my_telescope_supported == 1
+if exists("g:my_telescope_supported") && g:my_telescope_supported == 1
 lua << EOF
     ag_additional_args = {"--ignore", "*.patch"}
 EOF
@@ -28,11 +28,11 @@ if stridx(s:myfname, "/crt/") >= 0
 	set expandtab
 
 	" Configure compilation command
-	let b:dispatch="make -C aws-c-io/build"
-    nnoremap <silent> <space>cs :call jobstart("tmux split-window -d -p 20 'cd aws-c-io ; ~/workspace/scripts/send_changed_files.sh -i 1'")<cr>
+    "let b:dispatch="make -C aws-c-io/build"
+    "nnoremap <silent> <space>cs :call jobstart("tmux split-window -d -p 20 'cd aws-c-io ; ~/workspace/scripts/send_changed_files.sh -i 1'")<cr>
 
     " don't search in crt (where I installed the result of building) directory
-    if g:my_telescope_supported == 1
+    if exists("g:my_telescope_supported") && g:my_telescope_supported == 1
 lua << EOF
     ag_additional_args = vim.tbl_flatten{ag_additional_args, {"--ignore", "./sdk"}}
 EOF
@@ -52,9 +52,17 @@ else
 		let b:dispatch="gcc % -o " . expand("%:r")
 	endif
 endif
+
+if has('nvim')
+lua << EOF
+	project_settings = require("project_settings")
+	project_settings:configure_c_project()
+EOF
+endif
+
 " use C indentation
 set cindent
-set formatoptions=croql  
+set formatoptions=croql
 
 " In multiline argument list, start the next line right under the first argument
 " in previous line
@@ -65,7 +73,7 @@ set cino=(0
 " use zf to create manual foldings
 setlocal foldmethod=manual
 " don't start folded
-setlocal foldlevelstart=99 " start fokded
+setlocal foldlevelstart=99 " start folded
 "	}}}
 
 "	key bindings {{{

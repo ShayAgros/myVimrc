@@ -22,6 +22,7 @@ function ag_additional_args_func(opts)
     if ag_additional_args then
         return ag_additional_args
     end
+
     return nil
 end
 
@@ -35,6 +36,8 @@ function! SearchWordWithTelescope()
 endfunction
 nnoremap <silent> <space>s :lua search_with_ag()<CR>
 vnoremap <silent> <space>s "zy:F <C-R>z<CR>
+
+nnoremap <silent> glo :Telescope lsp_document_symbols<CR>
 
 lua << EOF
 local delete_buffer = function(prompt_entry)
@@ -50,6 +53,18 @@ local delete_buffer = function(prompt_entry)
 --	end
 --
 --	actions.close(prompt_entry)
+end
+
+local search_custom_string = function(prompt_entry)
+	local action_state = require "telescope.actions.state"
+	local actions = require('telescope.actions')
+	local picker = action_state.get_current_picker(prompt_entry)
+
+	picker:set_prompt("ena_netdev.c")
+--	actions.edit_command_line(prompt_entry)
+--	picker:delete_selection(function(entry)
+--		vim.api.nvim_command("bd " .. tostring(entry.bufnr))
+--	end)
 end
 
 local search_exact = function(prompt_entry)
@@ -76,7 +91,7 @@ local search_exact = function(prompt_entry)
 
 	new_finder = finders.new_oneshot_job(ag_com,
 										 {
-											 entry_maker = require("telescope.make_entry").gen_from_vimgrep{} 
+											 entry_maker = require("telescope.make_entry").gen_from_vimgrep{}
 										 })
 
 	-- TODO: this doesn't work... Needs fixing
@@ -112,6 +127,13 @@ function setup_telescope()
 				mappings = {
 					i = {
 						["<C-d>"] = delete_buffer,
+					},
+				},
+			},
+			find_files = {
+				mappings = {
+					i = {
+						["<C-d>"] = search_custom_string,
 					},
 				},
 			},
