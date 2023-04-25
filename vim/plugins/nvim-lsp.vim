@@ -75,17 +75,20 @@ function setup_lsp_clients()
 										 hint_prefix = "💡 ",}, bufnr)
 			end
 		end,
-		cmd = { "clangd", "--background-index", "-j", "4" },
+		cmd = { "clangd", "--background-index", "-j", "4", "--log=info" },
 		capabilities = capabilities
 	}
 
 --	require'lspconfig'.pylsp.setup{
+    local util = require 'lspconfig.util'
     require 'lspconfig'.pyright.setup {
 		on_attach = function(client)
-			vim.lsp.handlers["textDocument/publishDiagnostics"] = function() end
+--			vim.lsp.handlers["textDocument/publishDiagnostics"] = function() end
 			custom_lsp_attach(client)
 		end,
 		capabilities = capabilities,
+
+        root_dir = util.root_pattern(".git")
 	}
 
 	require'lspconfig'.bashls.setup{
@@ -99,7 +102,7 @@ function setup_lsp_clients()
 	local sumneko_binary_path = vim.fn.exepath('lua-language-server')
 	local sumneko_root_path = vim.fn.fnamemodify(sumneko_binary_path, ':h:h')
 	local runtime_path = vim.split(package.path, ';')
-	require'lspconfig'.sumneko_lua.setup {
+	require'lspconfig'.lua_ls.setup {
 		cmd = {sumneko_binary_path, "-E", sumneko_root_path .. "/main.lua"};
 		on_attach = function(client)
 			custom_lsp_attach(client)
@@ -127,6 +130,12 @@ function setup_lsp_clients()
 		}
 	}
 
+	require'lspconfig'.tsserver.setup{
+		on_attach = function(client)
+			custom_lsp_attach(client)
+		end,
+	}
+
 	configure_lsp_utils()
 end
 
@@ -150,42 +159,6 @@ function configure_lsp_signature()
 	lsp_signature.setup{
 		floating_window = false
 	}
-end
-
-function my_get_symbol_info()
-	local buffer_number = vim.api.nvim_get_current_buf()
-	local parameter = vim.lsp.util.make_position_params()
-	local buffer_clients = vim.lsp.get_active_clients()
-
-	local all_locations = {}
-
-	for _, client in ipairs(buffer_clients) do
-		local response = client.request_sync("textDocument/definition", parameter, nil, buffer_number)
-		table.insert(all_locations, response.result)
-	end
-
-	print("queried " .. tostring(#buffer_clients) .. " clients in buffer number " .. tostring(buffer_number))
-	print("there are", #vim.lsp.get_active_clients(), "client in this buffer")
-	print(vim.inspect(parameter))
-
-	if #all_locations > 0 then
-		print("Got a response")
-		print(vim.inspect(all_locations))
-	end
-end
-
-function my_resolve_symbol_info()
-	-- take the visual selection range
-	local params = vim.lsp.util.make_given_range_params(nil, nil, 0, "utf-8")
---	local params = vim.lsp.util.make_position_params(nil, "utf-8")
-	vim.pretty_print(params)
-
-	local res = vim.lsp.buf_request_sync(0, "textDocument/ast", params, 1000)
-	if res then
-		vim.pretty_print(res)
-		return
-	end
-	print("Didn't get response from server")
 end
 
 vim.cmd([[

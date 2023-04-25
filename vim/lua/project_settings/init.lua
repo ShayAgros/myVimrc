@@ -20,7 +20,6 @@ end
 M.Copy_gerrit_link = function(self)
 	local success, git_proj_path = self._get_git_dir()
 	if not success then
-		print("Couldn't identify git dir")
 		do return end
 	end
 
@@ -61,17 +60,59 @@ M.CopyAmazonCodeLink = function(self)
 	vim.fn.setreg("+", amazon_code_utl .. "/" .. origin_hash  .. "/--/" .. file_path .. "#L" .. line_nr)
 end
 
---- Identify what project is being used and configure it accordingly. If the
--- project isn't known, then don't configure anything
-M.configure_c_project = function(self)
+M.CopyLinuxElixirLink = function(self)
+end
+
+M.CopyLinuxNetLink = function(self)
 	local success, git_proj_path = self._get_git_dir()
 	if not success then
 		print("Couldn't identify git dir")
 		do return end
 	end
 
+  -- TODO: unify this across all function which create a URL
+	local git_proj_name = vim.fn.fnamemodify(git_proj_path, ":t")
+	local origin_hash = vim.fn.system("git -C " .. git_proj_path .. " rev-parse refs/remotes/origin/HEAD"):gsub("[\n\r]", "")
+	if vim.v.shell_error ~= 0 then
+		print("Couldn't execute the command:", "git -C " .. git_proj_path .. " rev-parse refs/remotes/origin/HEAD")
+		do return end
+	end
+
+	local linux_base_url = "https://git.kernel.org/pub/scm/linux/kernel/git/netdev/"
+	local linux_url = linux_base_url .. git_proj_name .. ".git/tree"
+
+	local file_path = api.nvim_buf_get_name(0):gsub(escape(git_proj_path) .. "/", "")
+	local line_nr = vim.fn.line('.')
+	vim.fn.setreg("+", linux_url .. "/" .. file_path .. "?id=" .. origin_hash .. "#n" .. line_nr)
+end
+
+
+M.isALgerrit = function(self)
+	local file_name = api.nvim_buf_get_name(0)
+	local file_dir = file_name:match("(.*/)")
+  local remote_url = vim.fn.system("git -C " .. file_dir.. " remote get-url origin 2> /dev/null")
+
+  if remote_url:match("gerrit.anpa.corp.amazon") then
+    return true
+  end
+
+  return false
+end
+
+--- Identify what project is being used and configure it accordingly. If the
+-- project isn't known, then don't configure anything
+M.configure_c_project = function(self)
+	local success, git_proj_path = self._get_git_dir()
+	if not success then
+		do return end
+	end
+
 	local amazon_gerrit_repos = {["ena-drivers"] = true, ["ena-com"] = true, ["ena"] = true}
 	local git_proj_name = vim.fn.fnamemodify(git_proj_path, ":t")
+
+  local fw_amazon_code_repos = { ['pp'] = true, ['ec2-nx'] = true }
+
+  local linux_net_repo = { ['net'] = true, ['net-next'] = true }
 
 	-- defaults
 	vim.b.dispatch = "gcc % -o " .. vim.fn.expand("%:r")
@@ -91,14 +132,20 @@ M.configure_c_project = function(self)
 		api.nvim_buf_set_keymap(0, "n", "<space>cl", '<cmd>lua require("project_settings"):CopyAmazonCodeLink()<cr>', map_ops)
 		api.nvim_buf_set_keymap(0, "n", "<space>cs", '<cmd>call jobstart(\'tmux split-window -d -p 20 "cd aws-c-io ; ~/workspace/scripts/send_changed_files.sh -i 1"\')<cr>', map_ops)
 	elseif amazon_gerrit_repos[git_proj_name] ~= nil then
-
 		vim.b.dispatch = "make"
 		api.nvim_buf_set_keymap(0, "n", "<space>cl", '<cmd>lua require("project_settings"):Copy_gerrit_link()<cr>', map_ops)
 		api.nvim_buf_set_keymap(0, "n", "<space>cs", '<cmd>call jobstart(\'tmux split-window -d -p 20 "~/workspace/scripts/send_changed_files.sh -i 1"\')<cr>', map_ops)
 	elseif git_proj_name:lower():find("libdx") then
 		api.nvim_buf_set_keymap(0, "n", "<space>cl", '<cmd>lua require("project_settings"):CopyAmazonCodeLink()<cr>', map_ops)
+  elseif fw_amazon_code_repos[git_proj_name] ~= nil then
+		api.nvim_buf_set_keymap(0, "n", "<space>cl", '<cmd>lua require("project_settings"):CopyAmazonCodeLink()<cr>', map_ops)
+  elseif linux_net_repo[git_proj_name] ~= nil then
+		api.nvim_buf_set_keymap(0, "n", "<space>cl", '<cmd>lua require("project_settings"):CopyLinuxNetLink()<cr>', map_ops)
 	end
 
+  if self.isALgerrit() then
+		api.nvim_buf_set_keymap(0, "n", "<space>cl", '<cmd>lua require("project_settings"):Copy_gerrit_link()<cr>', map_ops)
+  end
 end
 
 return M

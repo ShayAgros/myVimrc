@@ -7,5 +7,5 @@ endif
 
 Plug 'tpope/vim-fugitive'
 
-nnoremap <space>gs :Gdiff HEAD~1<cr>
-nnoremap <space>gb :Git blame<cr>
+nnoremap <silent> <space>gs :topleft Gvdiffsplit HEAD~1<cr>
+nnoremap <silent> <space>gb :Git blame<cr>

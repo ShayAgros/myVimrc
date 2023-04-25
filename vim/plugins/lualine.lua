@@ -19,6 +19,13 @@ local function is_obsession_set()
   return vim.call("ObsessionStatus", "📝")
 end
 
+local function print_virt_location()
+  local line = vim.fn.line('.')
+  local col = vim.fn.virtcol('.')
+
+  return string.format('%3d:%-2d', line, col)
+end
+
 local function Configure_lualine()
 	local success, lualine = pcall(require, 'lualine')
 
@@ -30,6 +37,7 @@ local function Configure_lualine()
     always_divide_middle = false,
     sections = {
       lualine_x = {is_obsession_set, 'encoding', 'fileformat', 'filetype'},
+      lualine_z = { print_virt_location }
     }
   }
 end

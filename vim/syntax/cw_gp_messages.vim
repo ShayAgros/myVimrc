@@ -2,7 +2,7 @@
 
 
 syntax match CarbonLog '[0-9]\+-[0-9]\+-[0-9]\+\s\([0-9]\+:\)\{3\}\s*(none) \(kern\|user\).[a-z]\+.*'
-syntax match RockhopperLog '[0-9]\+-[0-9]\+-[0-9]\+\s\([0-9]\+:\)\{3\}\s*(none) local0.info rockhopper\[[0-9]\+\]:.*'
+syntax match RockhopperLog '[0-9]\+-[0-9]\+-[0-9]\+\s\([0-9]\+:\)\{3\}\s*(none) local0.info.*'
 
 syntax match LinuxKernelLog 'kern.[a-z]\+ kernel: \[\s*[0-9]\+\.[0-9]\+\].*' contained containedin=CarbonLog
 syntax match LinuxUserLog '(none) user.[a-z]\+ [a-zA-Z-\.]\+: .*' contained containedin=CarbonLog

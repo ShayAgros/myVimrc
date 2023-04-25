@@ -330,5 +330,75 @@ function My_get_tags_in_file()
   }):find()
 end
 
+function My_shift_oncall_shift()
+  local roles = {}
+
+  local current_line = vim.api.nvim_get_current_line()
+  local new_line = current_line
+
+  for _, turn in ipairs({ "next", "curr" }) do
+    for _, role in ipairs({"driver", "firmware", "secondary", "Weekend"}) do
+      roles[turn] = roles[turn] or {}
+      local rstart, rend, name = string.find(current_line, turn .. "_ena_" .. role .. "=(%a+)")
+
+      roles[turn][role] = {}
+      roles[turn][role].name = name
+      roles[turn][role].rstart = rstart
+      roles[turn][role].rend = rend
+
+      -- ugly solution. Oh well
+      if turn == "curr" then
+        new_line = new_line:gsub(turn .. "_ena_" .. role .. "=(%a+)", turn .. "_ena_" .. role .. "=" .. roles["next"][role].name)
+      end
+    end
+  end
+
+  vim.api.nvim_buf_set_lines(0, 0, 1, false, {new_line})
+end
+
+function My_parse_vf_flags(flags_bitmap)
+  local bit = require("bit")
+
+  -- ENA VF features flags
+  local ena_vf_flags = {
+    ["ENA_VF_FLAGS_QUIESCED"] = 0,
+    ["ENA_VF_FLAGS_IS_FLR_ACK_REQ"] = 1,
+    ["ENA_VF_FLAGS_DRAIN_QUEUES"] = 2,
+    ["ENA_VF_FLAGS_LLQ_ALLOCATED"] = 3,
+    ["ENA_VF_FLAGS_DDP_SUPPORTED"] = 4,
+    ["ENA_VF_FLAGS_KNOWN_ERROR"] = 6,
+    ["ENA_VF_FLAGS_DUMPED_STATS_ON_STOP_JOB_ERROR"] = 7,
+    ["ENA_VF_FLAGS_IS_EFA"] = 8,
+    ["ENA_VF_FLAGS_EXTENDED_RX_USED"] = 9,
+    ["ENA_VF_FLAGS_FORCE_STOP"] = 11,
+    ["ENA_VF_FLAGS_NX_REQUIRES_RX_OFFSET"] = 12,
+    ["ENA_VF_FLAGS_HOST_SUPPORTS_RX_OFFSET"] = 13,
+    ["ENA_VF_FLAGS_USER_VF"] = 14,
+    ["ENA_VF_FLAGS_HOST_USE_RX_MODERATION"] = 15,
+    ["ENA_VF_FLAGS_HOST_USE_TX_MODERATION"] = 16,
+    ["ENA_VF_FLAGS_MSIX_0_FOR_IO"] = 17,
+    ["ENA_VF_FLAGS_IPP_SUPPORTED"] = 18,
+    ["ENA_VF_FLAGS_PUPA_SUPPORTED"] = 19,
+    ["ENA_VF_FLAGS_XDP_ENABLED"] = 20,
+    ["ENA_VF_FLAGS_DPDK_RECENTLY_ATTACHED"] = 21,
+    ["ENA_VF_FLAGS_HOST_SUPPORTS_AL8_ACCEL"] = 22,
+    ["ENA_VF_FLAGS_HOST_DOESNT_SUPPORT_AL8_ACCEL"] = 23,
+  }
+
+  if not flags_bitmap then
+    return
+  end
+
+  local enabled_features = {}
+  for flag_name, flag_bit in pairs(ena_vf_flags) do
+    local bit_set = bit.band(flags_bitmap, bit.lshift(1, flag_bit))
+    if bit_set then
+      table.insert(enabled_features, flag_name)
+    end
+  end
+
+  print(table.concat(enabled_features, "\n"))
+end
+
 vim.api.nvim_set_keymap('n', '<leader>ec', '<cmd>lua My_get_nvim_config_file()<CR>', {noremap = true})
 vim.api.nvim_set_keymap('n', '<space>o', '<cmd>lua My_get_tags_in_file()<CR>', {noremap = true})

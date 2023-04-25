@@ -90,7 +90,7 @@ function setup_ts()
 		  -- Due to TS ability to parse pre-processor directives
 		  -- it's no use for C files \= see
 		  -- https://github.com/nvim-treesitter/nvim-treesitter/issues/1632
-            disable = {"c"},
+--            disable = {"c"},
 		  -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
 		  -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
 		  -- Using this option may slow down your editor, and you may see some duplicate highlights.

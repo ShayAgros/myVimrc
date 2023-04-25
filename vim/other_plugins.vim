@@ -19,7 +19,11 @@ Plug 'dhruvasagar/vim-table-mode'
 " Add a comment to text blocks
 Plug 'scrooloose/nerdcommenter'
 
+" nvim would use its lua counterpart
+if ! has('nvim')
 " Surround blocks with custom characthers
 Plug 'tpope/vim-surround'
+endif
+
 " enhances vim-surround by adding '.' capability
 Plug 'tpope/vim-repeat'

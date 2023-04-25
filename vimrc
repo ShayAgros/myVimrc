@@ -9,6 +9,7 @@ endif
 if has('nvim')
 	source ~/.vim/neovim_specific.vim
 	luafile ~/.vim/lua/custom_functions.lua
+	luafile ~/.vim/lua/custom_functions_playground.lua
 endif
 
 " Load general configs that should come first
@@ -39,12 +40,15 @@ augroup END
 
 call plug#begin('~/.vim/plugged')
 
+if has('nvim')
+luafile ~/.vim/plugins/mason.lua
+endif
 " autocompletion
 source ~/.vim/plugins/nvim-cmp.vim
 source ~/.vim/plugins/UltiSnips.vim " Used by VIM
 source ~/.vim/plugins/luasnip.vim " Used by Neovim
 " lsp config
-source ~/.vim/plugins/nvim-lsp.vim
+"source ~/.vim/plugins/nvim-lsp.vim
 
 " Telescope should be configured before various plugins
 " as it is used by them
@@ -52,7 +56,11 @@ source ~/.vim/plugins/telescope.vim
 
 source ~/.vim/plugins/nvim-treesitter.vim
 if has('nvim')
+luafile ~/.vim/plugins/nvim-lsp.lua
 luafile ~/.vim/plugins/lualine.lua
+luafile ~/.vim/plugins/nvim-surround.lua
+luafile ~/.vim/plugins/zen-mode.lua
+" luafile ~/.vim/plugins/cscope.lua
 else
 source ~/.vim/plugins/airline.vim
 endif
