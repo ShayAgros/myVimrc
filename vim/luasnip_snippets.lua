@@ -95,21 +95,19 @@ ls.add_snippets("c", {
 		header
 	})
 
-config_file_snippet = s("draft", {
-	t('DEPS_APT=""'),
-	t("\n\n"),
-	t("function check_if_installed() {
-
-		return 1
-	}"),
-	t("\n\n"),
-	t("funcion install_component() {
-
-		return 0
-	}"),
+local config_file_snippet = s("draft", {
+	t({'DEPS_APT=""', "", ""}),
+	t({"function check_if_installed() {", "", "\treturn 1", "}", "", ""}),
+	t({"function install_component() {", "", "\treturn 0", "}"}),
 })
 
-ls.add_snippets("c", {
-		header
+local if_app = s("ifapp", {
+  t({"if which "}), i(1), t({" >/dev/null ; then", ""}),
+  t({"\treturn 0", "", "fi"})
+})
+
+ls.add_snippets("sh", {
+		config_file_snippet,
+		if_app
 	})
 --printk("Shay @%s(%d): sq: %u, cq: %u, adapter: %f\n", __func__, __LINE__);
