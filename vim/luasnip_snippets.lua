@@ -95,4 +95,21 @@ ls.add_snippets("c", {
 		header
 	})
 
+config_file_snippet = s("draft", {
+	t('DEPS_APT=""'),
+	t("\n\n"),
+	t("function check_if_installed() {
+
+		return 1
+	}"),
+	t("\n\n"),
+	t("funcion install_component() {
+
+		return 0
+	}"),
+})
+
+ls.add_snippets("c", {
+		header
+	})
 --printk("Shay @%s(%d): sq: %u, cq: %u, adapter: %f\n", __func__, __LINE__);
