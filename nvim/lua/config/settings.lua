@@ -1,4 +1,3 @@
-
 -- line numbers {{{
 -- Show line number
 vim.opt.number = true
@@ -25,6 +24,7 @@ vim.opt.updatetime = 50
 -- Search {{{
 vim.opt.incsearch = true
 vim.opt.smartcase = true
+vim.opt.ignorecase = true
 -- }}}
 
 vim.opt.termguicolors = true
@@ -72,6 +72,9 @@ vim.opt.formatoptions="tcrol"
 vim.opt.shiftwidth = 4
 -- when autoindenting, use 4 spaces
 vim.opt.tabstop = 4
+
+-- Use spaces over tabs by default
+vim.opt.expandtab = true
 -- }}}
 
 --  Sessions {{{

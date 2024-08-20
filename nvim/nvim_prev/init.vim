@@ -1,1 +1,0 @@
-/home/ANT.AMAZON.COM/shayagr/.vimrc
