@@ -2,6 +2,41 @@
 
 ---@class TreeSitterNode
 
+-- Once entering a new buffer, change the local directory to git directory if
+-- exists
+function Maybe_change_git_project()
+  local utils = require 'shayagr_utils'
+  local buffer_file = vim.api.nvim_buf_get_name(0)
+
+  if buffer_file then
+    local file_dir = buffer_file:match("(.*/)")
+    local git_dir = utils.get_git_dir(file_dir)
+
+    if git_dir then
+      --print(git_dir)
+      vim.cmd('lcd ' .. git_dir)
+      --vim.fn.lcd(git_dir)
+    end
+  end
+end
+
+function Clean_trailing_spaces_in_file()
+  local buff_lines = vim.api.nvim_buf_get_lines(0, 0, -1, true)
+  local modified_lines = {}
+  local some_lines_changed = false
+
+  for _, line in ipairs(buff_lines) do
+    local new_line = vim.fn.substitute(line, '\\s\\+$', '', '')
+    some_lines_changed = some_lines_changed or (new_line ~= line)
+
+    table.insert(modified_lines, new_line)
+  end
+
+  if some_lines_changed then
+    vim.api.nvim_buf_set_lines(0, 0, -1, true, modified_lines)
+  end
+end
+
 --- Find the first parent TreeSitter node whose type matches the @type
 ---@param type string
 ---@return TreeSitterNode | nil
@@ -398,6 +433,63 @@ function My_parse_vf_flags(flags_bitmap)
   end
 
   print(table.concat(enabled_features, "\n"))
+end
+
+function GetCloudWatchLink()
+  local row, column = unpack(vim.api.nvim_win_get_cursor(0))
+
+  local line = vim.api.nvim_buf_get_lines(0, row - 1, row, false)
+
+  -- Search for the expression 'dom:[number]'
+  local dom, i, j
+  while true do
+      i, j = string.find(line[1], "dom:%d+", i and (i + 1) or 0) -- find next dom occurrence
+      if i == nil then break end
+
+      -- column is 0 based, while lua is 1-based (who'd have thought that's an
+      -- issue ?)
+      if i < column and column <= j then
+        dom = string.sub(line[1], i, j)
+        break
+      end
+    end
+
+  if not dom then
+    print("Couldn't extract dom from line")
+    return
+  end
+
+  dom = string.gsub(dom, ":", "-")
+
+  local file_path = vim.api.nvim_buf_get_name(0)
+  local _, _, file_name = string.find(file_path, "([^/]+)$")
+  print("dom is", dom, "file name", file_name)
+  if not file_name then
+    print("Couldn't extract filename from", file_path)
+    return
+  end
+
+  local starttime_d, starttime_t, endtime_d, endtime_t
+  _, j, starttime_d, starttime_t = string.find(file_name, "(%d+)-(%d+)")
+  _, _, endtime_d, endtime_t = string.find(file_name, "(%d+)-(%d+)", j + 1)
+
+  if not (starttime_t and starttime_d and endtime_d and endtime_t) then
+    print("Couldn't extract time range from file name")
+  end
+
+  local az
+  _, _, az = string.find(file_path, "/([^/]+)/[^/]+/[^/]+$")
+  if not az then
+    print("Couldn't extract az from file path", file_path)
+    return
+  end
+
+  local efa_tool_cmd = "efa_tool cw" .. " -z " .. az .. " -c " .. dom
+  efa_tool_cmd = efa_tool_cmd .. " -s " .. starttime_d .. "T" .. starttime_t
+  efa_tool_cmd = efa_tool_cmd .. " -e " .. endtime_d .. "T" .. endtime_t
+
+  print("(Copied to clipboard)", efa_tool_cmd)
+  vim.fn.setreg("+", efa_tool_cmd)
 end
 
 vim.api.nvim_set_keymap('n', '<leader>ec', '<cmd>lua My_get_nvim_config_file()<CR>', {noremap = true})

@@ -6,18 +6,19 @@ if !has('nvim-0.5.0')
 	finish
 endif
 
-Plug 'L3MON4D3/LuaSnip'
-Plug 'honza/vim-snippets'
+Plug 'L3MON4D3/LuaSnip', {'tag': 'v2.*', 'do': 'make install_jsregexp'}
 Plug 'molleweide/LuaSnip-snippets.nvim'
 
 lua << EOF
 
 function setup_luasnips()
-	local success, luasnip = pcall(require, 'luasnip')
+	local success, ls = pcall(require, 'luasnip')
 
 	if not success then
 		return
 	end
+
+    ls.log.set_loglevel("info")
 	require("luasnip.loaders.from_snipmate").lazy_load()
 --	luasnip.snippets = require("luasnip_snippets").load_snippets
     -- located in ~/.vim
@@ -27,8 +28,15 @@ function setup_luasnips()
 --	end
 	home_dir = vim.env.HOME
 	dofile(home_dir .. "/.vim/luasnip_snippets.lua")
-	vim.api.nvim_set_keymap("i", "<C-E>", "<Plug>luasnip-next-choice", {})
-	vim.api.nvim_set_keymap("s", "<C-E>", "<Plug>luasnip-next-choice", {})
+
+    vim.keymap.set({"i"}, "<C-K>", function() require("luasnip").expand() end, {silent = true})
+    vim.keymap.set({"i", "s"}, "<C-L>", function() require("luasnip").jump( 1) end, {silent = true})
+    vim.keymap.set({"i", "s"}, "<C-J>", function() require("luasnip").jump(-1) end, {silent = true})
+    vim.keymap.set({"i", "s"}, "<C-E>", function()
+        if ls.choice_active() then
+            ls.change_choice(1)
+        end
+    end, {silent = true})
 end
 
 vim.api.nvim_command("augroup luasnitAU")

@@ -114,6 +114,26 @@ local function setup_lua_lsp()
   }
 end
 
+-- Setup the Q-Developer (code-whisperer) language server
+local function setup_cwls_lsp()
+  local lspconfig = require 'lspconfig'
+  local configs = require 'lspconfig.configs'
+
+  if not configs.codewhisperer then
+    configs.codewhisperer = {
+      default_config = {
+        -- Add the codewhisperer to our PATH or BIN folder
+        cmd = { "cwls" },
+        on_attach = generic_on_attach,
+        root_dir = lspconfig.util.root_pattern("packageInfo", "package.json", "tsconfig.json", "jsconfig.json", ".git"),
+        filetypes = { 'java', 'python', 'typescript', 'javascript', 'csharp', 'ruby', 'kotlin', 'shell', 'sql', 'c',
+          'cpp', 'go', 'rust', 'lua' },
+      },
+    }
+  end
+  lspconfig.codewhisperer.setup {}
+end
+
 local function setup_lsps()
 	local success, lspconfig = pcall(require, 'lspconfig')
 	if not success then
@@ -123,9 +143,11 @@ local function setup_lsps()
   setup_c_lsp()
   setup_python_lsp()
   setup_lua_lsp()
+  setup_cwls_lsp()
 
   -- generic lsp implementation
-  for _, server in ipairs({"bashls", "tsserver"}) do
+  --for _, server in ipairs({"bashls", "tsserver"}) do
+  for _, server in ipairs({"bashls"}) do
     lspconfig[server].setup {
       on_attach = generic_on_attach,
       capabilities = require('cmp_nvim_lsp').default_capabilities(),

@@ -95,6 +95,22 @@ iab #b /********************************************************
 iab #l /*------------------------------------------------------*/
 "	}}}
 
+" Dirty huck to enable LSP on buffers opened with neovim itself.
+" If Neovim starts with C file, the LSP doesn't attach for some reason, so do it
+" later
+func ShayStartLsp(timer)
+	echom "Executing LspStart"
+	:LspStart
+endfunc
+
+if g:first_init == 0
+	if exists(":LspStart")
+		let g:first_init = 1
+		let timer = timer_start(1000, 'ShayStartLsp')
+	endif
+endif
+
+
 " BUGS TO FIX: 1) The new line is unindented
 "		2) The search doesn't recognize the letter it's on
 "		3) The search is not fo the current line only

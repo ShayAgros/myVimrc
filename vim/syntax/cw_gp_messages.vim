@@ -1,6 +1,5 @@
 " syntax file for gp-messages CloudWatch log
 
-
 syntax match CarbonLog '[0-9]\+-[0-9]\+-[0-9]\+\s\([0-9]\+:\)\{3\}\s*(none) \(kern\|user\).[a-z]\+.*'
 syntax match RockhopperLog '[0-9]\+-[0-9]\+-[0-9]\+\s\([0-9]\+:\)\{3\}\s*(none) local0.info.*'
 

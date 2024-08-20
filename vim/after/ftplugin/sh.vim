@@ -41,3 +41,5 @@ function! RunBashProgram()
 endfunction
 
 nnoremap <silent> <buffer> <space>c :call RunBashProgram()<cr>
+
+set expandtab

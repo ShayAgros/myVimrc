@@ -29,7 +29,7 @@ vnoremap <leader>s <nop>
 
 " follow symlink of a file
 " ("borrowed from" https://github.com/tpope/vim-fugitive/issues/147#issuecomment-47286687)
-nnoremap <silent> <localleader>af :exec "file ". resolve(expand('%:p'))<cr>:e<CR>
+"nnoremap <silent> <localleader>af :exec "file ". resolve(expand('%:p'))<cr>:e<CR>
 
 "nnoremap <silent> [[ :executre "search('\(^[^ \t#]\)\|\(^{$\)', 'b')"<cr>
 

@@ -8,14 +8,10 @@ Plug 'nvim-lualine/lualine.nvim'
 
 -- vim obsession plugin icon
 local function is_obsession_set()
-  --print("Called to check")
   if not vim.fn.exists("*ObsessionStatus") then
     return ""
   end
 
-  --print("obsession function exists")
-
---  return vim.call("ObsessionStatus", "✍️")
   return vim.call("ObsessionStatus", "📝")
 end
 

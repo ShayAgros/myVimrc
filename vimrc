@@ -6,10 +6,13 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   finish
 endif
 
+let g:first_init = 0
+
 if has('nvim')
 	source ~/.vim/neovim_specific.vim
 	luafile ~/.vim/lua/custom_functions.lua
 	luafile ~/.vim/lua/custom_functions_playground.lua
+	luafile ~/.vim/lua/tree_sitter_scripts.lua
 endif
 
 " Load general configs that should come first
@@ -26,6 +29,7 @@ augroup ft_plugins
 	autocmd FileType python set nospell
 	" it's more intuitive this way
 	autocmd FileType qf nnoremap <buffer> <silent> <cr> :.cc<cr>
+	autocmd FileType gitrebase nnoremap <buffer> <silent> K :exec "G show --stat=80 -p " . expand("<cword>")<cr>
 	autocmd BufRead,BufNewFile *.txt set filetype=markdown
 	autocmd BufRead,BufNewFile nx.log* set filetype=cw_logs
 	autocmd BufRead,BufNewFile messages-* set filetype=cw_gp_messages
@@ -33,8 +37,9 @@ augroup ft_plugins
 	autocmd BufRead,BufNewFile .projectinfo set filetype=project_info
 	autocmd BufRead,BufNewFile dmesg* set filetype=dmesg
 	autocmd BufRead,BufNewFile CMakeLists.txt set filetype=cmake
-	" Remove new lines when saving
-"	autocmd BufWritePre * :%s/\s\+$//e
+	autocmd BufWritePre * lua Clean_trailing_spaces_in_file()
+	autocmd BufWinEnter *.c lua Maybe_change_git_project()
+	autocmd BufWinEnter *.h lua Maybe_change_git_project()
 augroup END
 " }}}
 
@@ -47,8 +52,6 @@ endif
 source ~/.vim/plugins/nvim-cmp.vim
 source ~/.vim/plugins/UltiSnips.vim " Used by VIM
 source ~/.vim/plugins/luasnip.vim " Used by Neovim
-" lsp config
-"source ~/.vim/plugins/nvim-lsp.vim
 
 " Telescope should be configured before various plugins
 " as it is used by them
@@ -60,6 +63,7 @@ luafile ~/.vim/plugins/nvim-lsp.lua
 luafile ~/.vim/plugins/lualine.lua
 luafile ~/.vim/plugins/nvim-surround.lua
 luafile ~/.vim/plugins/zen-mode.lua
+luafile ~/.vim/plugins/neotree.lua
 " luafile ~/.vim/plugins/cscope.lua
 else
 source ~/.vim/plugins/airline.vim

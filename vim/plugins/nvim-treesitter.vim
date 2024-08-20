@@ -128,27 +128,43 @@ function setup_ts()
 		  enable = true
 		},
 		textobjects = {
-		move = {
-		  	  enable = true,
-		  	  set_jumps = true, -- whether to set jumps in the jumplist
-		  	  goto_next_start = {
-		  	  ["]m"] = "@function.outer",
-		  	  ["]]"] = "@class.outer",
-		  	  },
-		    goto_next_end = {
-		    ["]M"] = "@function.outer",
-		    ["]["] = "@class.outer",
-		    },
-		goto_previous_start = {
-		["[["] = "@function.outer",
-		--			["[["] = "@class.outer",
-		},
-		goto_previous_end = {
-			["[M"] = "@function.outer",
-			["[]"] = "@class.outer",
+			move = {
+				  enable = true,
+				  set_jumps = true, -- whether to set jumps in the jumplist
+				  goto_next_start = {
+				  ["]m"] = "@function.outer",
+				  ["]]"] = "@class.outer",
+				  },
+				goto_next_end = {
+				["]M"] = "@function.outer",
+				["]["] = "@class.outer",
+				},
+				goto_previous_start = {
+					["[["] = "@function.outer",
+				},
+				goto_previous_end = {
+					["[M"] = "@function.outer",
+					["[]"] = "@class.outer",
+				},
 			},
-		    },
-		}
+
+			swap = {
+				  enable = true,
+				  swap_next = {
+					["<leader>a"] = "@myparam.inner",
+				  },
+				  swap_previous = {
+					["<leader>A"] = "@parameter.inner",
+				  },
+				},
+			select = {
+				  enable = true,
+				  keymaps = {
+					-- Your custom capture.
+					["aF"] = "@myparam.outer",
+				  },
+			},
+		},
 	}
 end
 

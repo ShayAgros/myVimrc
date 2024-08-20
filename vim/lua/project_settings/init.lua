@@ -8,25 +8,27 @@ local function escape(s)
     return (s:gsub('[%-%.%+%[%]%(%)%$%^%%%?%*]','%%%1'))
 end
 
-M._get_git_dir = function()
+Get_git_dir = function()
 
 	local file_name = api.nvim_buf_get_name(0)
 	local file_dir = file_name:match("(.*/)")
 
 	local git_dir = vim.fn.system("git -C " .. file_dir.. " rev-parse --sq --show-toplevel 2> /dev/null")
-	return vim.v.shell_error == 0, git_dir:gsub("[\n\r]", "")
+
+  git_dir, _ = git_dir:gsub("[\n\r]", "")
+	return vim.v.shell_error == 0, git_dir
 end
 
 M.Copy_gerrit_link = function(self)
-	local success, git_proj_path = self._get_git_dir()
+	local success, git_proj_path = Get_git_dir()
 	if not success then
 		do return end
 	end
 
 	local git_proj_name = vim.fn.fnamemodify(git_proj_path, ":t")
-	local origin_hash = vim.fn.system("git -C " .. git_proj_path .. " rev-parse refs/remotes/origin/HEAD"):gsub("[\n\r]", "")
+	local origin_hash = vim.fn.system("git -C " .. git_proj_path .. " rev-parse --short refs/remotes/origin/HEAD"):gsub("[\n\r]", "")
 	if vim.v.shell_error ~= 0 then
-		print("Couldn't execute the command:", "git -C " .. git_proj_path .. " rev-parse refs/remotes/origin/HEAD")
+		print("Couldn't execute the command:", "git -C " .. git_proj_path .. " rev-parse --short refs/remotes/origin/HEAD")
 		do return end
 	end
 
@@ -39,16 +41,16 @@ M.Copy_gerrit_link = function(self)
 end
 
 M.CopyAmazonCodeLink = function(self)
-	local success, git_proj_path = self._get_git_dir()
+	local success, git_proj_path = Get_git_dir()
 	if not success then
 		print("Couldn't identify git dir")
 		do return end
 	end
 
 	local git_proj_name = vim.fn.fnamemodify(git_proj_path, ":t")
-	local origin_hash = vim.fn.system("git -C " .. git_proj_path .. " rev-parse refs/remotes/origin/HEAD"):gsub("[\n\r]", "")
+	local origin_hash = vim.fn.system("git -C " .. git_proj_path .. " rev-parse --short refs/remotes/origin/HEAD"):gsub("[\n\r]", "")
 	if vim.v.shell_error ~= 0 then
-		print("Couldn't execute the command:", "git -C " .. git_proj_path .. " rev-parse refs/remotes/origin/HEAD")
+		print("Couldn't execute the command:", "git -C " .. git_proj_path .. " rev-parse --short refs/remotes/origin/HEAD")
 		do return end
 	end
 
@@ -60,11 +62,8 @@ M.CopyAmazonCodeLink = function(self)
 	vim.fn.setreg("+", amazon_code_utl .. "/" .. origin_hash  .. "/--/" .. file_path .. "#L" .. line_nr)
 end
 
-M.CopyLinuxElixirLink = function(self)
-end
-
 M.CopyLinuxNetLink = function(self)
-	local success, git_proj_path = self._get_git_dir()
+	local success, git_proj_path = Get_git_dir()
 	if not success then
 		print("Couldn't identify git dir")
 		do return end
@@ -72,9 +71,9 @@ M.CopyLinuxNetLink = function(self)
 
   -- TODO: unify this across all function which create a URL
 	local git_proj_name = vim.fn.fnamemodify(git_proj_path, ":t")
-	local origin_hash = vim.fn.system("git -C " .. git_proj_path .. " rev-parse refs/remotes/origin/HEAD"):gsub("[\n\r]", "")
+	local origin_hash = vim.fn.system("git -C " .. git_proj_path .. " rev-parse --short refs/remotes/origin/HEAD"):gsub("[\n\r]", "")
 	if vim.v.shell_error ~= 0 then
-		print("Couldn't execute the command:", "git -C " .. git_proj_path .. " rev-parse refs/remotes/origin/HEAD")
+		print("Couldn't execute the command:", "git -C " .. git_proj_path .. " rev-parse --short refs/remotes/origin/HEAD")
 		do return end
 	end
 
@@ -87,22 +86,39 @@ M.CopyLinuxNetLink = function(self)
 end
 
 
-M.isALgerrit = function(self)
+local function get_remote_url ()
 	local file_name = api.nvim_buf_get_name(0)
 	local file_dir = file_name:match("(.*/)")
   local remote_url = vim.fn.system("git -C " .. file_dir.. " remote get-url origin 2> /dev/null")
 
-  if remote_url:match("gerrit.anpa.corp.amazon") then
-    return true
-  end
+  return remote_url
+end
 
-  return false
+M.CopyGithubLink = function()
+	local success, git_proj_path = Get_git_dir()
+	if not success then
+		print("Couldn't identify git dir")
+		do return end
+	end
+
+	local hash = vim.fn.system("git -C " .. git_proj_path .. " rev-parse --short HEAD"):gsub("[\n\r]", "")
+
+  local remote_url = get_remote_url()
+  -- user/project_name
+  local project_identifier = remote_url:match("[/:]([-a-zA-Z0-9]+/[-a-zA-Z0-9]+).git")
+
+  local base_url = "https://github.com/" .. project_identifier .. "/blob"
+	local file_path = api.nvim_buf_get_name(0):gsub(escape(git_proj_path) .. "/", "")
+	local line_nr = vim.fn.line('.')
+
+  local url = base_url .. "/" .. hash .. "/" .. file_path .. "#L" .. line_nr
+	vim.fn.setreg("+", url)
 end
 
 --- Identify what project is being used and configure it accordingly. If the
 -- project isn't known, then don't configure anything
 M.configure_c_project = function(self)
-	local success, git_proj_path = self._get_git_dir()
+	local success, git_proj_path = Get_git_dir()
 	if not success then
 		do return end
 	end
@@ -143,11 +159,14 @@ M.configure_c_project = function(self)
 		api.nvim_buf_set_keymap(0, "n", "<space>cl", '<cmd>lua require("project_settings"):CopyLinuxNetLink()<cr>', map_ops)
 	end
 
-  if self.isALgerrit() then
+  local remote_url = get_remote_url()
+  if remote_url:match("gerrit.anpa.corp.amazon") then
 		api.nvim_buf_set_keymap(0, "n", "<space>cl", '<cmd>lua require("project_settings"):Copy_gerrit_link()<cr>', map_ops)
+  elseif remote_url:match("github.com") then
+		api.nvim_buf_set_keymap(0, "n", "<space>cl", '<cmd>lua require("project_settings"):CopyGithubLink()<cr>', map_ops)
   end
 end
 
 return M
---print(M:_get_git_dir())
+--print(M:Get_git_dir())
 --print(M:configure_c_project())

@@ -30,7 +30,7 @@ function! s:OpenObject()
 
 		let ticket = getline(".")[word_range[0]:word_range[1]]
 		echo "Opening ticket " . ticket
-		call jobstart("/usr/bin/sensible-browser https://sim.amazon.com/issues/" . ticket)
+		call jobstart("/usr/bin/firefox https://taskei.amazon.dev/tasks/" . ticket)
 	endif
 endfunction
 

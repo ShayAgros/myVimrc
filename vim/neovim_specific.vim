@@ -1,6 +1,6 @@
 " Add $HOME/.vim to default path
-set runtimepath^=~/.vim
-let &packpath = &runtimepath
+" set runtimepath^=~/.vim
+" let &packpath = &runtimepath
 
 " set python executables (why isn't it done by default?)
 let g:python3_host_prog = substitute(system("which python3"), '\n', '', '')
