@@ -7,6 +7,10 @@ if ! which nvim >/dev/null 2>&1 ; then
     exit 1
 fi
 
+if [[ ! -d ~/.config ]]; then
+    mkdir ~/.config
+fi
+
 if [[ -d ~/.config/nvim || -h ~/.config/nvim ]]; then
     [[ -d ~/.config/nvim_prev || -h ~/.config/nvim_prev ]] && rm -rf ~/.config/nvim_prev
     mv ~/.config/nvim ~/.config/nvim_prev
