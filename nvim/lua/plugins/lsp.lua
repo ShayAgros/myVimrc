@@ -37,7 +37,13 @@ return {
 
             mason.setup()
 
-            local mason_ensure_installed = vim.tbl_keys(server_configs or {})
+            local machine_arch = vim.system({ "uname", "-m" }):wait().stdout:gsub("[\n\r]", "")
+            local mason_ensure_installed = {}
+            -- Don't install any servers on non x86_64 machines as mason doesn't necessarily supports that
+            if machine_arch == "x86_64" then
+                mason_ensure_installed = { "clangd", "bashls", "pyright" }
+            end
+
             vim.list_extend(
                 mason_ensure_installed,
                 {
