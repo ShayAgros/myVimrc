@@ -9,7 +9,7 @@ local function get_git_dir()
     local file_name = api.nvim_buf_get_name(0)
 
     -- This should check whether we're in a real
-    -- file and not a temo buffer
+    -- file and not a temp buffer
     local f = io.open(file_name, "r")
     if f then
         f:close()
@@ -88,7 +88,7 @@ local function get_origin_host(git_dir)
     end
 
     -- ssh://git.amazon.com:2222/pkg/Aws-c-io
-    _, _, host, repo = string.find(remote_url, "ssh://([%a%.]+)[:%d]*/([%a%p]+)")
+    _, _, host, repo = string.find(remote_url, "ssh://([%a%.]+)[:%d]*/([%a%p%d]+)")
     if host and repo then
         return host, repo
     end
@@ -163,6 +163,21 @@ local function copy_github_link()
 	local file_path = api.nvim_buf_get_name(0):gsub(escape(git_dir) .. "/", "")
 	local line_nr = vim.fn.line('.')
     local url = base_url .. "/" .. remote_hash .. "/" .. file_path .. "#L" .. line_nr
+
+    -- We fetch some of the content in Github case to verify that the commit is indeed correct
+    -- local raw_url = "https://raw.githubusercontent.com/" .. project_name .. "/" .. remote_hash .. "/" .. file_path
+    -- local region_snippet = vim.system(
+    --     {
+    --         "curl",
+    --         "--silent",
+    --         raw_url,
+    --         "|",
+    --         "head"
+    --     }, {
+    --         text = true
+    --     }):wait()
+    -- print(region_snippet.stdout)
+
 
     print(url)
     vim.fn.setreg("+", url)

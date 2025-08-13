@@ -1,46 +1,69 @@
 return {
     "hrsh7th/nvim-cmp",
+    lazy = false,
+    priority = 100,
     dependencies = {
-        "L3MON4D3/LuaSnip",
-        "saadparwaiz1/cmp_luasnip",
+        "hrsh7th/cmp-nvim-lsp",
         'hrsh7th/cmp-path',
+        'hrsh7th/cmp-buffer',
+        { "L3MON4D3/LuaSnip" , build = "make install_jsregexp"},
+        "saadparwaiz1/cmp_luasnip",
     },
     config = function()
         local cmp = require("cmp")
-        local luasnip = require("luasnip")
 
-        luasnip.config.setup({})
+        vim.opt.completeopt = { "menu", "menuone", "noselect" }
+        -- vim.opt.shortmess:append("c")
 
         cmp.setup({
+            mapping = cmp.mapping.preset.insert({
+                ["<C-n>"] = cmp.mapping.select_next_item(),
+                ["<C-p>"] = cmp.mapping.select_prev_item(),
+                ["<C-s>"] = cmp.mapping.complete(),
+                ["<C-y>"] = cmp.mapping(
+                    cmp.mapping.confirm {
+                        behavior = cmp.ConfirmBehavior.Insert,
+                        select = true,
+                    }, { "i", "s" }),
+            }),
+
             snippet = {
                 expand = function(args)
-                    luasnip.lsp_expand(args.body)
+                    require("luasnip").lsp_expand(args.body)
                 end,
             },
-            mapping = cmp.mapping.preset.insert({
-                ["<C-p>"] = cmp.mapping.select_prev_item(),
-                ["<C-n>"] = cmp.mapping.select_next_item(),
-                ["<C-y>"] = cmp.mapping.confirm({ select = true }),
-                ["<C-l>"] = cmp.mapping(function()
-                    if luasnip.expand_or_locally_jumpable() then
-                        luasnip.expand_or_jump()
-                    end
-                end, { "i", "s" }),
-                ["<C-h>"] = cmp.mapping(function()
-                    if luasnip.locally_jumpable(-1) then
-                        luasnip.jump(-1)
-                    end
-                end, { "i", "s" }),
-            }),
+
             sources = cmp.config.sources({
                 { name = "nvim_lsp" },
-                {
-                    name = "lazydev",
-                    group_index = 0, -- set group index to 0 to skip loading LuaLS completions
-                },
-                { name = "luasnip" },
                 { name = "path" },
+                { name = "buffer" },
+                { name = "luasnip" },
             }),
+            experimental = {
+                ghost_text = true,
+            },
         })
+
+        local ls = require "luasnip"
+        ls.config.set_config {
+            history = false,
+            updateevents = "TextChanged, TextChangedI",
+        }
+
+        for _, ft_path in ipairs(vim.api.nvim_get_runtime_file("lua/custom/snippets/*.lua", true)) do
+            loadfile(ft_path)()
+        end
+
+        vim.keymap.set({"i", "s"}, "<c-j>", function ()
+            if ls.expand_or_jumpable() then
+                ls.expand_or_jump()
+            end
+        end, { silent = true })
+
+        vim.keymap.set({"i", "s"}, "<c-k>", function ()
+            if ls.jumpable(-1) then
+                ls.jump(-1)
+            end
+        end, { silent = true })
     end
 }

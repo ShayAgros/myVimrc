@@ -9,6 +9,7 @@ vim.opt.relativenumber= true
 -- Don't span long lines into several visual ones
 vim.opt.wrap = false
 
+vim.opt.spell = true
 
 -- backup and swap files {{{
 vim.opt.swapfile = false
