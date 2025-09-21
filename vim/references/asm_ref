@@ -1,2 +1,0 @@
-.fill repeat, size, value
-	put 'repeat' times the 'value' of size 'size'
