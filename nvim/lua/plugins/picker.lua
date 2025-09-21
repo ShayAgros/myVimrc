@@ -55,7 +55,7 @@ end
 function TestTelescopeString(search)
     search = search or "Runnable"
     require("snacks").picker.grep { search = search, live = false,
-        exclude = { "*.vim", "tmp/dryrun" },
+        exclude = { "*.vim", "tmp/dryrun", "build/" },
         format = Shayagr_format_results_for_brazil_ws
     }
 end
@@ -116,6 +116,30 @@ local delete_buffer = function(prompt_entry)
     end)
 end
 
+function brazil_entry_maker(entry, in_brazil)
+    if not in_brazil then
+        return require('telescope.make_entry').gen_from_file({})(entry)
+    end
+
+    local display_path = entry
+
+    -- More flexible pattern matching
+    local src_pattern = "^src/([^/]+)/(.+)$"
+    local repo_name, rest_of_path = entry:match(src_pattern)
+
+    if repo_name and rest_of_path then
+        display_path = "🇧🇷 " .. repo_name .. "/" .. rest_of_path
+    end
+
+    return {
+        value = entry,
+        display = display_path,
+        ordinal = display_path,
+        -- You can add more fields if needed
+        filename = entry,
+    }
+end
+
 return {
     "nvim-telescope/telescope.nvim",
     branch = "0.1.x",
@@ -158,7 +182,15 @@ return {
             }
         end)
 
-        keymap("<space><space>", builtin.find_files)
+        keymap("<space><space>", function()
+            local in_brazil = vim.b.in_brazil
+            builtin.find_files {
+                entry_maker = function (entry) return brazil_entry_maker(entry, in_brazil) end,
+                file_ignore_patterns = {
+                    "build/",           -- Any path containing build/
+                }
+            }
+        end)
         keymap("<space>a", function () builtin.buffers{ sort_mru = true, ignore_current_buffer = true } end)
         keymap("<space>s", function () search_with_ag { args = vim.fn.expand("<cword>") } end)
         keymap("<space>;", function () builtin.current_buffer_fuzzy_find() end)

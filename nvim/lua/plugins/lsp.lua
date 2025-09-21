@@ -25,87 +25,124 @@ return {
         },
 
         config = function()
-            local lspconfig = require("lspconfig")
-            local configs = require("lspconfig.configs")
-            local mason = require("mason")
-            local mason_lspconfig = require("mason-lspconfig")
-            local mason_tool_installer = require("mason-tool-installer")
-            local default_capabilities = vim.lsp.protocol.make_client_capabilities()
-            local cmp_nvim_lsp = require("cmp_nvim_lsp")
-            local clangd_config = require "lspconfig.configs.clangd"
-
-            vim.filetype.add({
-                filename = {
-                    ['Config'] = function()
-                        vim.b.brazil_package_Config = 1
-                        return 'brazil-config'
-                    end,
-                },
-            })
-            configs.barium = {
-                default_config = {
-                    cmd = {'barium'};
-                    filetypes = {'brazil-config'};
-                    root_dir = function(fname)
-                        return lspconfig.util.find_git_ancestor(fname)
-                    end;
-                    settings = {};
-                };
-            }
-            lspconfig.barium.setup({})
-            lspconfig.lua_ls.setup{}
-
-            local server_configs = {
-                -- Configure C LSP
-                -- clangd = {
-                --     on_attach = function()
-                --         vim.bo.tagfunc = ""
-                --     end
-                -- },
-                clangd = clangd_config,
-                bashls = {},
-                tsserver = {},
-                pyright = {
-                    cmd = { "pyright-langserver", "--stdio", "--verbose" },
-                },
+            -- Configure LSP using neovim native LSP
+            vim.lsp.config['pyright'] = {
+                -- Command and arguments to start the server.
+                cmd = { "pyright-langserver", "--stdio", "--verbose" },
+                -- Filetypes to automatically attach to.
+                filetypes = { 'python' },
+                -- Sets the "workspace" to the directory where any of these files is found.
+                -- Files that share a root directory will reuse the LSP server connection.
+                -- Nested lists indicate equal priority, see |vim.lsp.Config|.
+                root_markers = { '.git' },
             }
 
-            mason.setup()
+            vim.lsp.enable('pyright')
 
-            local machine_arch = vim.system({ "uname", "-m" }):wait().stdout:gsub("[\n\r]", "")
-            local mason_ensure_installed = {}
-            -- Don't install any servers on non x86_64 machines as mason doesn't necessarily supports that
-            -- if machine_arch == "x86_64" then
-            --     mason_ensure_installed = { "clangd", "bashls", "pyright" }
-            -- end
 
-            vim.list_extend(
-                mason_ensure_installed,
-                {
-                    -- place other packages you want to install but not configure with mason here
-                    -- e.g. language servers not configured with nvim-lspconfig, linters, formatters, etc.
-                    "jdtls",
-                }
-            )
-            mason_tool_installer.setup({
-                ensure_installed = mason_ensure_installed
-            })
+            vim.lsp.config['bashls'] = {
+                -- Command and arguments to start the server.
+                cmd = { "bash-language-server" , "start" },
+                -- Filetypes to automatically attach to.
+                filetypes = { 'bash', 'zsh', 'sh' },
+                -- Sets the "workspace" to the directory where any of these files is found.
+                -- Files that share a root directory will reuse the LSP server connection.
+                -- Nested lists indicate equal priority, see |vim.lsp.Config|.
+                root_markers = { '.git' },
+            }
 
-            mason_lspconfig.setup({
-                handlers = {
-                    function(server_name)
-                        local server_config = server_configs[server_name] or {}
-                        server_config.capabilities = vim.tbl_deep_extend(
-                            "force",
-                            default_capabilities,
-                            server_config.capabilities or {},
-                            cmp_nvim_lsp.default_capabilities()
-                        )
-                        lspconfig[server_name].setup(server_config)
-                    end,
-                    ['jdtls'] = function() end,
-                },
-            })
+            vim.lsp.enable('bashls')
+
+            vim.lsp.config['clangd'] = {
+                -- Command and arguments to start the server.
+                -- Filetypes to automatically attach to.
+                filetypes = { 'c', 'cpp' },
+            }
+
+            vim.lsp.enable('clangd')
+
+
+            -- local lspconfig = require("lspconfig")
+            -- local configs = require("lspconfig.configs")
+            -- local mason = require("mason")
+            -- local mason_lspconfig = require("mason-lspconfig")
+            -- local mason_tool_installer = require("mason-tool-installer")
+            -- local default_capabilities = vim.lsp.protocol.make_client_capabilities()
+            -- local cmp_nvim_lsp = require("cmp_nvim_lsp")
+            -- local clangd_config = require "lspconfig.configs.clangd"
+            --
+            -- vim.filetype.add({
+            --     filename = {
+            --         ['Config'] = function()
+            --             vim.b.brazil_package_Config = 1
+            --             return 'brazil-config'
+            --         end,
+            --     },
+            -- })
+            -- configs.barium = {
+            --     default_config = {
+            --         cmd = {'barium'};
+            --         filetypes = {'brazil-config'};
+            --         root_dir = function(fname)
+            --             return lspconfig.util.find_git_ancestor(fname)
+            --         end;
+            --         settings = {};
+            --     };
+            -- }
+            -- lspconfig.barium.setup({})
+            -- lspconfig.lua_ls.setup{}
+            --
+            -- local server_configs = {
+            --     -- Configure C LSP
+            --     -- clangd = {
+            --     --     on_attach = function()
+            --     --         vim.bo.tagfunc = ""
+            --     --     end
+            --     -- },
+            --     clangd = clangd_config,
+            --     bashls = {},
+            --     tsserver = {},
+            --     pyright = {
+            --         cmd = { "pyright-langserver", "--stdio", "--verbose" },
+            --     },
+            -- }
+            --
+            -- mason.setup()
+            --
+            -- local machine_arch = vim.system({ "uname", "-m" }):wait().stdout:gsub("[\n\r]", "")
+            -- local mason_ensure_installed = {}
+            -- -- Don't install any servers on non x86_64 machines as mason doesn't necessarily supports that
+            -- -- if machine_arch == "x86_64" then
+            -- --     mason_ensure_installed = { "clangd", "bashls", "pyright" }
+            -- -- end
+            --
+            -- vim.list_extend(
+            --     mason_ensure_installed,
+            --     {
+            --         -- place other packages you want to install but not configure with mason here
+            --         -- e.g. language servers not configured with nvim-lspconfig, linters, formatters, etc.
+            --         "jdtls",
+            --     }
+            -- )
+            -- mason_tool_installer.setup({
+            --     ensure_installed = mason_ensure_installed
+            -- })
+            --
+            -- mason_lspconfig.setup({
+            --     handlers = {
+            --         function(server_name)
+            --             local server_config = server_configs[server_name] or {}
+            --             server_config.capabilities = vim.tbl_deep_extend(
+            --                 "force",
+            --                 default_capabilities,
+            --                 server_config.capabilities or {},
+            --                 cmp_nvim_lsp.default_capabilities()
+            --             )
+            --             lspconfig[server_name].setup(server_config)
+            --         end,
+            --         ['jdtls'] = function() end,
+            --     },
+            -- })
 
             vim.api.nvim_create_autocmd("LspAttach", {
                 group = vim.api.nvim_create_augroup("lsp-attach-keybinds", { clear = true }),

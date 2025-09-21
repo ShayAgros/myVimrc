@@ -14,6 +14,10 @@ require ("addons.instance_sync")
 
 require ("addons.smartFileOpening")
 
+local termfeatures = vim.g.termfeatures or {}
+termfeatures.osc52 = false
+vim.g.termfeatures = termfeatures
+vim.g.clipboard = 'osc52'
 
 local general_au = vim.api.nvim_create_augroup("generalAU", {})
 vim.api.nvim_create_autocmd({ "BufReadPost" }, {
@@ -61,6 +65,10 @@ local function maybe_change_git_project()
     if root_dir then
         vim.cmd("lcd " .. root_dir)
     end
+
+    if vim.fs.root(0, "packageInfo") then
+        vim.b.in_brazil = true
+    end
 end
 local gitDir_au = vim.api.nvim_create_augroup("gitDirAU", {})
 vim.api.nvim_create_autocmd( { "BufWinEnter" }, {
@@ -68,22 +76,37 @@ vim.api.nvim_create_autocmd( { "BufWinEnter" }, {
     callback = function () maybe_change_git_project() end
 } )
 
+-- Add MTR include files to the path
+vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
+    pattern = {"*.inc", "*.test", "*.result"},
+    callback = function()
+        local dir_name = vim.fs.dirname(vim.api.nvim_buf_get_name(0))
+        local git_root = vim.fn.system('git -C ' .. dir_name .. ' rev-parse --show-toplevel 2>/dev/null'):gsub('\n$', '')
+        if vim.v.shell_error == 0 then
+            local mysql_test_path = git_root .. '/mysql-test'
+            -- Check if the directory exists
+            if vim.fn.isdirectory(mysql_test_path) == 1 then
+                vim.opt.path:append(mysql_test_path)
+            end
+        end
+    end
+})
 
-vim.opt.undofile = true
+-- vim.opt.undofile = true
 
 -- Add this to transform long paths
-vim.api.nvim_create_autocmd('BufWritePre', {
-  callback = function()
-    local path = vim.fn.expand('%:p')
-    -- Replace everything up to 'patches' with 'PATCHES'
-    local shortened = path:gsub('.*/patches/', 'PATCHES/'):gsub("/","%%")
-
-    print("new file name is " .. shortened)
-    -- vim.fn.wundo(shortened)
-
-    -- vim.cmd("wundo " .. shortened)
-    -- vim.opt.undofile = true
-    vim.bo.undofile = false
-    -- vim.b.undofile_name = shortened
-  end
-})
+-- vim.api.nvim_create_autocmd('BufWritePre', {
+--   callback = function()
+--     local path = vim.fn.expand('%:p')
+--     -- Replace everything up to 'patches' with 'PATCHES'
+--     local shortened = path:gsub('.*/patches/', 'PATCHES/'):gsub("/","%%")
+--
+--     print("new file name is " .. shortened)
+--     -- vim.fn.wundo(shortened)
+--
+--     -- vim.cmd("wundo " .. shortened)
+--     -- vim.opt.undofile = true
+--     vim.bo.undofile = false
+--     -- vim.b.undofile_name = shortened
+--   end
+-- })
