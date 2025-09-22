@@ -18,24 +18,21 @@ return {
         words = { enabled = true },
         picker = {
             enabled = true,
-            -- layout = {
-            --     backdrop = false,
-            --     row = 1,
-            --     width = 0.4,
-            --     min_width = 80,
-            --     height = 0.8,
-            --     border = "none",
-            --     box = "vertical",
-            --     { win = "preview", title = "{preview}", height = 0.4, border = "rounded" },
-            --     {
-            --         box = "vertical",
-            --         border = "rounded",
-            --         title = "{title} {live} {flags}",
-            --         title_pos = "center",
-            --         { win = "input", height = 1,     border = "bottom" },
-            --         { win = "list",  border = "none" },
-            --     },
-            -- },
         },
-    }
+    },
+    config = function(_, opts)
+        -- Setup with the opts (lazy.nvim passes opts as second parameter)
+        require("snacks").setup(opts)
+
+        -- Create the Notifications command
+        vim.api.nvim_create_user_command('Notifications', function()
+            Snacks.notifier.show_history()
+        end, {
+                desc = "Show notification history"
+            })
+
+        vim.keymap.set("n", "<leader>nh", function()
+            Snacks.notifier.show_history()
+        end, { desc = "Show notification history" })
+    end
 }

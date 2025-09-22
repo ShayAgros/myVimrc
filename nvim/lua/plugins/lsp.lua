@@ -1,3 +1,113 @@
+-- Lua LSP download and configuration {{{
+
+--- install lua-language-server if needed {{{
+-- Add this to your Neovim config
+-- Auto-install lua-language-server based on architecture
+local function install_luals_if_not_found()
+
+    -- Check if already installed
+    if vim.fn.executable('lua-language-server') == 1 then
+        return
+    end
+
+    local install_dir = vim.fn.expand("~/workspace/software/lua-language-server")
+    local bin_dir = vim.fn.expand("~/.local/bin")
+
+    -- Detect architecture
+    local arch = vim.fn.system("uname -m"):gsub("%s+", "") -- Remove whitespace/newlines
+    local url_arch
+
+    if arch == "aarch64" or arch == "arm64" then
+        url_arch = "arm64"
+    elseif arch == "x86_64" or arch == "amd64" then
+        url_arch = "x64" 
+    else
+        vim.notify(string.format("Unsupported architecture: %s", arch), vim.log.levels.ERROR)
+        return
+    end
+
+    local url = string.format(
+        "https://github.com/LuaLS/lua-language-server/releases/latest/download/lua-language-server-3.15.0-linux-%s.tar.gz",
+        url_arch
+    )
+
+    vim.notify(string.format("Installing lua-language-server for %s architecture...", arch), vim.log.levels.INFO)
+
+    -- Create directories
+    vim.fn.mkdir(install_dir, "p")
+    vim.fn.mkdir(bin_dir, "p")
+
+    -- Prepare the installation script
+    local script_content = string.format([[
+#!/bin/bash
+set -e
+cd %s
+wget %s -O lua-language-server.tar.gz
+tar xf lua-language-server.tar.gz
+rm lua-language-server.tar.gz
+ln -sf %s/bin/lua-language-server %s/lua-language-server
+echo "Installation completed successfully"
+]], 
+        vim.fn.shellescape(install_dir),
+        vim.fn.shellescape(url),
+        vim.fn.shellescape(install_dir),
+        vim.fn.shellescape(bin_dir)
+    )
+
+    -- Write script to temporary file
+    local script_file = vim.fn.tempname() .. ".sh"
+    local file = io.open(script_file, "w")
+    if file then
+        file:write(script_content)
+        file:close()
+        vim.fn.system("chmod +x " .. vim.fn.shellescape(script_file))
+
+        -- Run asynchronously
+        vim.fn.jobstart(script_file, {
+            on_exit = function(_, exit_code)
+                vim.schedule(function()
+                    if exit_code == 0 then
+                        vim.notify("✓ lua-language-server installed successfully!", vim.log.levels.INFO)
+                        vim.notify("Please restart Neovim or reload your LSP configuration", vim.log.levels.INFO)
+                    else
+                        vim.notify("✗ lua-language-server installation failed!", vim.log.levels.ERROR)
+                    end
+                    -- Clean up temporary script
+                    vim.fn.delete(script_file)
+                end)
+            end,
+            stdout_buffered = true,
+            stderr_buffered = true,
+        })
+    else
+        vim.notify("✗ Could not create installation script", vim.log.levels.ERROR)
+    end
+end
+--- }}}
+
+local function configure_lua_lsp()
+    vim.lsp.config['lua-ls'] = {
+        cmd = { 'lua-language-server' },
+        -- Filetypes to automatically attach to.
+        filetypes = { 'lua' },
+        root_markers = { { '.luarc.json', '.luarc.jsonc' }, '.git' },
+        settings = {
+            Lua = {
+                workspace = {
+                    library = vim.api.nvim_get_runtime_file("", true)
+                }
+            },
+        }
+    }
+    vim.lsp.enable('lua-ls')
+
+    -- Optional: Create a command to manually trigger installation
+    vim.api.nvim_create_user_command('InstallLuaLS', install_luals_if_not_found, {
+        desc = "Install lua-language-server if not found"
+    })
+end
+-- }}}
+
 return {
     {
         "mfussenegger/nvim-jdtls",
@@ -61,6 +171,8 @@ return {
 
             vim.lsp.enable('clangd')
 
+            configure_lua_lsp()
+
 
             -- local lspconfig = require("lspconfig")
             -- local configs = require("lspconfig.configs")
@@ -90,7 +202,6 @@ return {
             --     };
             -- }
             -- lspconfig.barium.setup({})
-            -- lspconfig.lua_ls.setup{}
             --
             -- local server_configs = {
             --     -- Configure C LSP
@@ -192,7 +303,7 @@ return {
             library = {
                 -- See the configuration section for more details
                 -- Load luvit types when the `vim.uv` word is found
-                { path = "luvit-meta/library", words = { "vim%.uv" } },
+                { path = "${3rd}/luv/library", words = { "vim%.uv" } },
             },
         },
     },

@@ -1,3 +1,38 @@
+-- Always keep 8 lines from each side of the current symbol
+-- for context
+vim.opt.scrolloff = 8
+vim.opt.signcolumn = "yes"
+-- Took it from a config I used. Not sure why this file name is
+-- good but let's try it
+vim.opt.isfname:append("@-@")
+
+-- Modify the terminal title according to nvim
+vim.opt.title = true
+
+-- Display the partial (keybinding) commands you type
+-- at lower left size of the screen
+vim.opt.showcmd = true
+
+-- Don't span long lines into several visual ones
+vim.opt.wrap = false
+
+vim.opt.spell = true
+
+-- Folding configuration {{{
+-- Use markers for folding
+vim.opt.foldmethod = "marker"
+
+-- Set fold level - sections will be folded when opening file
+-- 0 means all folds are closed by default
+vim.opt.foldlevel = 0
+
+-- Optional: Set fold column to show fold indicators in the gutter
+vim.opt.foldcolumn = "1"
+
+-- Optional: Don't fold lines with fewer than this many lines
+vim.opt.foldminlines = 1
+-- }}}
+
 -- line numbers {{{
 -- Show line number
 vim.opt.number = true
@@ -5,11 +40,6 @@ vim.opt.number = true
 vim.opt.relativenumber= true
 
 -- }}}
-
--- Don't span long lines into several visual ones
-vim.opt.wrap = false
-
-vim.opt.spell = true
 
 -- backup and swap files {{{
 vim.opt.swapfile = false
@@ -27,23 +57,6 @@ vim.opt.incsearch = true
 vim.opt.smartcase = true
 vim.opt.ignorecase = true
 -- }}}
-
-vim.opt.termguicolors = true
-
--- Always keep 8 lines from each side of the current symbol
--- for context
-vim.opt.scrolloff = 8
-vim.opt.signcolumn = "yes"
--- Took it from a config I used. Not sure why this file name is
--- good but let's try it
-vim.opt.isfname:append("@-@")
-
--- Modify the terminal title according to nvim
-vim.opt.title = true
-
--- Display the partial (keybinding) commands you type
--- at lower left size of the screen
-vim.opt.showcmd = true
 
 --- Window management {{{
 -- make new windows open on the right or on top of
@@ -87,4 +100,11 @@ vim.opt.expandtab = true
 --    tabpages  | all tab pages
 --    winsize   | window sizes
 vim.opt.sessionoptions="blank,buffers,curdir,tabpages,winsize"
+-- }}}
+
+-- Clipboard support {{{
+local termfeatures = vim.g.termfeatures or {}
+termfeatures.osc52 = false
+vim.g.termfeatures = termfeatures
+vim.g.clipboard = 'osc52'
 -- }}}
