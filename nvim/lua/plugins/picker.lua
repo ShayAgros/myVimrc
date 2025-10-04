@@ -1,62 +1,11 @@
----@param item snacks.picker.Item
----@param picker snacks.Picker
----@return snacks.picker.Highlight[]
-function Shayagr_format_results_for_brazil_ws(item, picker)
-    ---@type snacks.picker.Highlight[]
-    local ret = {}
-
-    if item.file then
-        local path = item.file
-
-        -- Transform src/[package]/main/java/[rest] -> [package]//[rest]
-        local package_name, file_type, rest_of_path = path:match("^src/([^/]+)/([^/]+)/java/(.+)$")
-
-        -- Add icon
-        if picker.opts.icons.files.enabled ~= false then
-            local icon, hl
-            if file_type == "test" then
-                icon = "T"         -- Simple T for test
-                hl = "SnacksPickerFile"
-            else
-                icon, hl = Snacks.util.icon(item.file, "file")
-            end
-            ret[#ret + 1] = { Snacks.picker.util.align(icon, 4), hl, virtual = true }
-        end
-
-        if package_name and file_type and rest_of_path then
-            -- Custom highlight group for package name
-            vim.api.nvim_set_hl(0, "CustomPackageName", { fg = "#B64DEB", bold = true })
-
-            -- Add bold colored package name
-            ret[#ret + 1] = { package_name, "CustomPackageName", field = "file" }
-            ret[#ret + 1] = { "//", "SnacksPickerDelim", field = "file" }
-            ret[#ret + 1] = { rest_of_path, "SnacksPickerFile", field = "file" }
-        else
-            -- Add normal path
-            ret[#ret + 1] = { path, "SnacksPickerFile", field = "file" }
-        end
-
-        -- Add position
-        if item.pos and item.pos[1] > 0 then
-            ret[#ret + 1] = { ":" .. item.pos[1], "SnacksPickerRow" }
-        end
-        ret[#ret + 1] = { " " }
-    end
-
-    -- Add line content
-    if item.line then
-        Snacks.picker.highlight.format(item, item.line, ret)
-    end
-
-    return ret
-end
+local formatters = require("formatters.snacks_formatters")
 
 ---@param search string
 function TestTelescopeString(search)
     search = search or "Runnable"
     require("snacks").picker.grep { search = search, live = false,
         exclude = { "*.vim", "tmp/dryrun", "build/" },
-        format = Shayagr_format_results_for_brazil_ws
+        format = formatters.Shayagr_format_brazil_ws
     }
 end
 
@@ -177,25 +126,25 @@ return {
         local builtin = require("telescope.builtin")
 
         keymap("<leader>sn", function()
-            builtin.find_files {
-                cwd = vim.fn.stdpath "config"
-            }
+            Snacks.picker.files { cwd = vim.fn.stdpath "config" }
         end)
 
         keymap("<space><space>", function()
-            local in_brazil = vim.b.in_brazil
-            builtin.find_files {
-                entry_maker = function (entry) return brazil_entry_maker(entry, in_brazil) end,
-                file_ignore_patterns = {
-                    "build/",           -- Any path containing build/
-                }
-            }
+            Snacks.picker.files()
         end)
-        keymap("<space>a", function () builtin.buffers{ sort_mru = true, ignore_current_buffer = true } end)
-        keymap("<space>s", function () search_with_ag { args = vim.fn.expand("<cword>") } end)
-        keymap("<space>;", function () builtin.current_buffer_fuzzy_find() end)
+        keymap("<space>a", function()
+            Snacks.picker.buffers()
+        end)
+        keymap("<space>s", function()
+            Snacks.picker.grep { search = vim.fn.expand("<cword>") }
+        end)
+        keymap("<space>;", function()
+            Snacks.picker.grep { search = "", cwd = vim.fn.expand("%:p:h") }
+        end)
 
         -- Search with ag with the F command
-        vim.api.nvim_create_user_command("F", search_with_ag, { desc = "search a string with Telescope", nargs = "*"})
+        vim.api.nvim_create_user_command("F", function(command)
+            Snacks.picker.grep { search = command.args }
+        end, { desc = "search a string with Snacks", nargs = "*"})
     end
 }

@@ -1,4 +1,3 @@
-
 -- Jump to the last position in a file {{{
 local general_au = vim.api.nvim_create_augroup("generalAU", {})
 vim.api.nvim_create_autocmd({ "BufReadPost" }, {
@@ -13,3 +12,5 @@ vim.api.nvim_create_autocmd({ "BufReadPost" }, {
     end,
 })
 -- }}}
+
+vim.fn.setreg('s', vim.fn.getcwd())

@@ -1,3 +1,4 @@
+-- Change to git/brazil project directory {{{
 local function maybe_change_git_project()
     local file_name = vim.api.nvim_buf_get_name(0)
 
@@ -25,3 +26,21 @@ vim.api.nvim_create_autocmd( { "BufWinEnter" }, {
     group = gitDir_au,
     callback = maybe_change_git_project
     })
+-- }}}
+
+-- Set git root path and register {{{
+vim.api.nvim_create_autocmd({ "BufEnter" }, {
+    group = gitDir_au,
+    callback = function()
+        vim.b.File_git_path = vim.fs.root(0, ".git")
+        vim.fn.setreg('g', vim.b.File_git_path or "")
+    end,
+})
+
+vim.api.nvim_create_autocmd({ "FocusGained" }, {
+    group = gitDir_au,
+    callback = function()
+        vim.fn.setreg('g', vim.b.File_git_path or "")
+    end,
+})
+-- }}}

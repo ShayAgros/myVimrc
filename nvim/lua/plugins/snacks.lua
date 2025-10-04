@@ -8,7 +8,6 @@ return {
         -- or leave it empty to use the default settings
         -- refer to the configuration section below
         bigfile = { enabled = false },
-        dashboard = { enabled = true },
         indent = { enabled = true },
         input = { enabled = true },
         notifier = { enabled = true },
@@ -18,6 +17,11 @@ return {
         words = { enabled = true },
         picker = {
             enabled = true,
+            sources = {
+                files = { format = require("formatters.snacks_formatters").Shayagr_format_brazil_ws },
+                buffers = { format = require("formatters.snacks_formatters").Shayagr_format_brazil_ws },
+                grep = { format = require("formatters.snacks_formatters").Shayagr_format_brazil_ws },
+            }
         },
     },
     config = function(_, opts)

@@ -3,7 +3,8 @@ local namesToTypes = {
     ["*.txt"] = "markdown",
     ["nx.log*"] = "nx_log",
     ["messages-*"] = "gp-messages",
-    ["consolelog-*"] = "consoleLog"
+    ["consolelog-*"] = "consoleLog",
+    ["*.tmux_scrollback"] = "tmux_scrollback"
 }
 
 local ft_au = vim.api.nvim_create_augroup("ftAU", {})
