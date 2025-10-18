@@ -18,9 +18,25 @@ return {
         picker = {
             enabled = true,
             sources = {
-                files = { format = require("formatters.snacks_formatters").Shayagr_format_brazil_ws },
-                buffers = { format = require("formatters.snacks_formatters").Shayagr_format_brazil_ws },
-                grep = { format = require("formatters.snacks_formatters").Shayagr_format_brazil_ws },
+                files = {
+                    format = require("formatters.snacks_formatters").Shayagr_format_brazil_ws,
+                    preview = require("formatters.snacks_formatters").Shayagr_workspace_aware_file_preview
+                },
+                buffers = {
+                    format = require("formatters.snacks_formatters").Shayagr_format_buffers_in_brazil_ws,
+                    preview = require("formatters.snacks_formatters").Shayagr_workspace_aware_file_preview,
+                    win = {
+                        input = {
+                            keys = {
+                                ["<C-d>"] = { "bufdelete", mode = { "n", "i" } },
+                            },
+                        },
+                    },
+                },
+                grep = {
+                    format = require("formatters.snacks_formatters").Shayagr_format_brazil_ws,
+                    preview = require("formatters.snacks_formatters").Shayagr_workspace_aware_file_preview
+                },
             }
         },
     },
