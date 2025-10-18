@@ -2,7 +2,7 @@
 local function get_custom_icon(file_path, file_type)
     if file_type == "test" then
         return "T", "SnacksPickerFile"
-    elseif file_path:match("mysql%-test") and (file_path:match("%.result$") or file_path:match("%.test$") or file_path:match("%.opt$")) then
+    elseif file_path:match("mysql%-test") and (file_path:match("%.result$") or file_path:match("%.test$") or file_path:match("%.opt$") or file_path:match("%.inc$")) then
         return "T", "SnacksPickerFile"
     end
     return nil
