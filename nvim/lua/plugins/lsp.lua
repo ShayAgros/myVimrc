@@ -131,6 +131,10 @@ return {
                 url = "ssh://git.amazon.com/pkg/VimBrazilConfig",
                 branch = "mainline",
                 ft = "brazil-config",
+                -- dont include if were not on amazon machine
+                enabled = function()
+                    return not vim.g.g_disable_amazon_plugins
+                end,
             },
         },
 
