@@ -1,3 +1,5 @@
+vim.g.g_disable_amazon_plugins = vim.fn.isdirectory(vim.fn.expand("~/.midway")) == 0
+
 require("config.settings")
 require("config.keymaps")
 require("config.abbrevations")
