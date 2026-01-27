@@ -14,6 +14,10 @@ return {
                 resume = "--resume",
                 verbose = "--verbose",
             },
+            window = {
+                position = "vertical",
+                split_ratio = 0.4,
+            },
             keymaps = {
                 toggle = {
                     normal = "<leader>ac", -- Normal mode keymap for toggling Claude Code, false to disable
