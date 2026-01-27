@@ -1,6 +1,6 @@
 return {
     name = "kiro-cli-nvim",
-    url = "ssh://git.amazon.com/pkg/KiroCliNvim",
+    dir = "/home/ANT.AMAZON.COM/shayagr/workspace/KiroCliNvim",
     dependencies = {
         "nvim-lua/plenary.nvim", -- Required for git operations
     },
@@ -16,8 +16,8 @@ return {
             },
             keymaps = {
                 toggle = {
-                    normal = "<C-,>", -- Normal mode keymap for toggling Claude Code, false to disable
-                    terminal = "<C-,>", -- Terminal mode keymap for toggling Claude Code, false to disable
+                    normal = "<leader>ac", -- Normal mode keymap for toggling Claude Code, false to disable
+                    terminal = "<leader>ac", -- Terminal mode keymap for toggling Claude Code, false to disable
                     variants = {
                         continue = "<leader>cC", -- Normal mode keymap for Claude Code with continue flag
                         verbose = "<leader>cV", -- Normal mode keymap for Claude Code with verbose flag
