@@ -1,6 +1,6 @@
 return {
     name = "kiro-cli-nvim",
-    dir = "/home/ANT.AMAZON.COM/shayagr/workspace/KiroCliNvim",
+    dir = vim.fn.expand("$HOME/workspace/KiroCliNvim"),
     dependencies = {
         "nvim-lua/plenary.nvim", -- Required for git operations
     },
