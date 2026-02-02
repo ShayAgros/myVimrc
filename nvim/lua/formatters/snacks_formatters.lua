@@ -23,9 +23,11 @@ local function format_brazil_path(path)
             path = rest_of_path
         }
     else
-        -- Replace $HOME with house emoji for regular paths
-        local home = vim.fn.expand('$HOME') .. "/"
-        path = path:gsub(home, "🏠//")
+        local home = vim.loop.fs_realpath(vim.fn.expand('$HOME')) .. "/"
+        local real_path = vim.loop.fs_realpath(path)
+        if real_path then
+            path = real_path:gsub(home, "🏠//")
+        end
         return {
             type = "regular",
             path = path

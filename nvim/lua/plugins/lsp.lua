@@ -27,7 +27,7 @@ local function install_luals_if_not_found()
     end
 
     local url = string.format(
-        "https://github.com/LuaLS/lua-language-server/releases/latest/download/lua-language-server-3.15.0-linux-%s.tar.gz",
+        "https://github.com/LuaLS/lua-language-server/releases/download/3.16.0/lua-language-server-3.16.0-linux-%s.tar.gz",
         url_arch
     )
 
@@ -72,8 +72,6 @@ echo "Installation completed successfully"
                     else
                         vim.notify("✗ lua-language-server installation failed!", vim.log.levels.ERROR)
                     end
-                    -- Clean up temporary script
-                    vim.fn.delete(script_file)
                 end)
             end,
             stdout_buffered = true,
@@ -109,10 +107,24 @@ end
 -- }}}
 
 return {
+    'nvimdev/lspsaga.nvim',
     {
         "mfussenegger/nvim-jdtls",
         dependencies = {
             "mfussenegger/nvim-dap"
+        }
+    },
+    {
+        "jbyuki/one-small-step-for-vimkind",
+        dependencies = {
+            "mfussenegger/nvim-dap"
+        }
+    },
+    {
+        "rcarriga/nvim-dap-ui",
+        dependencies = {
+            "mfussenegger/nvim-dap",
+            "nvim-neotest/nvim-nio"
         }
     },
     {
