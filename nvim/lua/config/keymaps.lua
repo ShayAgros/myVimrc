@@ -83,3 +83,6 @@ vim.keymap.set("n", "<M-k>", ":cp<cr>", { silent = true })
 vim.keymap.set("n", "<M-f>", ":cf<cr>", { silent = true })
 vim.keymap.set("n", "<M-q>", function() toggle_quickfixlist() end)
 -- }}}
+
+-- Disable path completion on C-e in command line to prevent freezing
+vim.keymap.set('c', '<C-e>', '<End>', { noremap = true })
