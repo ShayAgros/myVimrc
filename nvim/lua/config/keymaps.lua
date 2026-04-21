@@ -86,3 +86,12 @@ vim.keymap.set("n", "<M-q>", function() toggle_quickfixlist() end)
 
 -- Disable path completion on C-e in command line to prevent freezing
 vim.keymap.set('c', '<C-e>', '<End>', { noremap = true })
+
+-- Copy full filepath:line to clipboard
+vim.keymap.set("n", "<leader>cc", function()
+    local path = vim.fn.expand("%:p")
+    local line = vim.fn.line(".")
+    local result = path .. ":" .. line
+    vim.fn.setreg("+", result)
+    vim.notify(result, vim.log.levels.INFO)
+end, { desc = "Copy filepath:line to clipboard" })

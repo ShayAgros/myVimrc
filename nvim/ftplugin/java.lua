@@ -77,9 +77,8 @@ if patch_name then
 end
 
 local workspace_dir = home .. "/.cache/jdtls/workspace/" .. project_name
-local path_to_mason_packages = home .."/.local/share/nvim/mason/packages"
-local path_to_jdtls = path_to_mason_packages .. "/jdtls"
-local os_type = vim.fn.has("macunix") and "mac" or "linux"
+local path_to_jdtls = home .. "/workspace/software/jdtls"
+local os_type = vim.fn.has("macunix") == 1 and "mac" or "linux"
 local path_to_config = path_to_jdtls .. "/config_" .. os_type
 local path_to_lombok = path_to_jdtls .. "/lombok.jar"
 local path_to_plugins = path_to_jdtls .. "/plugins/"
