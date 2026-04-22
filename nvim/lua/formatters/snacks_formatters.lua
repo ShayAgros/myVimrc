@@ -152,6 +152,13 @@ function Shayagr_test_buffer()
         cwd = "/home/ANT.AMAZON.COM/shayagr/workspace/brazil/dev-kermit" })
 end
 
+function Shayagr_test_buffer()
+    Snacks.picker.buffers({
+        format = Shayagr_format_buffers_in_brazil_ws,
+        preview = Shayagr_workspace_aware_file_preview,
+        cwd = "/home/ANT.AMAZON.COM/shayagr/workspace/brazil/dev-kermit" })
+end
+
 return {
     Shayagr_format_brazil_ws = Shayagr_format_brazil_ws,
     Shayagr_format_buffers_in_brazil_ws = Shayagr_format_buffers_in_brazil_ws,

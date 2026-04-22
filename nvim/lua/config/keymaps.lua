@@ -86,3 +86,6 @@ vim.keymap.set("n", "<M-q>", function() toggle_quickfixlist() end)
 
 -- Disable path completion on C-e in command line to prevent freezing
 vim.keymap.set('c', '<C-e>', '<End>', { noremap = true })
+
+-- Brazil workspace picker (like gb in zsh)
+vim.keymap.set("n", "<leader>gb", function() require("addons.brazil_picker").pick() end, { desc = "Brazil workspaces" })

@@ -151,38 +151,31 @@ return {
         },
 
         config = function()
+            -- local cmp_caps = require("cmp_nvim_lsp").default_capabilities()
+
             -- Configure LSP using neovim native LSP
             vim.lsp.config['pyright'] = {
-                -- Command and arguments to start the server.
                 cmd = { "pyright-langserver", "--stdio", "--verbose" },
-                -- Filetypes to automatically attach to.
                 filetypes = { 'python' },
-                -- Sets the "workspace" to the directory where any of these files is found.
-                -- Files that share a root directory will reuse the LSP server connection.
-                -- Nested lists indicate equal priority, see |vim.lsp.Config|.
-                root_markers = { '.git' },
+                root_markers = { 'pyrightconfig.json', 'pyproject.toml', '.git' },
+                -- capabilities = cmp_caps,
             }
 
             vim.lsp.enable('pyright')
 
 
             vim.lsp.config['bashls'] = {
-                -- Command and arguments to start the server.
                 cmd = { "bash-language-server" , "start" },
-                -- Filetypes to automatically attach to.
                 filetypes = { 'bash', 'zsh', 'sh' },
-                -- Sets the "workspace" to the directory where any of these files is found.
-                -- Files that share a root directory will reuse the LSP server connection.
-                -- Nested lists indicate equal priority, see |vim.lsp.Config|.
                 root_markers = { '.git' },
+                -- capabilities = cmp_caps,
             }
 
             vim.lsp.enable('bashls')
 
             vim.lsp.config['clangd'] = {
-                -- Command and arguments to start the server.
-                -- Filetypes to automatically attach to.
                 filetypes = { 'c', 'cpp' },
+                -- capabilities = cmp_caps,
             }
 
             vim.lsp.enable('clangd')
@@ -285,7 +278,7 @@ return {
                     keymap("glT", builtin.lsp_type_definitions)
                     keymap('glD', vim.lsp.buf.declaration)
                     if snacks_exist then
-                        keymap('glR', snacks.picker.lsp_references)
+                        keymap('glR', require("addons.lsp_references_filter").lsp_references_with_filter)
                     else
                         keymap('glR', builtin.lsp_references)
                     end

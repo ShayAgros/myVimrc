@@ -2,9 +2,12 @@
 vim.opt_local.list = true
 vim.opt_local.listchars = "tab:T-"
 
--- every tab is 8 spaces
+-- Apply clang-format settings if available
+local clang_format = require('clang_format')
+clang_format.setup_buffer_indentation()
+
+-- Fallback defaults if no .clang-format found
 vim.opt_local.shiftwidth=8
--- when autoindenting, use 8 spaces
 vim.opt_local.tabstop=8
 vim.opt_local.expandtab = false
 

@@ -257,16 +257,12 @@ local function setup()
     local url_func
     if string.find(origin_host, "github") then
         url_func = copy_github_link
-        print("Found github repo")
     elseif string.find(origin_host, "gerrit.anpa") then
         url_func = copy_gerrit_link
-        print("found a gerrit repo")
     elseif string.find(origin_host, "git.amazon") then
         url_func = copy_amazon_code_link
-        print("found code amazon")
     elseif string.find(origin_host, "kernel.org") then
         url_func = copy_linux_repo_link
-        print("found linux kernel repo")
     end
 
     if url_func then

@@ -130,13 +130,13 @@ return {
         end)
 
         keymap("<space><space>", function()
-            Snacks.picker.files()
+            Snacks.picker.files{ pattern = "file:!build/ " }
         end)
         keymap("<space>a", function()
             Snacks.picker.buffers()
         end)
         keymap("<space>s", function()
-            Snacks.picker.grep { search = vim.fn.expand("<cword>") }
+            Snacks.picker.grep { search = vim.fn.expand("<cword>"), pattern = "file:!build/" }
         end)
         keymap("<space>;", function()
             Snacks.picker.grep { search = "", cwd = vim.fn.expand("%:p:h") }
@@ -144,7 +144,7 @@ return {
 
         -- Search with ag with the F command
         vim.api.nvim_create_user_command("F", function(command)
-            Snacks.picker.grep { search = command.args }
-        end, { desc = "search a string with Snacks", nargs = "*"})
+            Snacks.picker.grep { search = command.args, pattern = "file:!build/" }
+        end, { desc = "search a string with Snacks", nargs = "*" })
     end
 }

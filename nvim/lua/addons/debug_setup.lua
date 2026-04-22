@@ -1,8 +1,8 @@
 local dap = require('dap')
 local dapui = require('dapui')
 
--- Setup DAP UI
-dapui.setup()
+-- Setup DAP UI with custom watches
+require('addons.dapui_custom')
 
 -- Configure DAP signs
 vim.fn.sign_define('DapStopped', { text='→', texthl='DapStopped', linehl='CursorLine', numhl='DapStopped' })
@@ -30,77 +30,81 @@ local function get_c_expression_at_cursor()
 end
 
 local function debug_hover()
-  local session = dap.session()
-  if not session then
-    vim.notify('No active debug session', vim.log.levels.WARN)
-    return
-  end
-  
-  local expr
-  local mode = vim.fn.mode()
-  if mode == 'v' or mode == 'V' then
-    vim.cmd('normal! "vy')
-    expr = vim.fn.getreg('v')
-  else
-    local default_expr = get_c_expression_at_cursor()
-    expr = vim.fn.input('Expression: ', default_expr)
-    if expr == '' then return end
-  end
-  
-  -- Ensure we have a valid frame
-  if not session.current_frame then
-    session:_request_threads(function()
-      if session.stopped_thread_id then
-        session:request('stackTrace', { threadId = session.stopped_thread_id }, function(err, resp)
-          if not err and resp and resp.stackFrames and #resp.stackFrames > 0 then
-            session.current_frame = resp.stackFrames[1]
-          end
-        end)
-      end
-    end)
-  end
-  
-  session:request('evaluate', {
-    expression = 'print ' .. expr,
-    context = 'repl',
-    frameId = session.current_frame and session.current_frame.id
-  }, function(err, resp)
-    if err then
-      vim.notify('Error: ' .. vim.inspect(err), vim.log.levels.ERROR)
-      return
+    local dap = require('dap')
+    local session = dap.session()
+    if not session then
+        vim.notify('No active debug session', vim.log.levels.WARN)
+        return
     end
-    
-    local result = resp.result or resp.body and resp.body.result or 'No result'
-    local buf = vim.api.nvim_create_buf(false, true)
-    local lines = vim.split(result, '\n')
-    vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
-    vim.bo[buf].modifiable = false
-    vim.bo[buf].bufhidden = 'wipe'
-    
-    local width = math.min(80, vim.o.columns - 4)
-    local height = math.min(#lines, 20)
-    local win = vim.api.nvim_open_win(buf, false, {
-      relative = 'cursor',
-      row = 1,
-      col = 0,
-      width = width,
-      height = height,
-      style = 'minimal',
-      border = 'rounded',
-      focusable = false
-    })
-    
-    -- Close on cursor move
-    vim.api.nvim_create_autocmd({'CursorMoved', 'CursorMovedI', 'BufLeave'}, {
-      callback = function()
-        if vim.api.nvim_win_is_valid(win) then
-          vim.api.nvim_win_close(win, true)
-        end
-        return true
-      end,
-      once = true
-    })
-  end)
+
+    local expr
+    local mode = vim.fn.mode()
+    if mode == 'v' or mode == 'V' then
+        vim.cmd('normal! "vy')
+        expr = vim.fn.getreg('v')
+    else
+        local default_expr = get_c_expression_at_cursor()
+        expr = vim.fn.input('Expression: ', default_expr)
+        if expr == '' then return end
+    end
+
+    -- Ensure we have a valid frame
+    if not session.current_frame then
+        session:_request_threads(function()
+            if session.stopped_thread_id then
+                session:request('stackTrace', { threadId = session.stopped_thread_id }, function(err, resp)
+                    if not err and resp and resp.stackFrames and #resp.stackFrames > 0 then
+                        session.current_frame = resp.stackFrames[1]
+                    end
+                end)
+            end
+        end)
+    end
+
+    local adapter_type = session.config and session.config.type
+    local eval_expr = (adapter_type == 'gdb' or adapter_type == 'udb') and ('print ' .. expr) or expr
+
+    session:request('evaluate', {
+        expression = eval_expr,
+        context = 'repl',
+        frameId = session.current_frame and session.current_frame.id
+    }, function(err, resp)
+            if err then
+                vim.notify('Error: ' .. vim.inspect(err), vim.log.levels.ERROR)
+                return
+            end
+
+            local result = resp.result or resp.body and resp.body.result or 'No result'
+            local buf = vim.api.nvim_create_buf(false, true)
+            local lines = vim.split(result, '\n')
+            vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+            vim.bo[buf].modifiable = false
+            vim.bo[buf].bufhidden = 'wipe'
+
+            local width = math.min(80, vim.o.columns - 4)
+            local height = math.min(#lines, 20)
+            local win = vim.api.nvim_open_win(buf, false, {
+                relative = 'cursor',
+                row = 1,
+                col = 0,
+                width = width,
+                height = height,
+                style = 'minimal',
+                border = 'rounded',
+                focusable = false
+            })
+
+            -- Close on cursor move
+            vim.api.nvim_create_autocmd({'CursorMoved', 'CursorMovedI', 'BufLeave'}, {
+                callback = function()
+                    if vim.api.nvim_win_is_valid(win) then
+                        vim.api.nvim_win_close(win, true)
+                    end
+                    return true
+                end,
+                once = true
+            })
+        end)
 end
 
 -- Auto-open/close UI and set debug keymaps
@@ -124,10 +128,12 @@ end
 
 require('addons.dap.lua')
 
+require('addons.dap.java')
+
 -- Keymaps for debugging
 vim.keymap.set('n', '<F5>', function() require('dap').continue() end, { desc = 'Debug: Continue' })
 vim.keymap.set('n', '<Leader><F5>', function()
-  vim.ui.select({'c', 'cpp', 'lua'}, {
+  vim.ui.select({'c', 'cpp', 'java', 'lua'}, {
     prompt = 'Select language:',
   }, function(choice)
     if choice then

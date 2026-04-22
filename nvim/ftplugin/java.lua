@@ -87,17 +87,18 @@ local path_to_plugins = path_to_jdtls .. "/plugins/"
 local path_to_jar = path_to_plugins .. find_file(path_to_plugins, "org.eclipse.equinox.launcher_")
 
 local bundles = {
-  vim.fn.glob("/home/ANT.AMAZON.COM/shayagr/workspace/software/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar", true),
-};
+  vim.fn.glob(home .. "/workspace/software/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar", true),
+}
 
--- This is the new part
-vim.list_extend(bundles, vim.split(vim.fn.glob("/home/ANT.AMAZON.COM/shayagr/workspace/software/vscode-java-test/server/*.jar", true), "\n"))
+local vscode_test_jars = vim.fn.glob(home .. "/workspace/software/vscode-java-test/server/*.jar", true)
+if vscode_test_jars ~= "" then
+  vim.list_extend(bundles, vim.split(vscode_test_jars, "\n"))
+end
 
 local config = {
     cmd = {
-        -- assumes the java binary is in your PATH and at least java17;
-        -- if not, specify the full path to the binary
-        "java",
+        -- jdtls requires Java 21+
+        "/usr/lib/jvm/java-21-amazon-corretto/bin/java",
         "-Declipse.application=org.eclipse.jdt.ls.core.id1",
         "-Dosgi.bundles.defaultStartLevel=4",
         "-Declipse.product=org.eclipse.jdt.ls.core.product",
@@ -121,9 +122,9 @@ local config = {
         workspace_dir,
     },
 
-    -- init_options = {
-    --     bundles = bundles
-    -- },
+    init_options = {
+        bundles = bundles
+    },
 
     root_dir = root_dir,
 
@@ -160,8 +161,10 @@ local config = {
         }
     },
 
-    -- run our bemol function when the LSP attaches to the buffer
-    on_attach = bemol,
+    on_attach = function()
+        bemol()
+        require('jdtls').setup_dap({ hotcodereplace = 'auto' })
+    end,
 }
 
 jdtls.start_or_attach(config)

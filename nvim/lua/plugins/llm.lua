@@ -1,3 +1,19 @@
+-- Default Keybindings:
+-- Normal mode:
+--   <leader>ac  - Toggle Claude Code terminal
+--   <leader>cC  - Open Claude Code with --continue flag
+--   <leader>cV  - Open Claude Code with --verbose flag
+--   <leader>cs  - Send visual selection to Claude Code (visual mode)
+--   <leader>cab - Send all open buffers context to Claude Code
+--   <leader>cb  - Send current buffer to Claude Code
+-- Terminal mode:
+--   <leader>ac  - Toggle Claude Code terminal
+--   <C-h/j/k/l> - Navigate between windows
+--   <C-f/b>     - Scroll page down/up
+--   <Esc><Esc>  - Enter normal mode
+--   #           - Open file picker
+--   <leader>cb  - Send current buffer to Claude Code
+
 return {
     name = "kiro-cli-nvim",
     dir = vim.fn.expand("$HOME/workspace/KiroCliNvim"),
@@ -29,6 +45,10 @@ return {
                 },
                 window_navigation = true, -- Enable window navigation keymaps (<C-h/j/k/l>)
                 scrolling = true, -- Enable scrolling keymaps (<C-f/b>) for page up/down
+                file_picker = "#", -- Terminal mode keymap for file picker (false to disable)
+                send_selection = "<leader>cs", -- Visual mode keymap for sending selection to Claude Code (false to disable)
+                send_buffers = "<leader>cab", -- Normal mode keymap for sending all open buffers context (false to disable)
+                send_alternate = "<leader>cb", -- Normal/Terminal mode keymap for sending current buffer (false to disable)
             },
         })
     end,
