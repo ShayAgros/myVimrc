@@ -84,8 +84,25 @@ vim.keymap.set("n", "<M-f>", ":cf<cr>", { silent = true })
 vim.keymap.set("n", "<M-q>", function() toggle_quickfixlist() end)
 -- }}}
 
+-- diagnostics {{{
+
+vim.keymap.set("n", "]g", function() vim.diagnostic.jump{ count = 1 } end)
+vim.keymap.set("n", "[g", function() vim.diagnostic.jump{ count = -1 } end)
+
+-- }}}
+
+
 -- Disable path completion on C-e in command line to prevent freezing
 vim.keymap.set('c', '<C-e>', '<End>', { noremap = true })
 
 -- Brazil workspace picker (like gb in zsh)
 vim.keymap.set("n", "<leader>gb", function() require("addons.brazil_picker").pick() end, { desc = "Brazil workspaces" })
+
+-- Copy full filepath:line to clipboard
+vim.keymap.set("n", "<leader>cc", function()
+    local path = vim.fn.expand("%:p")
+    local line = vim.fn.line(".")
+    local result = path .. ":" .. line
+    vim.fn.setreg("+", result)
+    vim.notify(result, vim.log.levels.INFO)
+end, { desc = "Copy filepath:line to clipboard" })

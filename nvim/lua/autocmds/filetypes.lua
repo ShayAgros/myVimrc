@@ -4,7 +4,10 @@ local namesToTypes = {
     ["nx.log*"] = "nx_log",
     ["messages-*"] = "gp-messages",
     ["consolelog-*"] = "consoleLog",
-    ["*.tmux_scrollback"] = "tmux_scrollback"
+    ["*.tmux_scrollback"] = "tmux_scrollback",
+    ["mysql-error*"] = "mysql_error_log",
+    ["grover.*"] = "csd_log",
+    ["rds-application.*"] = "hm_log"
 }
 
 local ft_au = vim.api.nvim_create_augroup("ftAU", {})

@@ -37,6 +37,14 @@ return {
                     format = require("formatters.snacks_formatters").Shayagr_format_brazil_ws,
                     preview = require("formatters.snacks_formatters").Shayagr_workspace_aware_file_preview
                 },
+                diagnostics = {
+                    sort = function(a, b)
+                        if a.severity ~= b.severity then
+                            return a.severity < b.severity  -- Errors (1) before warnings (2)
+                        end
+                        return a.lnum < b.lnum  -- Then by line number
+                    end
+                },
             }
         },
     },

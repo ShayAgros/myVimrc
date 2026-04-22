@@ -16,7 +16,7 @@
 
 return {
     name = "kiro-cli-nvim",
-    dir = vim.fn.expand("$HOME/workspace/KiroCliNvim"),
+    url = "ssh://git.amazon.com/pkg/KiroCliNvim",
     dependencies = {
         "nvim-lua/plenary.nvim", -- Required for git operations
     },
