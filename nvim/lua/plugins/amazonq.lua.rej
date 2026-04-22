@@ -1,0 +1,10 @@
+diff a/nvim/lua/plugins/amazonq.lua b/nvim/lua/plugins/amazonq.lua	(rejected hunks)
+@@ -5,5 +5,8 @@ return {
+     opts = {
+       ssoStartUrl = https://amzn.awsapps.com/start,  -- Authenticate with Amazon Q Free Tier
+     },
++    enabled = function()
++            return not vim.g.g_disable_amazon_plugins
++    end
+   },
+ }

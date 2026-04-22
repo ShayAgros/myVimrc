@@ -20,14 +20,14 @@ local function install_luals_if_not_found()
     if arch == "aarch64" or arch == "arm64" then
         url_arch = "arm64"
     elseif arch == "x86_64" or arch == "amd64" then
-        url_arch = "x64" 
+        url_arch = "x64"
     else
         vim.notify(string.format("Unsupported architecture: %s", arch), vim.log.levels.ERROR)
         return
     end
 
     local url = string.format(
-        "https://github.com/LuaLS/lua-language-server/releases/latest/download/lua-language-server-3.15.0-linux-%s.tar.gz",
+        "https://github.com/LuaLS/lua-language-server/releases/download/3.16.0/lua-language-server-3.16.0-linux-%s.tar.gz",
         url_arch
     )
 
@@ -47,7 +47,7 @@ tar xf lua-language-server.tar.gz
 rm lua-language-server.tar.gz
 ln -sf %s/bin/lua-language-server %s/lua-language-server
 echo "Installation completed successfully"
-]], 
+]],
         vim.fn.shellescape(install_dir),
         vim.fn.shellescape(url),
         vim.fn.shellescape(install_dir),
@@ -72,8 +72,6 @@ echo "Installation completed successfully"
                     else
                         vim.notify("✗ lua-language-server installation failed!", vim.log.levels.ERROR)
                     end
-                    -- Clean up temporary script
-                    vim.fn.delete(script_file)
                 end)
             end,
             stdout_buffered = true,
@@ -118,9 +116,6 @@ return {
     {
         "neovim/nvim-lspconfig",
         dependencies = {
-            "williamboman/mason.nvim",
-            "williamboman/mason-lspconfig.nvim",
-            'WhoIsSethDaniel/mason-tool-installer.nvim',
             -- Display a status message when indexing code
             { 'j-hui/fidget.nvim', opts = {} },
             -- Show function signature when you type
@@ -175,89 +170,13 @@ return {
 
             vim.lsp.enable('clangd')
 
+            vim.lsp.config['gopls'] = {
+                filetypes = { 'go' }
+            }
+
+            vim.lsp.enable('gopls')
+
             configure_lua_lsp()
-
-
-            -- local lspconfig = require("lspconfig")
-            -- local configs = require("lspconfig.configs")
-            -- local mason = require("mason")
-            -- local mason_lspconfig = require("mason-lspconfig")
-            -- local mason_tool_installer = require("mason-tool-installer")
-            -- local default_capabilities = vim.lsp.protocol.make_client_capabilities()
-            -- local cmp_nvim_lsp = require("cmp_nvim_lsp")
-            -- local clangd_config = require "lspconfig.configs.clangd"
-            --
-            -- vim.filetype.add({
-            --     filename = {
-            --         ['Config'] = function()
-            --             vim.b.brazil_package_Config = 1
-            --             return 'brazil-config'
-            --         end,
-            --     },
-            -- })
-            -- configs.barium = {
-            --     default_config = {
-            --         cmd = {'barium'};
-            --         filetypes = {'brazil-config'};
-            --         root_dir = function(fname)
-            --             return lspconfig.util.find_git_ancestor(fname)
-            --         end;
-            --         settings = {};
-            --     };
-            -- }
-            -- lspconfig.barium.setup({})
-            --
-            -- local server_configs = {
-            --     -- Configure C LSP
-            --     -- clangd = {
-            --     --     on_attach = function()
-            --     --         vim.bo.tagfunc = ""
-            --     --     end
-            --     -- },
-            --     clangd = clangd_config,
-            --     bashls = {},
-            --     tsserver = {},
-            --     pyright = {
-            --         cmd = { "pyright-langserver", "--stdio", "--verbose" },
-            --     },
-            -- }
-            --
-            -- mason.setup()
-            --
-            -- local machine_arch = vim.system({ "uname", "-m" }):wait().stdout:gsub("[\n\r]", "")
-            -- local mason_ensure_installed = {}
-            -- -- Don't install any servers on non x86_64 machines as mason doesn't necessarily supports that
-            -- -- if machine_arch == "x86_64" then
-            -- --     mason_ensure_installed = { "clangd", "bashls", "pyright" }
-            -- -- end
-            --
-            -- vim.list_extend(
-            --     mason_ensure_installed,
-            --     {
-            --         -- place other packages you want to install but not configure with mason here
-            --         -- e.g. language servers not configured with nvim-lspconfig, linters, formatters, etc.
-            --         "jdtls",
-            --     }
-            -- )
-            -- mason_tool_installer.setup({
-            --     ensure_installed = mason_ensure_installed
-            -- })
-            --
-            -- mason_lspconfig.setup({
-            --     handlers = {
-            --         function(server_name)
-            --             local server_config = server_configs[server_name] or {}
-            --             server_config.capabilities = vim.tbl_deep_extend(
-            --                 "force",
-            --                 default_capabilities,
-            --                 server_config.capabilities or {},
-            --                 cmp_nvim_lsp.default_capabilities()
-            --             )
-            --             lspconfig[server_name].setup(server_config)
-            --         end,
-            --         ['jdtls'] = function() end,
-            --     },
-            -- })
 
             vim.api.nvim_create_autocmd("LspAttach", {
                 group = vim.api.nvim_create_augroup("lsp-attach-keybinds", { clear = true }),
@@ -280,8 +199,6 @@ return {
                     keymap('gli', builtin.lsp_implementations)
                     keymap('glr', vim.lsp.buf.rename)
                     keymap('glt', vim.diagnostic.hide)
-                    keymap("]g", vim.diagnostic.goto_next)
-                    keymap("[g", vim.diagnostic.goto_prev)
                     keymap("glk", vim.diagnostic.open_float)
 
 
