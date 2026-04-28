@@ -54,9 +54,20 @@ local function get_relative_path(bufname)
     return vim.fn.fnamemodify(bufname, ":.")
 end
 
+-- Detect the base ref for diffing: extract base branch from CRUX/CR-*/rN/<base>, else HEAD~1
+local function detect_base_ref(repo_root)
+    local branch = vim.fn.system("git -C " .. vim.fn.shellescape(repo_root) .. " symbolic-ref --short HEAD 2>/dev/null"):gsub("%s+$", "")
+    if branch:match("^CRUX/CR%-") then
+        -- CRUX/CR-XXXXXXXX/rN/base_branch — strip first 3 segments
+        return branch:match("^[^/]+/[^/]+/[^/]+/(.+)$") or "HEAD~1"
+    end
+    return "HEAD~1"
+end
+
 -- Parse git diff hunks for a file, returns list of {old_start, old_count, new_start, new_count}
 local function parse_diff_hunks(repo_root, filepath)
-    local cmd = string.format("git -C %s diff HEAD~1 -- %s", vim.fn.shellescape(repo_root), vim.fn.shellescape(filepath))
+    local ref = detect_base_ref(repo_root)
+    local cmd = string.format("git -C %s diff %s -- %s", vim.fn.shellescape(repo_root), ref, vim.fn.shellescape(filepath))
     local output = vim.fn.system(cmd)
     local hunks = {}
     for old_start, old_count, new_start, new_count in output:gmatch("@@ %-(%d+),?(%d*) %+(%d+),?(%d*) @@") do
