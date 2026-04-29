@@ -29,6 +29,7 @@ return {
             command_variants = {
                 resume = "--resume",
                 verbose = "--verbose",
+                review = "--agent code-reviewer-shayagr",
             },
             window = {
                 position = "vertical",
@@ -41,6 +42,7 @@ return {
                     variants = {
                         continue = "<leader>cC", -- Normal mode keymap for Claude Code with continue flag
                         verbose = "<leader>cV", -- Normal mode keymap for Claude Code with verbose flag
+                        review = "<leader>cr", -- Normal mode keymap for Claude Code with code-reviewer agent
                     },
                 },
                 window_navigation = true, -- Enable window navigation keymaps (<C-h/j/k/l>)
