@@ -234,6 +234,24 @@ function M.setup()
             end
         end,
     })
+
+    -- Start code-reviewer agent in background: create a temporary tab,
+    -- start the agent there, switch back, close the temp tab.
+    -- The terminal buffer survives (bufhidden=hide) and \cr reveals it.
+    vim.schedule(function()
+        local ok, claude = pcall(require, "claude-code")
+        if not ok then return end
+        -- Find the CR workspace root (~/workspace/brazil/CR-XXXXXXXX/)
+        local cwd = vim.fn.getcwd()
+        local ws_root = cwd:match("(.*/CR%-[^/]+)/")
+        if not ws_root then return end
+        local orig_tab = vim.api.nvim_get_current_tabpage()
+        vim.cmd("tabnew | lcd " .. vim.fn.fnameescape(ws_root))
+        claude.toggle_with_variant("review")
+        vim.cmd("stopinsert")
+        vim.api.nvim_set_current_tabpage(orig_tab)
+        vim.cmd("tablast | tabclose")
+    end)
 end
 
 return M
