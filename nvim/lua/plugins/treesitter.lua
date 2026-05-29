@@ -14,7 +14,9 @@ return {
             "lua",
             "java",
             "typescript",
-            "embedded_template"
+            "embedded_template",
+            "rust",
+            "toml",
         },
         sync_install = true,
         auto_install = true,
