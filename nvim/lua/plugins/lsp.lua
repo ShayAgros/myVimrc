@@ -183,6 +183,40 @@ return {
 
             vim.lsp.enable('gopls')
 
+            vim.lsp.config['rust-analyzer'] = {
+                cmd = { vim.fn.expand('~/.cargo/bin/rust-analyzer') },
+                filetypes = { 'rust' },
+                root_dir = function(bufnr, cb)
+                    local fname = vim.api.nvim_buf_get_name(bufnr)
+                    if fname:match('/%.git/') then return end
+                    local root = vim.fs.root(bufnr, { 'Cargo.toml', 'rust-project.json' })
+                    if root then cb(root) end
+                end,
+                settings = {
+                    ['rust-analyzer'] = {
+                        check = {
+                            command = 'clippy',
+                        },
+                        cargo = {
+                            allFeatures = true,
+                        },
+                    },
+                },
+            }
+
+            vim.lsp.enable('rust-analyzer')
+
+            -- Stop semantic token requests on git blob buffers (diffview old-side)
+            -- without detaching the client (detaching breaks diffview change tracking)
+            vim.api.nvim_create_autocmd("LspAttach", {
+                callback = function(args)
+                    local name = vim.api.nvim_buf_get_name(args.buf)
+                    if name:match('/%.git/') or name:match('^fugitive://') then
+                        vim.lsp.semantic_tokens.enable(false, { bufnr = args.buf })
+                    end
+                end,
+            })
+
             configure_lua_lsp()
 
             vim.api.nvim_create_autocmd("LspAttach", {
