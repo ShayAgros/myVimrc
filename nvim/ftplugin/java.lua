@@ -94,10 +94,38 @@ if vscode_test_jars ~= "" then
   vim.list_extend(bundles, vim.split(vscode_test_jars, "\n"))
 end
 
+-- jdtls requires Java 21+. The exact JVM path varies by machine: Amazon Corretto
+-- installs carry a version suffix (amazon-corretto-21.0.10.7.1-linux-x64) while
+-- OpenJDK uses a different stem. Probe candidates instead of hardcoding one path.
+local function find_java21()
+    local candidates = {}
+    -- Prefer Corretto 21 (matches the Amazon build fleet).
+    vim.list_extend(candidates, vim.fn.glob("/usr/lib/jvm/*corretto-21*/bin/java", true, true))
+    vim.list_extend(candidates, vim.fn.glob("/usr/lib/jvm/java-21-amazon-corretto*/bin/java", true, true))
+    -- Fall back to any OpenJDK 21.
+    vim.list_extend(candidates, vim.fn.glob("/usr/lib/jvm/*-21-openjdk*/bin/java", true, true))
+    vim.list_extend(candidates, vim.fn.glob("/usr/lib/jvm/java-1.21.*/bin/java", true, true))
+    for _, p in ipairs(candidates) do
+        if vim.fn.executable(p) == 1 then
+            return p
+        end
+    end
+    return nil
+end
+
+local java_bin = find_java21()
+if not java_bin then
+    vim.api.nvim_echo({
+        { "[jdtls] No Java 21+ runtime found under /usr/lib/jvm; jdtls not started. "
+            .. "Install Amazon Corretto 21 or edit ftplugin/java.lua.", "WarningMsg" },
+    }, true, {})
+    return
+end
+
 local config = {
     cmd = {
-        -- jdtls requires Java 21+
-        "/usr/lib/jvm/java-21-amazon-corretto/bin/java",
+        -- jdtls requires Java 21+ (resolved dynamically above)
+        java_bin,
         "-Declipse.application=org.eclipse.jdt.ls.core.id1",
         "-Dosgi.bundles.defaultStartLevel=4",
         "-Declipse.product=org.eclipse.jdt.ls.core.product",
