@@ -183,14 +183,50 @@ return {
 
             vim.lsp.enable('gopls')
 
+            -- Pick the rust-analyzer binary. Prefer the Builder Toolbox build, which is the
+            -- only rust-analyzer supported with CargoBrazil packages (it understands the
+            -- Brazil-managed toolchain/registry produced by `brazil-build sync`). Fall back to
+            -- the rustup/cargo build for ordinary (non-Brazil) cargo projects.
+            --   toolbox registry add s3://buildertoolbox-registry-bt-rust-registry-us-west-2/tools.json
+            --   toolbox install --channel head rust-analyzer
+            local toolbox_ra = vim.fn.expand('~/.toolbox/bin/rust-analyzer')
+            local have_toolbox_ra = vim.fn.executable(toolbox_ra) == 1
+            local ra_cmd = have_toolbox_ra and { toolbox_ra }
+                or { vim.fn.expand('~/.cargo/bin/rust-analyzer') }
+
+            -- One-shot advisory written to :messages (not a floating notification).
+            local warned_toolbox_ra = false
+            local function warn_toolbox_ra_missing()
+                if warned_toolbox_ra then return end
+                warned_toolbox_ra = true
+                vim.api.nvim_echo({
+                    { '[rust-analyzer] Brazil package detected but ' .. toolbox_ra
+                        .. ' is not installed; skipping rust-analyzer here '
+                        .. '(the cargo/rustup build cannot resolve internal Brazil crates and spams errors).',
+                        'WarningMsg' },
+                    { '\nInstall the CargoBrazil-compatible rust-analyzer:', 'None' },
+                    { '\n  toolbox registry add s3://buildertoolbox-registry-bt-rust-registry-us-west-2/tools.json', 'None' },
+                    { '\n  toolbox install --channel head rust-analyzer', 'None' },
+                    { '\nThen run `brazil-build sync` in the package and restart the LSP.', 'None' },
+                }, true, {})
+            end
+
             vim.lsp.config['rust-analyzer'] = {
-                cmd = { vim.fn.expand('~/.cargo/bin/rust-analyzer') },
+                cmd = ra_cmd,
                 filetypes = { 'rust' },
                 root_dir = function(bufnr, cb)
                     local fname = vim.api.nvim_buf_get_name(bufnr)
                     if fname:match('/%.git/') then return end
                     local root = vim.fs.root(bufnr, { 'Cargo.toml', 'rust-project.json' })
-                    if root then cb(root) end
+                    if not root then return end
+                    -- A CargoBrazil package is a Cargo.toml next to a Brazil `Config` file.
+                    -- Without the toolbox rust-analyzer, don't attach the cargo/rustup one:
+                    -- it can't resolve internal crates and floods :messages with errors.
+                    if not have_toolbox_ra and vim.uv.fs_stat(root .. '/Config') then
+                        warn_toolbox_ra_missing()
+                        return
+                    end
+                    cb(root)
                 end,
                 settings = {
                     ['rust-analyzer'] = {
