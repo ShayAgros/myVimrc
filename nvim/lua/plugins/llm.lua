@@ -29,7 +29,7 @@ return {
             command_variants = {
                 resume = "--continue",
                 verbose = "--verbose",
-                review = "--agent code-reviewer-shayagr --dangerously-skip-permissions --disallowed-tools Edit Write",
+                review = "--agent code-reviewer-shayagr --dangerously-skip-permissions --disallowed-tools Edit Write --model claude-sonnet-4-6",
             },
             window = {
                 position = "botright vertical",
