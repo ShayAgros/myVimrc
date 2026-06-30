@@ -25,14 +25,14 @@ return {
     end,
     config = function()
         require("claude-code").setup({
-            command = "kiro-cli chat",
+            command = "claude",
             command_variants = {
-                resume = "--resume",
+                resume = "--continue",
                 verbose = "--verbose",
-                review = "--agent code-reviewer-shayagr",
+                review = "--agent code-reviewer-shayagr --dangerously-skip-permissions --disallowed-tools Edit Write",
             },
             window = {
-                position = "vertical",
+                position = "botright vertical",
                 split_ratio = 0.4,
             },
             keymaps = {
