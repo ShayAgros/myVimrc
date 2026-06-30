@@ -195,3 +195,106 @@ local config = {
 }
 
 jdtls.start_or_attach(config)
+
+
+
+-- LSP-based [[ and ]] navigation.
+-- [[  Jump to the start of the enclosing scope:
+--       - inside a method body     → the method's signature line
+--       - in a javadoc / between    → the enclosing class/interface
+--       - at a signature line       → walk up to the parent scope
+-- ]]  Jump to the next method/class signature below the cursor.
+local function lsp_jump_to_function(direction)
+    local clients = vim.lsp.get_clients({ bufnr = 0 })
+    local has_lsp = next(clients) ~= nil
+
+    if not has_lsp then
+        vim.notify("[[ / ]]: No LSP attached, using default motion", vim.log.levels.INFO)
+        local keys = direction == "prev" and "[[" or "]]"
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(keys, true, false, true), "n", false)
+        return
+    end
+
+    local current_line = vim.api.nvim_win_get_cursor(0)[1] - 1
+
+    local ok, _ = pcall(vim.lsp.buf_request, 0, "textDocument/documentSymbol", {
+        textDocument = vim.lsp.util.make_text_document_params()
+    }, function(err, result)
+        if err or not result then
+            vim.notify("[[ / ]]: LSP documentSymbol failed, using default motion", vim.log.levels.INFO)
+            local keys = direction == "prev" and "[[" or "]]"
+            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(keys, true, false, true), "n", false)
+            return
+        end
+
+        -- Collect every navigable symbol with its signature line and full range.
+        -- SymbolKind: 5=Class, 6=Method, 9=Constructor, 11=Interface, 12=Function, 10=Enum, 23=Struct
+        local symbols = {}
+        local function collect(syms)
+            for _, s in ipairs(syms) do
+                local kind = s.kind
+                if kind == 5 or kind == 6 or kind == 9 or kind == 10
+                    or kind == 11 or kind == 12 or kind == 23 then
+                    local sig = s.selectionRange and s.selectionRange.start.line
+                        or s.range and s.range.start.line
+                    local fin = s.range and s.range["end"].line or sig
+                    if sig then
+                        table.insert(symbols, { sig = sig, fin = fin })
+                    end
+                end
+                if s.children then collect(s.children) end
+            end
+        end
+        collect(result)
+
+        local target_line = nil
+
+        if direction == "next" then
+            -- Smallest signature line strictly below the cursor.
+            local best = nil
+            for _, s in ipairs(symbols) do
+                if s.sig > current_line and (best == nil or s.sig < best) then
+                    best = s.sig
+                end
+            end
+            target_line = best
+        else
+            -- Enclosing scope: largest signature line strictly above the cursor
+            -- whose range still contains the cursor. Walks up one level each press.
+            local best = nil
+            for _, s in ipairs(symbols) do
+                if s.sig < current_line and s.fin >= current_line then
+                    if best == nil or s.sig > best then
+                        best = s.sig
+                    end
+                end
+            end
+            -- Fallback: if nothing encloses (e.g. cursor below all code), take the
+            -- nearest signature line above.
+            if best == nil then
+                for _, s in ipairs(symbols) do
+                    if s.sig < current_line and (best == nil or s.sig > best) then
+                        best = s.sig
+                    end
+                end
+            end
+            target_line = best
+        end
+
+        if target_line then
+            vim.cmd("normal! m'")
+            vim.api.nvim_win_set_cursor(0, { target_line + 1, 0 })
+        end
+    end)
+
+    if not ok then
+        vim.notify("[[ / ]]: LSP request error, using default motion", vim.log.levels.INFO)
+        local keys = direction == "prev" and "[[" or "]]"
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(keys, true, false, true), "n", false)
+    end
+end
+
+vim.keymap.set("n", "[[", function() lsp_jump_to_function("prev") end,
+    { buffer = true, silent = true, desc = "Previous function (LSP)" })
+vim.keymap.set("n", "]]", function() lsp_jump_to_function("next") end,
+    { buffer = true, silent = true, desc = "Next function (LSP)" })
