@@ -270,10 +270,11 @@ return {
                     keymap('glD', vim.lsp.buf.declaration)
                     if snacks_exist then
                         keymap('glR', require("addons.lsp_references_filter").lsp_references_with_filter)
+                        keymap('gli', Snacks.picker.lsp_implementations)
                     else
                         keymap('glR', builtin.lsp_references)
+                        keymap('gli', builtin.lsp_implementations)
                     end
-                    keymap('gli', builtin.lsp_implementations)
                     keymap('glr', vim.lsp.buf.rename)
                     keymap('glt', vim.diagnostic.hide)
                     keymap("glk", vim.diagnostic.open_float)

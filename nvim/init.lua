@@ -18,6 +18,7 @@ require ("addons.instance_sync")
 require ("addons.smartFileOpening")
 require ("addons.debug_setup")
 require ("addons.claudeWarm").setup()
+require ("addons.highlight_sections")
 
 require ("autocmds.general")
 require ("autocmds.filetypes")

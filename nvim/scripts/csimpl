@@ -1,0 +1,189 @@
+#!/usr/bin/env python3
+"""csimpl — Amazon code-search CLI (no AI).
+
+Talks directly to the CodeSearchQueryService Coral endpoint used by the
+code.amazon.com search UI / builder-mcp, via midway-authenticated mcurl.
+
+Subcommands:
+  search <query> [--max N] [--json]      Raw code search. Prints repo/path per hit.
+  impls  <Type>  [--repo R] [--max N]    Candidate files that may implement/extend <Type>
+                                         (broad net: `<Type> fp:*.java`). JSON by default
+                                         so an editor can treesitter-verify + jump.
+  cat    <repo> <branch> <path>          Fetch a raw blob to stdout.
+
+The `impls` net is intentionally broad; precise true-positive filtering is done
+by the caller with tree-sitter (checks superclass + implemented interfaces).
+"""
+import argparse
+import json
+import subprocess
+import sys
+import urllib.parse
+
+ENDPOINT = "https://codesearch-query-sso.corp.amazon.com/midway/"
+BLOB = "https://code.amazon.com/packages/{repo}/blobs/{branch}/--/{path}?raw=1"
+SVC = "com.amazon.codesearch.query.CodeSearchQueryService"
+
+
+def _mcurl(args, timeout=60):
+    """Run mcurl, returning (returncode, http_status, stdout_bytes, stderr_bytes).
+
+    A trailing status sentinel is requested via -w so HTTP 4xx/5xx (which curl
+    does not treat as failures by default) can be surfaced instead of silently
+    parsing an auth/error body.
+    """
+    SENT = b"\n__HTTP_STATUS__:"
+    try:
+        p = subprocess.run(["mcurl", "-w", "\n__HTTP_STATUS__:%{http_code}", *args],
+                           capture_output=True, timeout=timeout)
+    except FileNotFoundError:
+        sys.exit("error: mcurl not found on PATH")
+    except subprocess.TimeoutExpired:
+        sys.exit("error: mcurl timed out")
+    body, status = p.stdout, 0
+    idx = p.stdout.rfind(SENT)
+    if idx != -1:
+        body = p.stdout[:idx]
+        try:
+            status = int(p.stdout[idx + len(SENT):].strip() or 0)
+        except ValueError:
+            status = 0
+    return p.returncode, status, body, p.stderr
+
+
+def _auth_hint(status):
+    if status in (401, 403):
+        sys.exit(f"error: code search returned HTTP {status} (auth). "
+                 f"Run `mwinit` (or `mwinit -s`) and retry.")
+    sys.exit(f"error: code search returned HTTP {status}")
+
+
+def _search_page(query, max_results, next_token=None):
+    body = {
+        "query": query,
+        "maxResults": max_results,
+        "rankingType": "query-relevance",
+        "snippetConfig": {"snippetMatchLimit": 5, "snippetOffset": 2},
+    }
+    if next_token:
+        body["nextToken"] = next_token
+    rc, status, out, err = _mcurl([
+        "-s", "-X", "POST", ENDPOINT,
+        "-H", "accept: application/json",
+        "-H", "content-encoding: amz-1.0",
+        "-H", "content-type: application/json",
+        "-H", f"x-amz-target: {SVC}.SearchCodeV2",
+        "--data-binary", json.dumps(body),
+    ])
+    if rc != 0:
+        sys.exit(f"error: mcurl failed (rc={rc}): {err.decode('utf-8','replace')[:300]}")
+    if status and status != 200:
+        _auth_hint(status)
+    try:
+        d = json.loads(out)
+    except json.JSONDecodeError:
+        head = out.decode("utf-8", "replace")[:300]
+        if "midway" in head.lower() or "<html" in head.lower():
+            sys.exit("error: not authenticated — run `mwinit` (midway) and retry")
+        sys.exit(f"error: unexpected response: {head}")
+    return d
+
+
+def search(query, max_results=30):
+    """Return a flat list of hits across paginated pages up to max_results."""
+    hits, token, seen = [], None, 0
+    while len(hits) < max_results:
+        d = _search_page(query, min(20, max_results - len(hits)), token)
+        page = d.get("hits", []) or []
+        hits.extend(page)
+        token = d.get("nextToken")
+        seen += 1
+        if not token or not page or seen > 10:
+            break
+    return hits[:max_results]
+
+
+def cmd_search(a):
+    hits = search(a.query, a.max)
+    if a.json:
+        print(json.dumps(hits, indent=2))
+        return
+    for h in hits:
+        repo = h.get("repository", {}).get("name", "?")
+        branch = (h.get("branches") or ["mainline"])[0]
+        print(f"{repo}\t{branch}\t{h.get('filePath','?')}")
+
+
+def cmd_impls(a):
+    # Broad net: any java file mentioning the type. tree-sitter filters precisely.
+    q = f"{a.type} fp:*.java"
+    if a.repo:
+        q += f" repo:{a.repo}"
+    hits = search(q, a.max)
+    cands = []
+    for h in hits:
+        repo = h.get("repository", {}).get("name")
+        path = h.get("filePath")
+        if not repo or not path or not path.endswith(".java"):
+            continue
+        branch = (h.get("branches") or ["mainline"])[0]
+        cands.append({
+            "repo": repo,
+            "branch": branch,
+            "path": path,
+            "type": a.type,
+            "blobUrl": "https://code.amazon.com/packages/{}/blobs/{}/--/{}".format(
+                repo, branch, path),
+        })
+    if a.json:
+        print(json.dumps(cands, indent=2))
+    else:
+        for c in cands:
+            print(f"{c['repo']}\t{c['branch']}\t{c['path']}")
+
+
+def cmd_cat(a):
+    url = BLOB.format(repo=a.repo, branch=a.branch,
+                      path=urllib.parse.quote(a.path))
+    rc, status, out, err = _mcurl(["-s", url])
+    if rc != 0:
+        sys.exit(f"error: fetch failed (rc={rc})")
+    if status and status != 200:
+        _auth_hint(status)
+    head = out[:60].decode("utf-8", "replace").lower()
+    if head.startswith("<!doctype") or head.startswith("<html"):
+        sys.exit(f"error: got HTML not raw content for {a.repo}/{a.path} "
+                 f"(bad branch/path, or run `mwinit`)")
+    sys.stdout.buffer.write(out)
+
+
+def main():
+    p = argparse.ArgumentParser(prog="csimpl", description="Amazon code search CLI")
+    sub = p.add_subparsers(dest="cmd", required=True)
+
+    s = sub.add_parser("search", help="raw code search")
+    s.add_argument("query")
+    s.add_argument("--max", type=int, default=30)
+    s.add_argument("--json", action="store_true")
+    s.set_defaults(fn=cmd_search)
+
+    i = sub.add_parser("impls", help="candidate implementor files for a type")
+    i.add_argument("type")
+    i.add_argument("--repo", help="restrict to a repository")
+    i.add_argument("--max", type=int, default=40)
+    i.add_argument("--json", dest="json", action="store_true", default=True)
+    i.add_argument("--no-json", dest="json", action="store_false")
+    i.set_defaults(fn=cmd_impls)
+
+    c = sub.add_parser("cat", help="fetch a raw blob")
+    c.add_argument("repo")
+    c.add_argument("branch")
+    c.add_argument("path")
+    c.set_defaults(fn=cmd_cat)
+
+    a = p.parse_args()
+    a.fn(a)
+
+
+if __name__ == "__main__":
+    main()

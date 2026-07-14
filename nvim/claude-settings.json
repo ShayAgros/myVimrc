@@ -1,0 +1,35 @@
+{
+  "permissions": {
+    "defaultMode": "default",
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "LS",
+      "NotebookRead",
+      "WebFetch",
+      "WebSearch",
+      "Task",
+      "TodoWrite",
+      "BashOutput",
+      "KillBash",
+      "ExitPlanMode",
+      "Bash"
+    ],
+    "ask": [
+      "Write",
+      "Edit",
+      "MultiEdit",
+      "NotebookEdit",
+      "Bash(rm:*)",
+      "Bash(rmdir:*)",
+      "Bash(unlink:*)",
+      "Bash(shred:*)",
+      "Bash(git clean:*)",
+      "Bash(find:* -delete*)",
+      "Bash(truncate:*)",
+      "Bash(dd:*)",
+      "Bash(mkfs:*)"
+    ]
+  }
+}

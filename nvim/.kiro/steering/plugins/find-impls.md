@@ -9,7 +9,7 @@ Brazil workspace. This is the complement to `gli` (jdtls
 forward-dependency classpath.
 
 - Addon: `lua/addons/find_impls/init.lua`
-- CLI:   `~/.local/bin/csimpl` (not in this repo — user script)
+- CLI:   `nvim/scripts/csimpl` (in this repo; symlinked from `~/.local/bin/csimpl` so it's on `$PATH`)
 - Loader/keymaps: `plugin/find_impls.lua`
 
 ## Why it exists
@@ -68,10 +68,12 @@ on exact field names.
 `M.verify(content, iface)` is a thin type-mode wrapper kept as a unit-test seam.
 `M._classify_definition` / `M._resolve_target` are exposed for debugging.
 
-## `csimpl` CLI (`~/.local/bin/csimpl`)
+## `csimpl` CLI (`nvim/scripts/csimpl`, symlinked from `~/.local/bin/csimpl`)
 
-Talks directly to the code-search Coral service used by the code.amazon.com
-search UI / builder-mcp, via **midway-authenticated `mcurl`**:
+Lives in this repo (`nvim/scripts/csimpl`) and is symlinked into `~/.local/bin`
+so it's on `$PATH`; syncs to other machines with the config. Talks directly to
+the code-search Coral service used by the code.amazon.com search UI / builder-mcp,
+via **midway-authenticated `mcurl`**:
 
 - Endpoint: `POST https://codesearch-query-sso.corp.amazon.com/midway/`
 - Headers: `accept: application/json`, `content-encoding: amz-1.0`,

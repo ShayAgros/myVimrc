@@ -52,6 +52,38 @@ return {
         -- Setup with the opts (lazy.nvim passes opts as second parameter)
         require("snacks").setup(opts)
 
+        -- Patch snacks' statuscolumn sign-icon padding to account for actual
+        -- display width instead of character count.
+        --
+        -- Root cause: snacks.statuscolumn.icon() pads sign text with
+        -- `2 - vim.fn.strchars(text)` spaces, assuming every character is 1
+        -- display cell. True pictographic emoji (💡, ⭐, ✨, etc — anything in
+        -- the Unicode 1F3xx+ blocks) are 1 character but 2 display cells wide,
+        -- so the padded result renders 3 cells total vs. the empty "  "
+        -- placeholder's 2 cells. That 1-cell mismatch is what makes the sign
+        -- column resize ("shudder") as a sign like a code-action lightbulb
+        -- appears/disappears while moving between lines.
+        --
+        -- This override pads by `vim.fn.strdisplaywidth()` instead, so any
+        -- sign glyph — including full-width emoji — always renders at a fixed
+        -- 2-cell width, matching the empty placeholder exactly.
+        local statuscolumn = require("snacks.statuscolumn")
+        function statuscolumn.icon(sign)
+            if not sign then
+                return "  "
+            end
+            local text = vim.fn.strcharpart(sign.text or "", 0, 2) ---@type string
+            local width = vim.fn.strdisplaywidth(text)
+            if width < 2 then
+                text = text .. string.rep(" ", 2 - width)
+            elseif width > 2 then
+                -- A single character already wider than 2 cells (rare) —
+                -- fall back to just that one character, no padding.
+                text = vim.fn.strcharpart(sign.text or "", 0, 1)
+            end
+            return sign.texthl and ("%#" .. sign.texthl .. "#" .. text .. "%*") or text
+        end
+
         -- Create the Notifications command
         vim.api.nvim_create_user_command('Notifications', function()
             Snacks.notifier.show_history()
